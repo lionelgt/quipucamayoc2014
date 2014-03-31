@@ -1,0 +1,36 @@
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Seleccionar Servidor</h4>
+        </div>
+        <div class="modal-body">
+            <table id="table-servidores2" class="table  table-bordered table-hover" style="font-size: 12px;">
+                <thead class="header" style="color: #040404;background-color:#f5f5f5">
+                <tr>
+                    <th>codigo</th>
+                    <th>Apellidos y nombres</th>
+                    <th>Tipo Servidor</th>
+                    <th>Estado </th>
+                </tr>
+                </thead>
+                <tbody class="body-table" id="fam_content">
+                {{#each items}}
+                    <tr id="{{codigo}}" class="">
+                        <td data={{num_serest}}>{{codigo}}</td>
+                        <td>{{paterno}} {{materno}} {{nombre}}</td>
+                        <td>{{tiposervidor}}</td>
+                        <td>{{descestado}}</td>
+                    </tr>
+                {{else}}
+                    <td colspan="6">No existen servidores CAS en este periodo</td>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+
+        </div>
+    </div>
+</div>

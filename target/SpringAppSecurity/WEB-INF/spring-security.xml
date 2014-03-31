@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--srping security-->
+
+    <security:debug/>
+
+    <security:global-method-security jsr250-annotations="enabled" pre-post-annotations="enabled" secured-annotations="enabled"/>
+
+    <security:http use-expressions="true">
+        <security:intercept-url pattern="/admin/**" access="hasAnyRole('ADMIN8','USUDE8')"/>
+        <security:intercept-url pattern="/rest/cas/worker/**" access="hasAnyRole('USUPERF9','ADMIN9','USUDE9')"/>
+        <security:intercept-url pattern="/rest/resoluciones/**" access="hasAnyRole('ADMIN20','USUDE20')"/>
+        <security:intercept-url pattern="/api/solicitudes/**" access="hasAnyRole('ADMIN1')"/>
+        <security:intercept-url pattern="/rest/cas/profile/**" access="hasAnyRole('ADMIN2')" />
+        <security:intercept-url pattern="/rest/cas/roles/**" access="hasAnyRole('ADMIN2')" />
+        <security:intercept-url pattern="/api/planillasCAS/**" access="hasAnyRole('ADMIN3','USUDE3')"/>
+        <security:intercept-url pattern="/rest/reportes/**" access="hasAnyRole('ADMIN3','USUDE3')" />
+        <security:intercept-url pattern="/api/servidoresCAS/**" access="hasAnyRole('ADMIN3','USUDE3')"/>
+        <security:intercept-url pattern="/rest/cas/plazas/**" access="hasAnyRole('ADMIN4','USUDE4')"/>
+        <security:intercept-url pattern="/rest/cas/serv/**" access="hasAnyRole('ADMIN5','ADMIN4','ADMIN20','USUDE4','USUDE5','USUDE20')"/>
+        <security:intercept-url pattern="/api/legajos/**" access="hasAnyRole('ADMIN6','USUDE6')"/>
+        <security:intercept-url pattern="/api/estado_condicion/**" access="hasAnyRole('ADMIN7','USUDE7')" />
+        <security:intercept-url pattern="/api/unidades/**" access="permitAll"/>
+
+        <!--<security:intercept-url pattern="/perfil/**" access="hasRole('userperfil')"/>-->
+        <security:intercept-url pattern="/perfil/**" access="hasAnyRole('USUPERF9','ADMIN9','USUDE9')"/>
+        <security:intercept-url pattern="/**" access="permitAll"/>
+        <!--<security:form-login /> para login default-->
+
+        <security:form-login login-page="/"/>
+        <security:logout logout-success-url="/" delete-cookies="JSESSIONID"/>
+        <!--<security:remember-me/>-->
+        <security:session-management invalid-session-url="/">
+            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+        </security:session-management>
+    </security:http>
+
+    <!--<bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>-->
+    <bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="enableAuthorities" value="true"/>
+        <property name="usersByUsernameQuery">
+            <value>
+                SELECT t_mail USE_USERNAME,obtener_pass USE_PASSWORD,est
+                FROM QPRODATAQUIPU.tb_hist_usu_perf
+                WHERE t_mail=?
+                AND est='1'
+                AND modcod=24
+            </value>
+        </property>
+        <property name="authoritiesByUsernameQuery">
+            <!--<value>-->
+                <!--SELECT TH.t_mail USE_USERNAME,tp.perf_desc USE_ROL-->
+                <!--FROM QPRODATAQUIPU.tb_hist_usu_perf TH,QPRODATAQUIPU.tb_perfil TP-->
+                <!--WHERE TH.t_mail=?-->
+                <!--AND TH.est='1'-->
+                <!--AND TH.modcod=24-->
+                <!--AND TP.perf_cod = TH.perf_cod-->
+            <!--</value>-->
+            <!--<value>
+                SELECT  T_MAIL ,(PERF_DESC||''||
+                SUM(DECODE(ROL_ID,'0',ROL_ID,'')) ||
+                SUM(DECODE(ROL_ID,'1',ROL_ID,'')) ||
+                SUM(DECODE(ROL_ID,'2',ROL_ID,'')) ||
+                SUM(DECODE(ROL_ID,'3',ROL_ID,'')) ||
+                SUM(DECODE(ROL_ID,'4',ROL_ID,'')) ||
+                SUM(DECODE(ROL_ID,'5',ROL_ID,'')) ||
+                SUM(DECODE(ROL_ID,'6',ROL_ID,'')) ) PERFIL
+                FROM (  SELECT  U.T_MAIL, P.PERF_DESC, RP.ROL_ID
+                FROM    QPRODATAQUIPU.TB_ERP_USUARIO U,QPRODATAQUIPU.TB_HIST_USU_PERF UP,
+                QPRODATAQUIPU.TB_PERFIL P, QPRODATAQUIPU.ROL_PERFIL RP
+                WHERE   (U.C_USUID = UP.C_USUID OR U.T_MAIL = UP.T_MAIL)
+                AND     P.PERF_COD = UP.PERF_COD  AND     P.PERF_COD = RP.PERF_COD
+                AND     UP.EST = '1'  AND     P.MODU_COD = 24  AND     U.T_MAIL  =?)
+                GROUP BY USE_USERNAME, USE_ROL
+            </value>-->
+            <value>
+                SELECT TH.t_mail USE_USERNAME,tp.perf_desc||rp.rol_id USE_ROL
+                FROM QPRODATAQUIPU.tb_hist_usu_perf TH,QPRODATAQUIPU.tb_perfil TP,QPRODATAQUIPU.rol_perfil RP
+                WHERE TH.t_mail=?
+                AND TH.est='1'
+                AND TH.modcod=24
+                AND TP.perf_cod = TH.perf_cod
+                and tp.perf_cod = rp.perf_cod
+            </value>
+        </property>
+    </bean>
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider user-service-ref="userDetailsService">
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <!--<security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider>
+            <security:password-encoder ref="encoder"/>
+            <security:user-service>
+                &lt;!&ndash; Password: "koala" for both &ndash;&gt;
+                <security:user name="user"
+                               password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
+                               authorities="user"/>
+                <security:user name="wmanriques@gmail.com"
+                               password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
+                               authorities="admin"/>
+                &lt;!&ndash;<security:user name="10200138@unmsm.edu.pe"
+                               password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
+                               authorities="admin"/>&ndash;&gt;
+                <security:user name="jurusalis@gmail.com"
+                               password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
+                               authorities="admin"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>-->
+
+</beans>

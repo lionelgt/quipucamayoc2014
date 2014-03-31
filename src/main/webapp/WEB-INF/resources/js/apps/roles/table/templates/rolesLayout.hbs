@@ -1,0 +1,159 @@
+<link rel="text/javascript" href="/resources/js/lib/jquery.js">
+
+<fieldset>
+    <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#lA" data-toggle="tab">Crear Perfil</a></li>
+            <li class=""><a id="lb" href="#lB" data-toggle="tab">Asignar Roles</a></li>
+        </ul>
+        <div class="tab-content">
+
+            <div class="tab-pane active" id="lA">
+                <!--Crear Perfil-->
+                <div class="row control-group form-horizontal" style="padding-left: 30px;">
+
+
+                    <div class="span5" style="position:absolute">
+
+                        <div id="crear-perfil-modal" class="modal hide fade" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel" aria-hidden="true" style="top:180px;">
+                            <!--<button type="button" class="close" data-dismiss="modal" style="padding:10px;">
+                                &#88;</button>-->
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="header-x">x</button>
+
+                            <div class="modal-header" style="font-size: 12px;line-height: 20px;">
+                                <h3>Nuevo Perfil</h3>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-append">
+                                    <input type="text" id="descripcion" style="width:315px;"
+                                           placeholder="Ingrese el nombre del perfil. Ejemplo: Trabajador">
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <table>
+
+                                    <tr>
+                                        <td style="width:64%">
+
+                                            <div id="msg" class="alert alert-success"
+                                                 style="display:none;position: absolute; top: 70%; left: 2.5%; right: auto; margin: 0 auto 20px; max-width: 100%; text-align: left; width: 50%;">
+                                                Perfil creado!
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button id="cancel-perfil" class="btn" type="submit"
+                                                    style="margin-left:-30%; margin-right:2%; margin-bottom:2%;">
+                                                Cancelar
+                                            </button>
+                                            <!--<button id="save-perfil" class="btn btn-primary" type="submit"-->
+                                                    <!--style="margin-right:2%; margin-bottom:2%;"-->
+                                                    <!--onclick="window.location.reload()">Crear Perfil-->
+                                            <!--</button>-->
+                                            <a id="save-perfil" class="btn btn-primary" type="submit"
+                                                    style="margin-right:2%; margin-bottom:2%;" onclick="window.location.reload()">Crear Perfil
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+
+                        </div>
+                        <div>
+                            <button id="add-perfil" class="btn btn-primary" type="submit">Agregar Perfil
+                                <i class="icon-plus icon-white"></i>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <br/>
+                    <br/>
+
+                    <div id="perfiles" style="padding-left:30px;">
+                        <!--tabla de perfiles: crear-perfil.hbs-->
+                    </div>
+
+                    <br/>
+                    <br/>
+                </div>
+
+
+                <div id="modal-div" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true" style="top:180px;">
+                    <button type="button" class="close" data-dismiss="modal" style="padding:10px;">&#88;</button>
+
+                    <div class="modal-header" style="font-size: 12px;line-height: 20px;">
+                        <h3>Eliminar Perfil</h3>
+                    </div>
+                    <div class="modal-body">
+
+                        <div style="font-size:18px;" id="modal_escribir"></div>
+
+                    </div>
+                    <div class="" style="margin-bottom: 20px;margin-top: 20px;">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td style="width:64%">
+                                    <div id="msg1" class="alert alert-success" style="display: none; text-align: center; width: 269px; margin-left: 20px; margin-top: 20px; margin-right: 20px;">
+                                        Perfil eliminado!
+                                    </div>
+                                </td>
+                                <td>
+                                    <button id="delete-perfil" class="btn btn-primary" type="submit" style="margin-left: 30px;"> Eliminar
+                                    </button>
+                                </td>
+                                <td>
+                                    <button id="cancel-dperfil" class="btn " type="submit" data-dismiss="modal">Cancelar
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="tab-pane" id="lB">
+                <!--Asignar Roles-->
+
+                <br>
+
+                <form class="form-horizontal" id="form_tabla_soli" style="padding-left: 30px;">
+                    <div id="list-perfiles">
+                        <!--Lista de Perfiles-->
+                    </div>
+                    <br/>
+
+                    <div id="list-roles">
+                        <!--Tabla con roles a asignar-->
+                    </div>
+
+                    <div id="footer-button">
+                        <div style="width:64%">
+
+                            <div id="msg2" class="alert alert-success"
+                                 style="position:absolute; display:none; margin-top: -0.2%; left: 28%; right: auto; margin: 0 auto 20px; width:45%; text-align: left;">
+                                Cambios guardados con éxito!
+                            </div>
+                        </div>
+
+                        <div style="width:20%; float:right; margin-top:0%">
+                            <a id="asign-roles" class="btn btn-primary" type="button"
+                               style="float:right; margin-top:0%;">Guardar</a>
+                        </div>
+
+                    </div>
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</fieldset>

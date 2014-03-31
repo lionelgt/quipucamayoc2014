@@ -1,0 +1,32 @@
+<div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Seleccione Resolucion</h4>
+            </div>
+            <div class="modal-body">
+                <table id="tabla_resol" class="table table-bordered table-hover" style="font-size: 12px;">
+                    <thead class="header" style="color: #040404;background-color:#f5f5f5">
+                    <tr>
+                        <th>Nº Resol.</th>
+                        <th>Fecha</th>
+                        <th>Tipo </th>
+                        <th>Motivo</th>
+                    </tr>
+                    </thead>
+                    <tbody class="body-table" id="fam_content">
+                    {{#each items}}
+                        <tr id="{{rESID}}" class="">
+                            <td>{{rESID}}</td>
+                            <td>{{fECHA}}</td>
+                            <td>{{tIPDESC}}</td>
+                            <td>{{mOTDESC}}</td>
+                        </tr>
+                    {{else}}
+                        <td colspan="6">No se pudo Cargar las Resoluciones</td>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</div>

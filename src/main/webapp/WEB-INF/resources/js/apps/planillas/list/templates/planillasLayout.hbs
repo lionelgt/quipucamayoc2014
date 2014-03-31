@@ -1,0 +1,137 @@
+<fieldset>
+
+    <legend>Informacion de Planillas CAS</legend>
+
+    <form class="form-horizontal well" id="form_planillasCAS">
+        <div class="row control-group">
+            <div class="span8">
+                <button id="a-modal" class="btn btn-info " style="height:30px;margin-left: 109px;" type="button"> Unidad <i class="icon-search icon-white"></i></button>
+
+                <div id="desc-unidad" class="help-inline"></div>
+            </div>
+            <div class="span4" id="crear_nueva_planilla">
+                <button id="apertura_planilla" class="btn btn-info btn-small" type="button" style="width: 203px;margin-left: 167px;">Crear Nueva Planilla</button>
+            </div>
+        </div>
+        <div class="row control-group">
+            <div class="span4" id="origenes">
+
+            </div>
+            <div class="span4" id="planillas">
+
+            </div>
+            <div class="span4" id="crear_nueva_planilla">
+                <button class="btn btn-info btn-small" type="button" style="width: 203px;margin-left: 167px;">Agregar Servidor a Planilla</button>
+            </div>
+        </div>
+
+        <div class="row control-group">
+            <div class="span4">
+                <label class="control-label" for="select-anio">Año :</label>
+                <div class="controls">
+                    <select id="select-anio">
+                        <option value="0">Seleccione un año</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014" selected="">2014</option>
+                    </select>
+                </div>
+            </div>
+            <div class="span4">
+                <label class="control-label" for="select-mes">Mes :</label>
+                <div class="controls">
+                    <select id="select-mes">
+                        <option value="0">Seleccione un mes</option>
+                        <option value="1">Enero</option>
+                        <option value="2" selected="">Febrero</option>
+                        <option value="3">Marzo</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Mayo</option>
+                        <option value="6">Junio</option>
+                        <option value="7">Julio</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Setiembre</option>
+                        <option value="10">Octubre</option>
+                        <option value="11">Noviembre</option>
+                        <option value="12">Diciembre</option>
+                    </select>
+                </div>
+            </div>
+            <div class="span4" id="crear_nueva_planilla">
+                <button class="btn btn-info btn-small" type="button" style="width: 203px;margin-left: 167px;">Ver Todas las Planillas</button>
+            </div>
+        </div>
+
+        <div class="row control-group">
+            <div class="span2" style="margin-left: 1040px;height: 10px;margin-bottom: 5px;"><p style="font-size: 12px;"><button id="no" class="btn btn-small" disabled="true"></button>  No Asignados a Planilla</p></div>
+            <div class="span2" style="margin-left: 1040px;height: 10px;margin-bottom: 5px;"><p style="font-size: 12px;"><button id="dev" class="btn btn-small btn-danger" disabled="true"></button>  Devueltos</p></div>
+            <div class="span2" style="margin-left: 1040px;height: 10px;margin-bottom: 5px;"><p style="font-size: 12px;"><button id="cp" class="btn btn-small btn-success" disabled="true"></button> En Control Previo</p></div>
+            <div class="span2" style="margin-left: 1040px;height: 0px;margin-bottom: 5px;"><p style="font-size: 12px;"><button id="rh" class="btn btn-small btn-info" disabled="true"></button> en RRHH</p></div>
+        </div>
+
+    </form>
+    <form class="form-horizontal" id="form_tabla_serv">
+        <div id="tabla-servidores">
+
+        </div>
+    </form>
+    <div class="row control-group">
+        <div class="span3" style="margin-left: 174px;">
+            <button id="boton-enviar-control-previo" class="btn btn-success" type="button" style="width: 231px;">Enviar a control previo</button>
+        </div>
+        <div class="span3" style="height: 32px;">
+            <form action="/rest/reportes/planillasCAS/reporteConformidadPagos/pdf" method="post" id="form_pago">
+                <input type="hidden" style="display: none" id="anio_pago" name="anio" >
+                <input type="hidden" style="display: none" id="mes_pago" name="mes" >
+                <input type="hidden" style="display: none" id="unidadId_pago" name="unidadId" >
+                <input type="hidden" style="display: none" id="uddesc_pago" name="uddesc" >
+                <input type="hidden" style="display: none" id="origen_pago" name="origen">
+                <input type="hidden" style="display: none" id="planilla_pago" name="planilla">
+                <button id="boton-reporte-pagos" class="btn btn-warning" type="submit">Reporte de pagos y tardanzas</button>
+            </form>
+        </div>
+        <div class="span3" style="height: 32px;">
+            <form action="/rest/reportes/planillasCAS/reporteConformidad/pdf" method="POST" id="form">
+                <input type="hidden" style="display: none" id="anio" name="anio" >
+                <input type="hidden" style="display: none" id="mes" name="mes" >
+                <input type="hidden" style="display: none" id="unidadId" name="unidadId">
+                <input type="hidden" style="display: none" id="usuario" name="usuario" >
+                <input type="hidden" style="display: none" id="uddesc" name="uddesc" >
+                <input type="hidden" style="display: none" id="origen" name="origen">
+                <input type="hidden" style="display: none" id="planilla" name="planilla">
+                <button id="boton-reporte-conformidad" style="margin-right:10px;width: 231px;" class="btn btn-warning"  type="submit">Reporte de conformidad</button>
+            </form>
+        </div>
+    </div>
+    </br>
+    <div id="modal-unidades" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+
+    </div>
+    <div id="se_creo_planilla" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" style="display: none; ">
+        <div class="modal-header">
+            <a href="#" class="close" data-dismiss="modal"><i class="icon-remove"></i></a>
+            <h3>Creacion de Planilla</h3>
+        </div>
+        <div class="modal-body">
+            <div class="paddingT15 paddingB15" id="modal_text">
+                Se agregó una apertura de planilla nueva!</br>
+                ( Revisar Numero de Planilla )
+            </div>
+        </div>
+    </div>​
+    <div id="advertencia_seleccion_servidores" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" style="display: none; ">
+        <div class="modal-header">
+            <a href="#" class="close" data-dismiss="modal"><i class="icon-remove"></i></a>
+            <h3>Seleccion de Servidores</h3>
+        </div>
+        <div class="modal-body">
+            <div class="paddingT15 paddingB15" id="modal_text">
+                Debe de seleccionar al menos 1 servidorCAS
+                para poder enviar a control previo
+            </div>
+        </div>
+    </div>​
+</fieldset>

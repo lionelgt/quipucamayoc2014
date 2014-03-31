@@ -1,0 +1,10 @@
+<label class="control-label col-md-5" for="nacdepartamento">Departamento</label>
+
+<div class="col-md-7">
+    <select id="nacdepartamento" class="form-control">
+        <option value="99">Seleccione Departamento</option>
+        {{#each items}}
+            <option value="{{codDepartamento}}">{{descDepartamento}}</option>
+        {{/each}}
+    </select>
+</div>

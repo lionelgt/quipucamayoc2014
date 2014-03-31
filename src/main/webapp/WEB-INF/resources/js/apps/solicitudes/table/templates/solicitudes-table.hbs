@@ -1,0 +1,36 @@
+<table class="table table-bordered " style="font-size: 10px;">
+    <thead class="header" style="color: #040404;background-color:#f5f5f5">
+    <tr>
+        <th>DNI</th>
+        <th>Apellidos y nombres</th>
+        <th>Correo</th>
+        <th>Dependencia</th>
+        <th>Modulo</th>
+        <th>Tipo de Servidor</th>
+        <th>Estado</th>
+        <th>Categoria</th>
+        <th>Estado en Planilla</th>
+        <th>asignar</th>
+        <th>rechazar</th>
+    </tr>
+    </thead>
+    <tbody class="table-data">
+        {{#each items}}
+        <tr id="{{dni}}" class="" >
+            <td >{{dni}}</td>
+            <td >{{apellidos}} {{nombre}}</td>
+            <td >{{email}}</td>
+            <td >{{dependencia}}</td>
+            <td>{{modulo}}</td>
+            <td>{{tipodeServidor}}</td>
+            <td>{{estado}}</td>
+            <td>{{categoria}}</td>
+            <td>{{estadoenplanilla}}</td>
+            <td><a class="btn btn-mini btn-success" id="asignar">Asignar</a></td>
+            <td><a class="btn btn-mini btn-warning button-action" data={{dependenciaId}} data1={{estadoPerfil}} data2={{dni}}>Rechazar</a></td>
+        </tr>
+        {{else}}
+        <td colspan="6">No se encontraron solicitudes Pendientes</td>
+        {{/each}}
+    </tbody>
+</table>

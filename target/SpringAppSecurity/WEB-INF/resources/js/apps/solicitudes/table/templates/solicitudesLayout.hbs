@@ -1,0 +1,48 @@
+<fieldset>
+
+    <legend>Solicitudes de Perfil Pendientes</legend>
+    <div id="help_sin_cas" class='alert alert-info'
+         style="padding: 4px 6px 4px 6px;margin: 4px 0px 0px 0px;border:1px;display:none;"></div>
+
+    <form class="form-horizontal" id="form_tabla_soli">
+        <div id="tabla-solicitudes">
+
+        </div>
+    </form>
+
+
+  <div id="modal-rechazado" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+            <a href="#" class="close" data-dismiss="modal"><i class="icon-remove"></i></a>
+            <h3>Rechazo de Solicitud</h3>
+        </div>
+        <div class="modal-body">
+            <div class="paddingT15 paddingB15" id="modal_text">
+                Motivo de Rechazo</br>
+                 <input id="obs" type= "text" value="Solicitud de usuario rechazada" style="width:63%" /> </br>
+            </div>
+            <div style="text-align:right" >
+                <table>
+                    <tr>
+                        <td style="width: 69%;">
+                            <div id="msg" style="background-color:#eed3d7;text-align: left; width:96%">Debe ingresar un motivo de rechazo</div>
+                       </td>
+                       <td>
+                            <button class="btn boton-cancelar" data-dismiss="modal" aria-hidden="true" >Cancelar</button>
+                            <button id="boton-aceptar" data-dismiss="modal" class="btn btn-primary" onclick="window.location.reload()">Aceptar</button>
+
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+    </div>
+   </div>
+
+    <div id="serv-table-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+
+
+    </div>
+
+</fieldset>

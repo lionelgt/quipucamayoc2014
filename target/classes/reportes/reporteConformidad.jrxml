@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte de Conformidad" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"  >
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="140"/>
+	<parameter name="mes" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="anio" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Integer(2013)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="udid" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Integer(10469)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="usuario" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["cgeronimo"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="uddesc" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Recursos Humanos"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="miniLogoQuipu" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="vectorSeleccionados" class="java.util.Collection" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="origen" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Administracion Central"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="planilla" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["P001"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT ser_num_ruc , ser_ape_pat, ser_ape_mat, ser_nom,'' contrato,'' adenda, horas_laboradas, minutos_laborados,
+    monto,round(total_pago,2) total_pago,nvl(NUM_OPE_SOL_SUS,'NO') suspencion
+    ,CASE WHEN round(total_pago,2)>1500
+            THEN  decode(NUM_OPE_SOL_SUS,null,round(total_pago,2)*9/10,round(total_pago,2))
+          WHEN round(total_pago,2)<= 1500
+            THEN round(total_pago,2)
+          ELSE round(total_pago,2)
+     END total
+FROM
+    (SELECT a.UD_ID, se.ser_tip_act,S.SER_NUM_RUC,S.SER_APE_PAT, S.SER_APE_MAT, S.SER_NOM, A.num_dias_inasis HORAS_LABORADAS,
+        A.NUM_HNL_MINT minutos_laborados, A.HORAS_CUMPLIR, sif.itp_monto monto,
+        decode(A.num_dias_inasis,30,0,(sif.itp_monto - (sif.itp_monto/14400)* A.NUM_HNL_MINT - (sif.itp_monto/30)* A.num_dias_inasis ))  total_pago, e8.NUM_OPE_SOL_SUS
+    FROM SERVIDOR S, asistencia.ASISTENCIA A, servidor_estado se, datapersuel.servidor_item_fijo sif,SUNAT.estructura8 e8
+    WHERE A.COD_SER = S.SER_COD and s.ser_cod=se.ser_cod AND se.ser_est_act=7 AND ser_con_pla_act=1
+        AND mes=decode($P{mes},1,12,$P{mes}-1) AND A.ANIO=decode($P{mes},1,$P{anio}-1,$P{anio}) AND ser_num_ruc is not null
+        AND sif.ser_cod=se.ser_cod AND sif.num_serest=se.num_serest
+        AND ser_cod_dep_rac IN (SELECT ud_id
+FROM QPRODATAQUIPU.UNI_DEP WHERE UNINIV2=$P{udid}
+UNION ALL
+SELECT ud_id
+FROM QPRODATAQUIPU.UNI_DEP
+WHERE  ud_id=$P{udid} and NOT EXISTS (SELECT * FROM QPRODATAQUIPU.UNI_DEP WHERE UNINIV2=$P{udid} ))
+        AND e8.NUM_DOC_PRES_SERV_4CAT(+) = s.SER_NUM_RUC
+        AND $X{IN, s.SER_NUM_RUC, vectorSeleccionados}
+    )
+WHERE monto>=total_pago
+
+UNION
+
+SELECT ser_num_ruc, ser_ape_pat, ser_ape_mat, ser_nom, '' contrato,'' adenda, horas_laboradas, minutos_laborados,
+    monto,round(monto) total_pago,nvl(NUM_OPE_SOL_SUS,'NO') suspencion
+    ,CASE WHEN round(monto,2)>1500
+            THEN  decode(NUM_OPE_SOL_SUS,null,round(monto,2)*9/10,round(monto,2))
+          WHEN round(monto,2)<= 1500
+            THEN round(monto,2)
+          ELSE round(monto,2)
+     END total
+FROM
+    (SELECT a.UD_ID,se.ser_tip_act,S.SER_NUM_RUC,S.SER_APE_PAT, S.SER_APE_MAT, S.SER_NOM, A.num_dias_inasis HORAS_LABORADAS,
+        A.NUM_HNL_MINT minutos_laborados, A.HORAS_CUMPLIR, sif.itp_monto monto,
+        decode(A.num_dias_inasis,30,0,(sif.itp_monto - (sif.itp_monto/14400)* A.NUM_HNL_MINT - (sif.itp_monto/30)* A.num_dias_inasis)) total_pago, e8.NUM_OPE_SOL_SUS
+    FROM SERVIDOR S, asistencia.ASISTENCIA A, servidor_estado se, datapersuel.servidor_item_fijo sif,SUNAT.estructura8 e8
+    WHERE A.COD_SER = S.SER_COD and s.ser_cod=se.ser_cod AND se.ser_est_act=7 AND ser_con_pla_act=1
+        AND mes=decode($P{mes},1,12,$P{mes}-1) AND A.ANIO=decode($P{mes},1,$P{anio}-1,$P{anio}) AND ser_num_ruc is not null
+        AND sif.ser_cod=se.ser_cod AND sif.num_serest=se.num_serest
+        AND ser_cod_dep_rac IN (SELECT ud_id
+FROM QPRODATAQUIPU.UNI_DEP WHERE UNINIV2=$P{udid}
+UNION ALL
+SELECT ud_id
+FROM QPRODATAQUIPU.UNI_DEP
+WHERE  ud_id=$P{udid} and NOT EXISTS (SELECT * FROM QPRODATAQUIPU.UNI_DEP WHERE UNINIV2=$P{udid} ))
+        AND e8.NUM_DOC_PRES_SERV_4CAT(+) = s.SER_NUM_RUC
+        AND $X{IN, s.SER_NUM_RUC, vectorSeleccionados}
+    )
+WHERE monto<total_pago
+ORDER BY 2]]>
+	</queryString>
+	<field name="SER_NUM_RUC" class="java.lang.String"/>
+	<field name="SER_APE_PAT" class="java.lang.String"/>
+	<field name="SER_APE_MAT" class="java.lang.String"/>
+	<field name="SER_NOM" class="java.lang.String"/>
+	<field name="CONTRATO" class="java.lang.String"/>
+	<field name="ADENDA" class="java.lang.String"/>
+	<field name="HORAS_LABORADAS" class="java.math.BigDecimal"/>
+	<field name="MINUTOS_LABORADOS" class="java.math.BigDecimal"/>
+	<field name="MONTO" class="java.math.BigDecimal"/>
+	<field name="TOTAL_PAGO" class="java.math.BigDecimal"/>
+	<field name="SUSPENCION" class="java.lang.String"/>
+	<field name="TOTAL" class="java.math.BigDecimal"/>
+	<variable name="fecha" class="java.util.Date" resetType="Page">
+		<initialValueExpression><![CDATA[new Date()]]></initialValueExpression>
+	</variable>
+	<variable name="countCAS" class="java.math.BigDecimal" calculation="Count">
+		<variableExpression><![CDATA[$F{SER_NUM_RUC}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="sumaTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTAL_PAGO}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<group name="unidad">
+		<groupHeader>
+			<band height="34">
+				<staticText>
+					<reportElement   x="0" y="23" width="75" height="11"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[RUC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="299" y="23" width="233" height="11"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[IMPORTE A PAGAR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="75" y="23" width="247" height="11"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[APELLIDOS Y NOMBRES]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50">
+				<textField>
+					<reportElement   x="97" y="2" width="100" height="19"/>
+					<textElement verticalAlignment="Bottom"/>
+					<textFieldExpression><![CDATA[$V{countCAS}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement   x="452" y="2" width="58" height="19"/>
+					<box>
+						<topPen lineWidth="2.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumaTotal}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement   x="22" y="1" width="75" height="19"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Total de CAS:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="177" splitType="Stretch">
+			<staticText>
+				<reportElement   x="26" y="58" width="503" height="36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONFORMIDAD DE SERVICIOS PARA EL PAGO DE PERSONAL CONTRATADO BAJO LA MODALIDAD CAS]]></text>
+			</staticText>
+			<textField>
+				<reportElement   x="0" y="104" width="555" height="42"/>
+				<textElement markup="none">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Quienes suscriben el presente documento otorgan la conformidad de los servicios realizados durante el mes de "+($P{mes}==1?"ENERO":($P{mes}==2?"FEBRERO":($P{mes}==3?"MARZO":($P{mes}==4?"ABRIL":($P{mes}==5?"MAYO":($P{mes}==6?"JUNIO":($P{mes}==7?"JULIO":($P{mes}==8?"AGOSTO":($P{mes}==9?"SETIEMBRE":($P{mes}==10?"OCTUBRE":($P{mes}==11?"NOVIEMBRE":($P{mes}==12?"DICIEMBRE":""))))))))))))+", del año "+$P{anio}+", en la Facultad y/o Dependencia "+$P{uddesc}+", según la relacion que se indica:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement   x="405" y="14" width="52" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="405" y="0" width="52" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha y Hora:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy   h:mm a" isBlankWhenNull="true">
+				<reportElement   key="textField-6" x="457" y="0" width="98" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{fecha}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="457" y="14" width="98" height="14"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement   key="image-1" x="0" y="0" width="49" height="52"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement   key="staticText-6" x="49" y="7" width="285" height="13"/>
+				<textElement>
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   key="staticText-7" x="49" y="21" width="308" height="13"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[SISTEMA INTEGRAL DE RECURSOS HUMANOS - QUIPUCAMAYOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="452" y="146" width="49" height="13"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Planilla:]]></text>
+			</staticText>
+			<textField>
+				<reportElement   x="501" y="146" width="48" height="13"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$P{planilla}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement   x="0" y="146" width="49" height="13"/>
+				<textElement/>
+				<text><![CDATA[Origen:]]></text>
+			</staticText>
+			<textField>
+				<reportElement   x="49" y="146" width="236" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{origen}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement   x="0" y="0" width="75" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SER_NUM_RUC}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="75" y="0" width="247" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SER_APE_PAT} +" "+ $F{SER_APE_MAT} +", "+ $F{SER_NOM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement   x="446" y="0" width="64" height="11"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL_PAGO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="34" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement   x="527" y="13" width="28" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement   x="459" y="13" width="68" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement   x="28" y="22" width="257" height="11"/>
+				<textElement verticalAlignment="Bottom" markup="none">
+					<font size="7" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[SISTEMA INTEGRAL DE RECURSOS HUMANOS - QUIPUCAMAYOC]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement   x="0" y="4" width="28" height="29"/>
+				<imageExpression><![CDATA[$P{miniLogoQuipu}]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="141">
+			<staticText>
+				<reportElement   x="322" y="19" width="198" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="459" y="121" width="68" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement   x="527" y="121" width="28" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame">
+				<reportElement   x="0" y="112" width="28" height="29"/>
+				<imageExpression><![CDATA[$P{miniLogoQuipu}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement   x="28" y="130" width="257" height="11"/>
+				<textElement verticalAlignment="Bottom" markup="none">
+					<font size="7" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[SISTEMA INTEGRAL DE RECURSOS HUMANOS - QUIPUCAMAYOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="299" y="39" width="244" height="20"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Nombre:................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="0" y="99" width="525" height="10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[***Dependencias: El documento debe ser firmado por el Jefe de la dependencia.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="0" y="79" width="525" height="10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[* Si el CAS es nuevo no aparecerá en este listado. Esto no interferirá con el proceso del pago del nuevo CAS.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="0" y="89" width="525" height="10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[**Facultades: El documento debe ser firmado por el Decano o Director Administrativo.]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>

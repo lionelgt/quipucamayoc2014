@@ -1,0 +1,670 @@
+
+<fieldset class="avgrund-contents">
+<legend>Legajos</legend>
+
+        <div id="fam-advertencia" class="alert" style="text-align: center; display: none;"></div>
+
+
+<div class="tabbable tabs-left" id="tabLegajos">
+<ul class="nav nav-tabs" id="navLegajos">
+    <li class="active"><a href="#lA" data-toggle="tab">Datos de estudio</a></li>
+    <li class=""><a href="#lB" data-toggle="tab">Datos familiares</a></li>
+    <li class=""><a href="#lC" data-toggle="tab">T y R de Servicio</a></li>
+
+    <button id="search" class="btn btn-primary pull-right"  type="button"><span class="glyphicon glyphicon-search"></span> Buscar Servidor</button>
+</ul>
+<div class="tab-content">
+      <br>
+     <div class="row form-group" id="block-descr" style="display: none;">
+        <div class="col-md-8">
+            <strong style="font-size: 18px;">Servidor:<strong id="desc-servidor" style="font-size: 16px; color: #00585f;"></strong></strong>
+        </div>
+         <div class="col-md-4">
+            <strong style="font-size: 18px;">Código:<strong id="text-cod" style="font-size: 16px;color: #00585f;"></strong></strong>
+         </div>
+         <br>
+     </div>
+    <div class="tab-pane active" id="lA">
+
+
+    <form class="form-horizontal well" id="form_dat_estud" onsubmit="return false">
+        <div class="row form-group">
+            <div class="col-md-6" id="div_tip_estu">
+
+            </div>
+            <div class="col-md-6" id="div_niv_est" style="display: none;">
+
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-6" id="div_pais_estu">
+
+            </div>
+            <div class="col-md-6">
+                <label class="col-md-5 control-label" for="centro_estudio">Centro de estudio <span
+                        style="color:red;">*</span></label>
+
+                <div class="col-md-7">
+                    <input type="text" id="centro_estudio" class="form-control">
+                </div>
+            </div>
+
+        </div>
+        <div class="row form-group" id="espec_certif">
+            <div class="col-md-6" id="carr_estud_espec">
+
+            </div>
+            <div class="col-md-6">
+                <label class="col-md-5 control-label" for="certificado">Nombre Certificado <span
+                        style="color:red;">*</span></label>
+
+                <div class="col-md-7" id="nume4">
+                    <input type="text" class="form-control" id="certificado">
+                </div>
+            </div>
+
+        </div>
+        <br>
+
+            <div class="row">
+                <div class="col-md-3 col-md-offset-1">
+                    <label class="control-label"> Tipo </label>
+                </div>
+                <div class="col-md-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
+                            Por Fecha
+                        </label>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                            Por Duracion
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+       <!-- </div>   -->
+        </br>
+
+        <div class="row form-group" id="fecha">
+            <div class="col-md-6">
+                <label class="col-md-5 control-label">Fecha Inicio <span
+                        style="color:red;">*</span></label>
+
+                <div class="col-md-7">
+                    <div class="input-group">
+                        <input type="text" value="" id="legaj_nac" class="form-control" placeholder="Ejm. 11/05/2004" readonly="">
+                        <span class="input-group-btn">
+                               <button class="btn btn-default" type="button" id="legaj_fech_show"><span class="glyphicon glyphicon-calendar"></span></button>
+                        <button class="btn btn-default" type="button" id="legaj_fech_clos"><span class="glyphicon glyphicon-refresh"></span> </button>
+                        </span>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="col-md-5 control-label">Fecha Fin <span
+                        style="color:red;">*</span></label>
+
+                <div class="col-md-7">
+                    <div class="input-group">
+                        <input  type="text" value="" id="legaj_fin" class="form-control" placeholder="Ejm. 11/05/2004"  readonly="">
+                        <span class="input-group-btn">
+                                 <button class="btn btn-default" type="button" id="leg_fin_show"><span class="glyphicon glyphicon-calendar"></span></button>
+                        <button class="btn btn-default" type="button" id="leg_fin_clos" ><span class="glyphicon glyphicon-refresh"></span></button>
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-group" id="periodo" style="display:none;">
+            <div class="col-md-3" style="margin-left: 10.6%;">
+                    <label class="col-md-5 control-label" for="anio">Años <span style="color:red;">* </span></label>
+
+                    <div class="col-md-7" id="nume5">
+                        <input type="text"  id="anio" class="form-control">
+                    </div>
+            </div>
+            <div class="col-md-3">
+                    <label class="col-md-5 control-label" for="mes">Meses <span style="color:red;">* </span></label>
+
+                    <div class="col-md-7" id="nume6">
+                        <input type="text" class="form-control"  id="mes">
+                    </div>
+            </div>
+            <div class="col-md-3">
+                    <label class="col-md-5 control-label" for="dia">Dias <span style="color:red;">* </span></label>
+
+                    <div class="col-md-7" id="nume7">
+                        <input type="text" id="dia" class="form-control">
+                    </div>
+            </div>
+
+        </div>
+
+        <div class="row form-group" id="titul_exped">
+            <div class="col-md-6">
+                <label class="col-md-5 control-label" >Nro Titulacion <span style="color:red;">*</span></label>
+
+                <div class="col-md-7" id="nume3">
+                    <input type="text" class="form-control" id="nro_titu">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="col-md-5 control-label">Fecha de Expedicion <span
+                        style="color:red;">*</span></label>
+
+                <div class="col-md-7">
+                    <div class="input-group">
+                        <input  type="text" value="" class="form-control" id="leg_exp" placeholder="Ejm. 11/05/2004" readonly="">
+                        <span class="input-group-btn">
+                                   <button class="btn btn-default" type="button" id="leg_exp_show"><span class="glyphicon glyphicon-calendar"></span></button>
+                        <button class="btn btn-default" type="button" id="leg_exp_clos"><span class="glyphicon glyphicon-refresh"></span></button>
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group" id="coleg_horas">
+            <div class="col-md-6" id="nro_colegiatura">
+                <label class="col-md-5 control-label">Nro de Colegiatura <span
+                        style="color:red;">*</span></label>
+
+                <div class="col-md-7" id="nume2">
+                    <input type="text" class="form-control" id="nro_coleg" >
+                </div>
+            </div>
+            <div class="col-md-6" id="num_horas" style="display: none;">
+                <label class="col-md-5 control-label">Nro de Horas <span
+                        style="color:red;">*</span></label>
+
+                <div class="col-md-7" id="nume1">
+                    <input type="text" class="form-control" id="horas">
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="form-actions" id="form_insert" style="text-align:center;display:none;">
+            <button type="submit" class="btn btn-primary left" id="save_estudio">Guardar</button>
+            <button type="reset" class="btn  btn-default left " id="cancel_estudio">Cancelar</button>
+        </div>
+        <div class="form-actions" id="form_update" style="text-align:center;display:none;">
+            <button type="submit" class="btn btn-primary" id="update_estudio">Actualizar</button>
+            <button type="reset" class="btn btn-default" id="cancel_estudio">Cancelar</button>
+        </div>
+
+    </form>
+    <br>
+    <form class="form-horizontal" id="form_tabla_serv">
+        <div id="table-estudios">
+
+        </div>
+    </form>
+    </div>
+
+    <div class="tab-pane" id="lB">
+       <label id="idfamiliar" style="display: none;"></label>
+        <form class="form-horizontal well" id="datos_familiares" sav_legaj_lab="" onSubmit="return false">
+            <div class="row form-group">
+                <div class="col-md-12" id="div_serv_est">
+                    <label class="col-md-2 control-label" for="serv_ape_pat" style="margin-left: 3.5%;">Nombre y Apellido <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <input type="text" id="legaj_nom_ape" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12" id="div_serv_est">
+                    <label class="col-md-2 control-label" for="serv_ape_pat" style="margin-left: 3.5%;">Domicilio <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <input type="text" id="legaj_domici" class="form-control" >
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-6" id="div_tip_paren">
+
+                </div>
+                <div class="col-md-6" id="div_tip_doc">
+
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-6" id="div_serv_est">
+                    <label class="col-md-5 control-label" for="serv_ape_pat">Nº de Documento <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="serv_ape_pat" >
+                    </div>
+                </div>
+                <div class="col-md-6" id="div_serv_est">
+                    <label class="col-md-5 control-label" for="serv_ape_pat">Sexo <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <select id="sexo" class="form-control">
+                            <option value="0">Seleccione Sexo</option>
+                            <option value="M" >MASCULINO</option>
+                            <option value="F">FEMENINO</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-6" id="div_serv_est">
+                    <label class="col-md-5 control-label" for="serv_ape_pat">Fecha de Nacimiento <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <input  type="text" value="" class="form-control" id="legaj_naci" placeholder="Ejm. 11/05/2004"  readonly="">
+                            <span class="input-group-btn">
+                                      <button class="btn btn-default" type="button" id="legaj_nac_show" ><span class="glyphicon glyphicon-calendar"></span></button>
+                            <button class="btn btn-default" type="button" id="legaj_nac_clos" ><span class="glyphicon glyphicon-refresh"></span></button>
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-6" id="div_serv_est">
+                    <label class="col-md-5 control-label" for="serv_ape_pat">Teléfono <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <input type="text" id="lega_tel" class="form-control"  >
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-6" id="div_est_civil">
+
+                </div>
+                <div class="col-md-6" id="div_serv_est">
+                    <label class="col-md-5 control-label" for="serv_ape_pat">Beneficiario</label>
+
+                    <div class="col-md-7">
+                        <select id="beneficio" class="form-control">
+                            <option value="000">Seleccione Tipo de Benefeciario</option>
+                            <option value="0">No</option>
+                            <option value="1">Si</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="div_benef"  style="display:none;">
+             <div class="row form-group" >
+                 <div class="col-md-6" id="tipo_benef_fam">
+
+                 </div>
+                 <div class="col-md-6" id="">
+                     <label class="col-md-5 control-label">Resolucion <span style="color:red;">*</span></label>
+                     <div class="col-md-7">
+                         <div class="input-group">
+                             <input  id="fam-resolucion" class="form-control" type="text"  readonly>
+                             <span class="input-group-btn">
+                                   <button class="btn btn-default" type="button" id="fam-resol"><span class="glyphicon glyphicon-search"></span></button>
+                             </span>
+
+                         </div>
+                     </div>
+                 </div>
+             </div>
+            <div class="row form-group" >
+                <div class="col-md-4" id="div_tip_pagos" style="margin-left: 7%;">
+
+                </div>
+                <div class="col-md-4" id="num_cuenta" style="margin-left: -4%;">
+                    <label class="col-md-5 control-label" for="serv_ape_pat">Nº de Cuenta</label>
+                    <div class="col-md-7" id="nume" >
+                        <input type="text" class="form-control" id="numcuenta">
+                    </div>
+                </div>
+                <div class="col-md-4" id="tit_cuenta" style="margin-left: -3%;">
+                    <label class="col-md-6 control-label" for="serv_ape_pat" style="margin-left: 16.6%;">Titular de Cuenta</label>
+
+                    <div class="col-md-4">
+                        <select id="titularcuenta" class="form-control">
+                            <option value="0">No</option>
+                            <option value="1">Si</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-6" id="div_serv_est">
+                    <label class="col-md-5 control-label" for="serv_ape_pat">Nº de Seguro <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7" id="num">
+                        <input type="text" class="form-control" id="lega_seguro" >
+                    </div>
+                </div>
+                <div class="col-md-6" id="div_serv_est">
+                    <label class="col-md-5 control-label" for="serv_ape_pat">Dependiente <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <select id="depen" class="form-control">
+                            <option value="000">Seleccione Dependencia</option>
+                            <option value="0">No</option>
+                            <option value="1">Si</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+               <hr>
+            <div class="form-actions" id="form_save_rts" style="text-align:center;display:none;">
+                <button type="submit" class="btn btn-primary left" id="btn-fam">Guardar</button>
+                <button type="reset" class="btn btn-default left" id="cancel_fam">Cancelar</button>
+            </div>
+            <div class="form-actions" id="form_edit_rts" style="text-align:center;display:none;">
+                <button type="submit" class="btn btn-primary left" id="edit-fam-button">Editar</button>
+                <button type="reset" class="btn btn-default left" id="cancel_fam">Cancelar</button>
+            </div>
+        </form>
+
+        <form class="form-horizontal" id="form_tabla_serv">
+            <div id="table-familiares">
+
+            </div>
+        </form>
+    </div>
+
+    <div class="tab-pane" id="lC">
+
+
+        <form class="form-horizontal" id="">
+            <div class="row form-group" >
+                <div class="col-md-3">
+                    <label class="control-label" style="margin-left: 48%;"> Tipo</label>
+                </div>
+                <div class="col-md-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="tipos_servicio" id="option_ts" value="001" checked="">
+                            Tiempo de Servicio
+                        </label>
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="tipos_servicio" id="option_rts" value="002">
+                            Reconocimiento de tiempo de Servicio
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+            <br>
+        </form>
+
+        <form class="form-horizontal well" id="por_tiempo_servicio" onsubmit="return false">
+            <div class="row form-group">
+                <div class="col-md-6" id="tipo_tpo_serv">
+
+                </div>
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label">Fecha Ingreso <span style="color:red;">*</span> </label>
+
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <input type="text" value="" id="f_ingreso" class="form-control" placeholder="Ejm. 11/05/2004" readonly="" >
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="legaj_ing_show"><span class="glyphicon glyphicon-calendar"></span></button>
+                                <button class="btn btn-default" type="button" id="legaj_fing_clos"><span class="glyphicon glyphicon-refresh"></span></button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-6" id="sel_resol">
+                    <label class="col-md-5 control-label">Resolucion  <span style="color: red;">*</span></label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <input  id="resolucion" type="text"  class="form-control"  readonly>
+                            <div class="input-group-btn">
+                                  <button class="btn btn-default" type="button" id="bus_resol"><span class="glyphicon glyphicon-search"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label">Fecha Resolucion  <span style="color: red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="fecha_resolt" disabled="disabled">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-actions" id="form_insert_ts" style="text-align:center;">
+                <button type="button" class="btn btn-primary left" id="save_resolucion">Guardar</button>
+                <button type="reset" class="btn  btn-default left" id="cancel_resolucion">Cancelar</button>
+            </div>
+            <div class="form-actions" id="form_update_ts" style="text-align:center;">
+                <button type="button" class="btn btn-primary left" id="update_resolucion">Actualizar</button>
+                <button type="reset" class="btn btn-default left" id="cancel_resolucion">Cancelar</button>
+            </div>
+        </form>
+
+        <form class="form-horizontal well" id="por_reconocimiento" onsubmit="return false">
+            <div class="row form-group">
+                <div class="col-md-6" id="tipo_reconocimiento">
+
+                </div>
+
+                <div class="col-md-6">
+                    <label  class="col-md-5 control-label">Fecha Reconocimiento <span style="color: red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <input  type="text" value="" id="f_recono" class="form-control" placeholder="Ejm. 11/05/2004" readonly="" >
+                            <span class="input-group-btn">
+                                   <button class="btn btn-default" type="button" id="legaj_rec_show" ><span class="glyphicon glyphicon-calendar"></span></button>
+                            <button class="btn btn-default" type="button" id="legaj_rec_clos"><span class="glyphicon glyphicon-refresh"></span></button>
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-6" id="sel_resol">
+                    <label class="col-md-5 control-label">Resolucion <span style="color: red;">*</span></label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <input  id="resolucion_recono" class="form-control" type="text"  readonly>
+                            <span class="input-group-btn">
+
+                            <button class="btn btn-default" type="button" id="bus_resol"><span class="glyphicon glyphicon-search"></span></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label">Fecha de Resolucion <span style="color: red;">*</span> </label>
+
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="fecha_resolt_recono" disabled="disabled">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row forml-group">
+                <div class="col-md-3" style="margin-left: 10.4%;">
+                    <label class="col-md-5 control-label">Año <span style="color: red;">*</span> </label>
+
+                    <div class="col-md-7">
+                        <input type="text" id="fecha_resolt_anio" class="form-control" >
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="col-md-5 control-label">Mes <span style="color: red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <input type="text" id="fecha_resolt_mes" class="form-control" >
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="col-md-5 control-label"  >Dias <span style="color: red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <input type="text" id="fecha_resolt_dia"class="form-control">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-actions" id="form_insert_rts" style="text-align:center;">
+                <button type="submit" class="btn btn-primary left" id="save_resolucion">Guardar</button>
+                <button type="reset" class="btn btn-default left" id="cancel_resolucion">Cancelar</button>
+            </div>
+            <div class="form-actions" id="form_update_rts" style="text-align:center;">
+                <button type="submit" class="btn btn-primary left" id="update_resolucion">Actualizar</button>
+                <button type="reset" class="btn btn-default left" id="cancel_resolucion">Cancelar</button>
+            </div>
+
+        </form>
+
+        <form class="form-horizontal" id="form_tabla_resol">
+            <div id="table-resol">
+
+            </div>
+        </form>
+
+    </div>
+
+</div>
+</div>
+<div id="serv-table-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+
+</div>
+<div id="resol-table-modal" class="modal  fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+
+</div>
+<div id="resol-table-fam" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+
+</div>
+</fieldset>
+<div class="avgrund-cover"></div>
+<aside id="default-popup" class="avgrund-popup aside">
+    <p>
+        El estudio del servidor se borrara de la Base de Datos!!<br/>
+        Si desea continuar haga click en aceptar.
+    </p>
+    <div class="">
+        <a id="continuar" class="continuar">Aceptar</a>
+        <a id="cancavmodal" class="cancavmodal">Cancelar</a>
+    </div>
+    <a class="avgrund-close">close</a>
+</aside>
+
+<aside id="delete-popup-fam" class="avgrund-popup aside">
+    <p>
+        El tiempo de servicio seleccionado se borrara de la Base de Datos!!<br/>
+        Si desea continuar haga click en aceptar.
+    </p>
+    <div class="">
+        <a id="delete-fam" class="continuar">Aceptar</a>
+        <a id="cancavmodal" class="cancavmodal">Cancelar</a>
+    </div>
+    <a class="avgrund-close">close</a>
+</aside>
+
+
+<div id="serv-table-modal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+</div>
+<div id="serv-table-modal7" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <strong>El Familiar se eliminará<br/>
+
+                        Si desea continuar haga click en aceptar. </strong>
+                </p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="delete-fam" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="serv-table-modal8" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <strong>El Familiar se eliminará<br/>
+
+                        Si desea continuar haga click en aceptar. </strong>
+                </p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="continuar2" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="serv-table-modal6" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <strong>El Estudio del Servidor se eliminará<br/>
+
+                        Si desea continuar haga click en aceptar. </strong>
+                </p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="continuar" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+

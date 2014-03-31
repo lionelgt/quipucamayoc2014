@@ -1,0 +1,474 @@
+<link href="resources/css/vendor/datepicker.css" rel="stylesheet">
+
+<fieldset>
+<legend>Registro y Mantenimiento del Estado y Condicion del trabajador</legend>
+<div class="row form-group">
+    <div class="col-md-3">
+
+
+        <button id="search" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+    </div>
+    <div class="col-md-9">
+        <span id="id-servidor" class="help-inline" style="padding-left: 50px;display:none;"></span>
+        <span id="id-numserest" class="help-inline" style="padding-left: 50px;display:none;"></span>
+        <h4><span id="employed" style="margin-left:-95px"></span></h4>
+    </div>
+</div>
+
+<div id="advertencia" class="alert alert-warning" style="text-align: center; display:none;"><strong>Existen campos obligatorios vacíos</strong></div>
+<div id="correcto" class="alert alert-success" style="text-align: center; display: none;"><strong>Se registró correctamente los datos</strong></div>
+<div class="tabbable tabs-left" id="header_est_cod">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#cl" data-toggle="tab">Estado del Trabajador</a></li>
+        <li class=""><a href="#d" data-toggle="tab">Dependencia</a></li>
+        <li class=""><a href="#ca" data-toggle="tab">Condicion del Asegurado</a></li>
+        <li class=""><a href="#b" data-toggle="tab">Tipo Pago</a></li>
+        <li class=""><a href="#cp" data-toggle="tab">Condicion Laboral</a></li>
+    </ul>
+
+
+<div class="tab-content">
+     <br>
+    <div class="tab-pane active" id="cl">
+
+        <form class="form-horizontal well">
+            <div class="row form-group">
+
+                <div class="col-md-6" >
+                    <label class="col-md-5 control-label" for="tipo">Categoria Actual</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="catito" disabled>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label" for="tipo" >Estado Actual</label>
+                     <div class="col-md-7">
+                         <input type="text" class="form-control" id="estito"  disabled>
+                     </div>
+
+                </div>
+            </div>
+
+            <div class="row form-group">
+
+                <div class="col-md-6" >
+                    <label class="col-md-5 control-label" for="tipo">Tipo</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="tipito"  disabled>
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6" id="div_tip_est" >
+                </div>
+
+
+
+            </div>
+
+            <div class="row form-group" id="div_docente" hidden="hidden">
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label" for="cod_doc">Docente <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <select id="cod_doc" class="form-control">
+                            <option value="0">Elegir Sub-tipo</option>
+                            <option value="1">PRINCIPAL</option>
+                            <option value="2">ASOCIADO</option>
+                            <option value="3">AUXILIAR</option>
+                            <option value="4">JEFE</option>
+                            <option value="5">AYUDANTIA</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group" id="div_administrativo" hidden="hidden" >
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label" for="cod_adm">Administrativo <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <select id="cod_adm" class="form-control">
+                            <option value="0">Elegir Sub-tipo</option>
+                            <option value="1">FUNCIONARIO</option>
+                            <option value="2">PROFESIONAL</option>
+                            <option value="3">TECNICO</option>
+                            <option value="4">AUXILIAR</option>
+                            <option value="5">SIN CATEGORIA</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row form-group" id="div_doc_mag" hidden="hidden">
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label" for="cod_doc_mag">Docente de Magisterio <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <select id="cod_doc_mag" class="form-control">
+                            <option value="0" >Elegir Sub-tipo</option>
+                            <option value="1">NIVEL I-II-III-IV-V</option>
+                            <option value="2">NIVEL A-B-C-D-E</option>
+
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row form-group" id="div_adm_salud" hidden="hidden">
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label" for="cod_adm_salud">Adm. Prof. Salud <span style="color:red;">*</span></label>
+
+                    <div class="col-md-7">
+                        <select id="cod_adm_salud" class="form-control">
+                            <option value="0">Elegir Sub-tipo</option>
+                            <option value="1">MEDICO</option>
+                            <option value="2">PROFESIONAL SALUD</option>
+
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row form-group" >
+            <div class="col-md-6" id="div_categ_prof">
+            </div>
+
+            </div>
+
+
+             <div class="row form-group">
+             <div class="col-md-6">
+                        <label class="col-md-5 control-label" for="numresol">Nro. Resolucion <span style="color:red;">*</span></label>
+                      <div class="col-md-7" >
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="numresol"  disabled>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="bus_resol"><span class="glyphicon glyphicon-search"></span></button>
+                            </div>
+
+                        </div>
+
+                      </div>
+
+
+
+             </div>
+             </div>
+              <hr>
+            <div class="form-actions" id="form_insert" style="text-align: center;display:none;">
+                <button type="button" class="btn btn-primary left" id="btn-condlab">Guardar</button>
+                <button type="button" class="btn left btn-default" id="reset-condlab">Cancelar</button>
+            </div>
+        </form>
+
+            <form class="form-horizontal"  id="form_tabla_serv">
+                <div  id="table-condlab">
+
+                </div>
+            </form>
+
+
+
+    </div>
+
+
+
+    <div class="tab-pane" id="d">
+        <form class="form-horizontal well" id="">
+
+            <div class="row form-group">
+
+                <div class="col-md-12">
+                    <div class="col-md-3">
+
+                        <label class="control-label" for="numresol" style="margin-left: 5.9%;">Unidad de Dependencia <span style="color:red;">*</span></label>
+                    </div>
+
+                    <div class="col-md-1">
+
+                         <a class="btn btn-default" type="submit" id="bus_dep"><span class="glyphicon glyphicon-search"></span></a>
+
+                    </div>
+                    <div class="col-md-8">
+                        <label id="nom_dep" class="control-label"> </label>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label" for="numresol">Nro. Resolucion <span style="color:red;">*</span></label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="numresol_dep"  disabled>
+                            <div class="input-group-btn">
+
+                                <button class="btn btn-default" type="button" id="bus_resol"><span class="glyphicon glyphicon-search"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <hr>
+            <div class="form-actions" id="form_insert1" style="text-align: center;display:none;">
+                <button type="button" class="btn btn-primary left" id="btn-dep">Guardar</button>
+                <button type="reset" class="btn left btn-default" id="cancel_est_traba">Cancelar</button>
+            </div>
+
+        </form>
+
+        <form class="form-horizontal" id="form_tabla_dep">
+            <div  id="table-depen">
+
+            </div>
+        </form>
+
+    </div>
+
+
+
+    <div class="tab-pane" id="ca">
+        <form class="form-horizontal well" id="">
+
+            <div class="row form-group">
+                    <div class="col-md-6" id="div_reg_pen">
+
+                    </div>
+
+                    <div class="col-md-6" id="div_est_afp">
+
+                    </div>
+            </div>
+
+            <div class="row form-group">
+
+                             <div class="col-md-6" id="div_ent_aseg">
+                             </div>
+                             <div class="col-md-6" >
+                                 <label class= "col-md-5 control-label">Nro. Sist. Pens.</label>
+                              <div class="col-md-7">
+                                  <input class="form-control" type="text" id="numsispen"  placeholder="Ejm.212420MGLRT1">
+
+                              </div>
+                              </div>
+            </div>
+
+
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label" for="numresol_aseg">Nro. Resolucion <span style="color: red;">*</span></label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="numresol_aseg" disabled>
+                            <div class="input-group-btn">
+                                  <button class="btn btn-default" type="button" id="bus_resol"><span class="glyphicon glyphicon-search"></span></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-actions" id="form_insert2" style="text-align: center;display:none;">
+                <button type="button" class="btn btn-primary left" id="btn-condaseg">Guardar</button>
+                <button type="reset" class="btn left btn-default" id="cancel_est_traba">Cancelar</button>
+            </div>
+
+
+        </form>
+
+            <form class="form-horizontal" id="form_tabla_serv">
+                <div  id="table-condaseg">
+
+                </div>
+            </form>
+
+    </div>
+
+
+    <div class="tab-pane" id="b">
+        <form class="form-horizontal well" id="">
+
+
+            <div class="row form-group">
+                <div class="col-md-6" id="div_tip_pago">
+
+                </div>
+            </div>
+
+            <div class="row form-group" id="div_banco">
+
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label" for="numcta">Nro. Cta. Banco <span style="colr:red;"></span></label>
+                    <div class="col-md-7">
+                             <input class="form-control" type="text" id="numctabanco" >
+                    </div>
+                </div>
+
+
+            </div>
+
+            <hr>
+            <div class="form-actions" id="form_insert3" style="text-align: center;display:none;">
+                <button type="button" class="btn btn-primary left" id="btn-pagobanco">Guardar</button>
+                <button type="reset" class="btn left btn-default" id="cancel_est_traba">Cancelar</button>
+            </div>
+        </form>
+
+
+
+            <form class="form-horizontal" id="form_tabla_pagobanco">
+                <div  id="table-pagobanco">
+
+                </div>
+            </form>
+
+    </div>
+
+    <div class="tab-pane" id="cp">
+        <form class="form-horizontal well" id="">
+
+            <div class="row form-group" >
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label">Fecha Cese</label>
+
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <input  class="form-control" type="text" value="" id="fech_cese" placeholder="Ejm. 11/05/2004"
+                                   readonly="">
+                            <div class="input-group-btn">
+
+                                <button class="btn btn-default" type="button" id="cese_fech_show" ><span class="glyphicon glyphicon-calendar"></span> </button>
+                                <button class="btn btn-default" type="button" id="cese_fech_clos" ><span class="glyphicon glyphicon-refresh"></span></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-6" id="div_cond_pla">
+
+                </div>
+            </div>
+
+            <div class="row form-group">
+
+                <div class="col-md-12">
+                    <label class= "col-md-3 control-label" style="margin-left: -4.8%;">Observacion</label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" id="obs"  placeholder="Escriba algun motivo...">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <label class="col-md-5 control-label" for="numresol_pla">Nro. Resolucion <span style="color:red;">*</span></label>
+                    <div class="col-md-7">
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="numresol_pla" disabled>
+                            <div class="input-group-btn">
+
+                                <button class="btn btn-default" type="button" id="bus_resol"><span class="glyphicon glyphicon-search"></span></button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+               <hr>
+            <div class="form-actions" id="form_insert4" style="text-align: center;display:none;">
+                <button type="button" class="btn btn-primary left" id="btn-condpla">Guardar</button>
+                <button type="reset" class="btn left btn-default" id="cancel_est_traba">Cancelar</button>
+            </div>
+
+        </form>
+
+        <div>
+            <form class="form-horizontal"  id="form_tabla_serv">
+                <div  id="table-condpla">
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+   </div>
+</div>
+<!--
+<div id="listar_serv_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true" style="height: 61%; width: 45%">
+
+</div>-->
+
+<div id="listar_resol_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+</div>
+
+<div id="modal-unidades" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+</div>
+
+
+
+<div id="mensaje_rechazo" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" style="display: none; ">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal"><i class="icon-remove"></i></a>
+        <h3>Operacion no puede ser procesada</h3>
+    </div>
+    <div class="modal-body">
+        <div class="paddingT15 paddingB15" id="modal_text">
+            Debe rellenar todos los campos obligatorios (*).
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" >Aceptar</button>
+    </div>
+</div>​
+
+<div id="mensaje_cese" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" style="display: none; ">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal"><i class="icon-remove"></i></a>
+        <h3>Operacion no puede ser procesada</h3>
+    </div>
+    <div class="modal-body">
+        <div class="paddingT15 paddingB15" id="modal_text">
+            Debe elegir la fecha del cese.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" >Aceptar</button>
+    </div>
+</div>​
+
+</fieldset>
+
+
+<div class="modal " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  >
+
+</div>
+<div id="estado_condicion-modal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+</div>
+<style type="text/css">
+    .controls > .error {
+        color: #b94a48;
+        display: inline-block;
+        *display: inline;
+        padding-left: 5px;
+        vertical-align: middle;
+        *zoom: 1;
+    }
+
+</style>

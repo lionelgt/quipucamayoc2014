@@ -1,0 +1,10 @@
+<label class="col-md-5 control-label" for="leg_tip">Tipo de Estudio <span style="color: red;">*</span></label>
+
+<div class="col-md-7">
+    <select id="leg_tip" class="form-control">
+        <option value="000">Seleccione Tipo de Estudio</option>
+        {{#each items}}
+            <option value="{{tipCod}}-{{xhoras}}" id="{{tipCod}}">{{tipEstDesc}}</option>
+        {{/each}}
+    </select>
+</div>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.quipu.rrhh.persistence.PlanillaCASMapper">
+
+<select id="find" resultType="edu.quipu.rrhh.models.PlanillaCAS">
+  SELECT apanio AS anio,apnum AS numero,apmes AS mes,oricod AS codigoOrigen, ud_id AS unidadDescripcion, apfecha AS fecha, apmonto AS monto, apest AS estado from QPRODATACONTA.APERTURA_PLANILLA WHERE apanio=#{anio} AND apmes=#{mes} AND apnum=#{planilla}
+</select>
+
+<select id="findConServidores" resultType="edu.quipu.rrhh.models.PlanillaCAS">
+    SELECT apanio AS anio,apnum AS numero,apmes AS mes,oricod AS codigoOrigen, ud_id AS unidadDescripcion, apfecha AS fecha, apmonto AS monto, apest AS estado from QPRODATACONTA.APERTURA_PLANILLA WHERE APNUM IN (
+    SELECT distinct APNUM FROM QPRODATACONTA.DETALLE_PLANILLA WHERE APANIO=#{anio} AND UD_ID IN (#{udid}, #{udid}+1) and APNUM like 'P%') AND APANIO = #{anio} AND APMES=#{mes}
+</select>
+
+<select id="findSinServidores" resultType="edu.quipu.rrhh.models.PlanillaCAS">
+    SELECT apanio AS anio,apnum AS numero,apmes AS mes,oricod AS codigoOrigen, ud_id AS unidadDescripcion, apfecha AS fecha, apmonto AS monto, apest AS estado from QPRODATACONTA.APERTURA_PLANILLA WHERE APNUM NOT IN (
+    SELECT distinct APNUM FROM QPRODATACONTA.DETALLE_PLANILLA WHERE APANIO=#{anio} AND UD_ID IN (#{udid}, #{udid}+1)) AND APANIO = #{anio} AND APMES=#{mes} AND APEST='N' AND APTIPO='P' AND UD_ID=#{udid}
+</select>
+
+<select id="findConYSinServidores" resultType="edu.quipu.rrhh.models.PlanillaCAS">
+    SELECT apanio AS anio,apnum AS numero,apmes AS mes,oricod AS codigoOrigen, ud_id AS unidadDescripcion, apfecha AS fecha, apmonto AS monto, apest AS estado from QPRODATACONTA.APERTURA_PLANILLA WHERE APNUM IN (
+    SELECT distinct APNUM FROM QPRODATACONTA.DETALLE_PLANILLA WHERE APANIO=#{anio} AND UD_ID IN (#{udid}, #{udid}+1) and APNUM like 'P%') AND APANIO = #{anio} AND APMES=#{mes}
+    UNION
+    SELECT apanio AS anio,apnum AS numero,apmes AS mes,oricod AS codigoOrigen, ud_id AS unidadDescripcion, apfecha AS fecha, apmonto AS monto, apest AS estado FROM QPRODATACONTA.apertura_planilla WHERE apanio=#{anio} AND apmes=#{mes} AND aptipo='P' AND ud_id=#{udid}
+</select>
+
+<select id="existeDetallePlanillaxPlanilla" parameterType="java.util.Map" resultType="java.lang.Integer">
+ 		SELECT count(DP.APNUM)
+    			FROM QPRODATACONTA.DETALLE_PLANILLA DP 
+   				WHERE
+				    DP.UD_ID IN (#{udid},#{udid}+1)
+				    AND DP.APANIO=#{anio}
+				    AND DP.APNUM =#{apnum}
+</select>
+
+<insert id="createAperturaPlanilla" parameterType="java.util.Map">
+	INSERT INTO QPRODATACONTA.APERTURA_PLANILLA (  APANIO, APNUM, APMES,   ORICOD, UD_ID, APFECHA,   APMONTO, APEST, VOUNUM,   VOUANIO, CPMES, APTIPO,   APTIPSUB) 
+	VALUES (
+		#{anio} , 
+		(select concat('P',concat(DECODE(length(substr(nvl(max(APNUM),'00'),2)+1),1,'000',2,'00',3,'0',4,''),substr(nvl(max(APNUM),'00'),2)+1)) from QPRODATACONTA.APERTURA_PLANILLA where APANIO=#{anio} and APTIPO='P'),
+		#{mes},
+		#{origen},
+		#{udid},
+		SYSDATE,
+		null,
+		'N',
+		null,
+		null,
+		null,
+		'P',
+		null
+	)
+</insert>
+
+<insert id="createPlanillaControlPrevio" parameterType="java.util.Map">
+	INSERT INTO QPRODATACONTA.PLANILLA (   APANIO, APNUM, PLACOD,   PLATIPDOC, PLADOCSER, PLADOCNUM,   SERRUC, SERCOD, PLAFECHA,   PLAEST, CODESTUD, N_TIPO_PAGO,   T_CTA_BANCO) 
+	VALUES (
+		#{anio},
+		#{planilla} ,
+		(select decode(length(nvl(max(placod),0)+1),1,concat('000',nvl(max(placod),0)+1),2,concat('00',nvl(max(placod),0)+1),3,concat('0',nvl(max(placod),0)+1),nvl(max(placod),0)+1) from qprodataconta.planilla where apnum = #{planilla} and apanio=#{anio}),
+		'022',
+		null , 
+		null ,
+		concat(#{ruc},'  ') ,
+		null ,
+		sysdate ,
+		'P' ,
+		null,
+		(select SER_TIP_PAG_ACT from datapersuel.servidor_estado where trim(ser_cod) = substr(substr(#{ruc},3),1,8) and SER_EST_ACT=7 and SER_CON_PLA_ACT=1) ,
+		(select SER_CTA_BAN_ACT from datapersuel.servidor_estado where trim(ser_cod) = substr(substr(#{ruc},3),1,8) and SER_EST_ACT=7 and SER_CON_PLA_ACT=1) 
+	 )
+</insert>
+
+<insert id="createPlanillaNueva" parameterType="java.util.Map">
+	INSERT INTO QPRODATACONTA.PLANILLA (   APANIO, APNUM, PLACOD,   PLATIPDOC, PLADOCSER, PLADOCNUM,   SERRUC, SERCOD, PLAFECHA,   PLAEST, CODESTUD, N_TIPO_PAGO,   T_CTA_BANCO) 
+	VALUES (
+		#{anio},
+		#{planilla} ,
+		(select decode(length(nvl(max(placod),0)+1),1,concat('000',nvl(max(placod),0)+1),2,concat('00',nvl(max(placod),0)+1),3,concat('0',nvl(max(placod),0)+1),nvl(max(placod),0)+1) from qprodataconta.planilla where apnum = #{planilla} and apanio=#{anio}),
+		'022',
+		null , 
+		null ,
+		concat(#{ruc},'  ') ,
+		null ,
+		sysdate ,
+		'N' ,
+		null,
+		(select SER_TIP_PAG_ACT from datapersuel.servidor_estado where trim(ser_cod) = substr(substr(#{ruc},3),1,8) and SER_EST_ACT=7 and SER_CON_PLA_ACT=1) ,
+		(select SER_CTA_BAN_ACT from datapersuel.servidor_estado where trim(ser_cod) = substr(substr(#{ruc},3),1,8) and SER_EST_ACT=7 and SER_CON_PLA_ACT=1) 
+	 )
+</insert>
+
+<insert id="createDetallePlanilla" parameterType="java.util.Map">
+	INSERT INTO QPRODATACONTA.DETALLE_PLANILLA (APANIO, APNUM, PLACOD, DPLACOD, UD_ID, DPLABRUMONDOC, DPLANETMONNAC, DPLABRUMONNAC, DPLAINDIMP)
+	VALUES (
+		#{anio} ,
+		#{planilla},
+		(select decode(length(nvl(max(placod),0)),1,concat('000',nvl(max(placod),0)),2,concat('00',nvl(max(placod),0)),3,concat('0',nvl(max(placod),0)),nvl(max(placod),0)) from qprodataconta.planilla where apnum = #{planilla} and apanio=#{anio}),
+		(select decode(length(nvl(max(DPLACOD),0)+1),1,concat('000',nvl(max(DPLACOD),0)+1),2,concat('00',nvl(max(DPLACOD),0)+1),3,concat('0',nvl(max(DPLACOD),0)+1),nvl(max(DPLACOD),0)+1)
+					from qprodataconta.detalle_planilla where apanio=#{anio} and apnum =#{planilla} and placod =
+		           (select decode(length(nvl(max(placod),0)+1),1,concat('000',nvl(max(placod),0)+1),2,concat('00',nvl(max(placod),0)+1),3,concat('0',nvl(max(placod),0)+1),nvl(max(placod),0)+1) from qprodataconta.planilla where apnum = #{planilla} and apanio=#{anio}))  ,
+		 #{udid},
+		 #{montobruto},
+		 #{montoneto},
+		 #{montobruto},
+		 (select decode(substr(#{suspension},1,1) ,'N','N','S')  from dual)
+	)
+</insert>
+
+<insert id="createDetallePlanillaImpuesto" parameterType="java.util.Map">
+	INSERT INTO QPRODATACONTA.DETALLE_PLANILLA_IMPUESTO ( APANIO, APNUM, PLACOD,  DPLACOD, IMPCOD, DPLAIMPMON) 
+	VALUES (
+		#{anio} ,
+		#{planilla} ,
+		(select decode(length(nvl(max(placod),0)),1,concat('000',nvl(max(placod),0)),2,concat('00',nvl(max(placod),0)),3,concat('0',nvl(max(placod),0)),nvl(max(placod),0)) from qprodataconta.planilla where apnum = #{planilla} and apanio=#{anio}),
+		(select decode(length(nvl(max(DPLACOD),0)),1,concat('000',nvl(max(DPLACOD),0)),2,concat('00',nvl(max(DPLACOD),0)),3,concat('0',nvl(max(DPLACOD),0)+1),nvl(max(DPLACOD),0))
+					from qprodataconta.detalle_planilla where apanio=#{anio} and apnum =#{planilla} and placod = 
+		           (select decode(length(nvl(max(placod),0)),1,concat('000',nvl(max(placod),0)),2,concat('00',nvl(max(placod),0)),3,concat('0',nvl(max(placod),0)),nvl(max(placod),0)) from qprodataconta.planilla where apnum = #{planilla} and apanio=#{anio}))  ,
+		2 , 
+		#{importe}
+	)
+</insert>
+
+<insert id="createDetallePlanillaImpuesto2" parameterType="java.util.Map">
+	INSERT INTO QPRODATACONTA.DETALLE_PLANILLA_IMPUESTO ( APANIO, APNUM, PLACOD,  DPLACOD, IMPCOD, DPLAIMPMON) 
+	VALUES (
+		#{anio} ,
+		#{planilla} ,
+		#{placod},
+		#{dplacod} ,
+		2 , 
+		#{importe}
+	)
+</insert>
+
+<update id="updateAperturaPlanilla" parameterType="java.util.Map">
+    UPDATE QPRODATACONTA.APERTURA_PLANILLA
+    <set>
+        <if test="origen!='' ">
+            ORICOD = #{origen},
+        </if>
+        <if test="origen=='OR001'">
+            UD_ID = 11327,
+        </if>
+        APEST=#{apest}
+    </set>
+    WHERE APANIO = #{anio}
+    AND APNUM = #{planilla}
+    AND APMES = #{mes}
+</update>
+
+ <update id="updatePlanilla" parameterType="java.util.Map">
+	UPDATE QPRODATACONTA.PLANILLA
+	SET
+      <if test="plaest=='P'">
+         SERRUC        = #{ruc},
+      </if>
+      <if test="plaest=='P'">
+        PLAFECHA    = sysdate,
+      </if>
+      <if test="plaest=='P'">
+        N_TIPO_PAGO = (select SER_TIP_PAG_ACT from datapersuel.servidor_estado where trim(ser_cod) = substr(substr(#{ruc},3),1,8) and SER_EST_ACT=7 and SER_CON_PLA_ACT=1),
+      </if>
+      <if test="plaest=='P'">
+        T_CTA_BANCO = (select SER_CTA_BAN_ACT from datapersuel.servidor_estado where trim(ser_cod) = substr(substr(#{ruc},3),1,8) and SER_EST_ACT=7 and SER_CON_PLA_ACT=1),
+      </if>
+       PLAEST      = #{plaest}
+
+	WHERE  APANIO      = #{anio}
+	AND    APNUM       = #{apnum}
+	AND    PLACOD      = #{placod}
+</update>
+
+<update id="updateDetallePlanilla" parameterType="java.util.Map">
+	UPDATE QPRODATACONTA.DETALLE_PLANILLA
+	SET    UD_ID         = #{udid},
+	       DPLABRUMONDOC = #{montobruto},
+	       DPLANETMONNAC = #{montoneto},
+	       DPLABRUMONNAC = #{montobruto},
+	       DPLAINDIMP    = (select decode(substr(#{suspension},1,1) ,'N','N','S')  from dual)
+	WHERE  APANIO        = #{anio}
+	AND    APNUM         = #{apnum}
+	AND    PLACOD        = #{placod}
+	AND    DPLACOD       = #{dplacod}
+</update>
+
+<delete id="deletePlanilla" parameterType="java.util.Map">
+	DELETE FROM QPRODATACONTA.PLANILLA
+	WHERE 	APANIO=#{anio}
+			AND APNUM=#{apnum}
+			AND PLACOD=#{placod}
+			AND PLATIPDOC='022'
+			AND trim(SERRUC)=trim(#{ruc})
+			AND PLAEST = 'N'
+</delete>
+
+<delete id="deleteDetallePlanilla" parameterType="java.util.Map">
+	DELETE FROM QPRODATACONTA.DETALLE_PLANILLA
+	WHERE 	APANIO = #{anio}
+			AND APNUM = #{apnum}
+			AND PLACOD= #{placod}
+			AND DPLACOD= #{dplacod}
+			AND UD_ID= #{udid}
+</delete>
+
+<delete id="deleteDetallePlanillaImpuesto" parameterType="java.util.Map">
+	DELETE FROM QPRODATACONTA.DETALLE_PLANILLA_IMPUESTO
+	WHERE   APANIO = #{anio}
+	        AND APNUM = #{apnum}
+	        AND PLACOD = #{placod}
+	        AND DPLACOD = #{dplacod}
+</delete>
+
+</mapper>
+

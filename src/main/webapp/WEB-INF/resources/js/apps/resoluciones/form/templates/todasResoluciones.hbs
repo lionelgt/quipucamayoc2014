@@ -1,0 +1,38 @@
+
+<legend>Resoluciones</legend>
+<table id="table-todas" class="table  table-bordered table-hover" style="font-size: 12px;">
+
+    <thead class="header" id="head-resol" style="color: #040404;background-color:#f5f5f5">
+    <tr>
+        <th>Tipo Resol</th>
+        <th>Nro resolución</th>
+        <th>Fec Resol</th>
+        <th>Fec Ini</th>
+        <th>Fec Fin</th>
+        <th>Motivo</th>
+        <th>Descripción</th>
+
+
+    </tr>
+    </thead>
+    <tbody class="body-table " id="toda-body">
+    {{#each items}}
+        <tr id="{{idResolucion}}" class="">
+            <td>{{cod_resol}}</td>
+            <td >{{numero_resol}}</td>
+            <td>{{fecha_expedicion}}</td>
+            <td>{{fecha_inicio}}</td>
+            <td>{{fecha_fin}}</td>
+            <td>{{motivodesc}}</td>
+            <td>{{obliga}}</td>
+
+
+        </tr>
+    {{else}}
+        <td colspan="6">No existen resoluciones</td>
+    {{/each}}
+
+
+    </tbody>
+</table>
+

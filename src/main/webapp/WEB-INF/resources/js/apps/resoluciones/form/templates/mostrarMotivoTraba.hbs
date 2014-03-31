@@ -1,0 +1,132 @@
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="header-x">x</button>
+<legend>Motivos del Trabajadores</legend>
+<table id="tabla-motivo-traba" class="table  table-bordered" style="font-size: 12px;">
+
+    <thead class="header" style="color: #040404;background-color:#f5f5f5">
+    <tr>
+        <th><input type="checkbox" id="select-all2" style="margin-top: 0px;width: 12px;height: 12px;">Todos</th>
+        <th>Código</th>
+        <th>Descripción <button type="button" id="quitar-motivo-trabajador"  class="btn btn-success btn-mini" style="margin-left: 47%;"><i class="icon-white icon-trash"></i>Eliminar</button></th>
+
+    </tr>
+    </thead>
+    <tbody class="body-table " id="moti-body">
+    {{#each items}}
+        <tr id="{{motivoId}}" >
+            <td><input type="checkbox" class="check-all"  style="margin-top: 0px;width: 12px;height: 12px;" data5={{motivoId}}></td>
+            <td >{{motivoId}}</td>
+            <td>{{descriMotivo}}</td>
+
+        </tr>
+    {{else}}
+        <td colspan="6">No posee motivos</td>
+    {{/each}}
+
+
+
+
+    </tbody>
+</table>
+<style type="text/css">
+    #tabla-motivo-traba_length{
+        display:none;
+    }
+    #table-todas{
+        width:100%;
+
+    }
+    #tabla-motivo-traba_paginate{
+
+
+        position: absolute;
+        margin-top: -16px;
+        left: 5%;
+    }
+    #tabla-motivo-traba_info{
+        float: left;
+        margin-top: -12px;
+        margin-left: 18px;
+        font-size: 10px;
+        color: rgb(2, 2, 2);
+    }
+
+    #moti-body>tr{
+        cursor: pointer;
+    }
+    #moti-body tr:hover{
+        background-color:#f5f5f5;
+    }
+    #header-x{
+        position: absolute;
+        left: 95%;
+        top: 1%;
+    }
+        /*#table-estudios-servidor_filter label
+        {
+            margin-left:304px;
+        }
+        #table-estudios-servidor_info{
+            float:left;
+
+        }*/
+    #tabla-motivo-traba_filter{
+        width: 276px;
+    }
+    .buscador{
+        height:14px !important;
+    }
+    #footer-table{
+
+        width: 99.84%;
+        height: 36px;
+        margin-top:-21px;
+        background-color: #f5f5f5;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 4px;
+        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) #A2A2A2;
+    }
+    #tabla-motivo-traba_previous{
+        cursor:pointer;
+        display:inline-block;
+        padding:3px 10px;
+        background-color:#fff;
+        border:1px solid #ddd;
+        -webkit-border-radius:15px;
+        border-radius:5px;
+    }
+    #tabla-motivo-traba_next{
+        cursor: pointer;
+        margin-left: 19px;
+        display: inline-block;
+        padding: 3px 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        -webkit-border-radius: 15px;
+        border-radius: 5px;
+    }
+
+    .next{
+        margin-left:6px;
+        cursor:pointer;
+        display:inline-block;
+        padding:5px 14px;
+        background-color:#fff;
+        border:1px solid #ddd;
+        -webkit-border-radius:15px;
+        border-radius:15px;
+    }
+    .table-footer{
+        margin-left:386px;
+        margin-top:-8px;
+        padding-bottom:11px;
+
+    }
+    .container-modal{
+        width:597px;
+    }
+    .table-position{
+        padding-left:9px;
+        padding-right:9px;
+    }
+</style>

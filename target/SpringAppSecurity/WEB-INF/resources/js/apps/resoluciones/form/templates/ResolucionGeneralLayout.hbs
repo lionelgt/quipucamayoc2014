@@ -1,0 +1,410 @@
+<link href="resources/css/vendor/datepicker.css" rel="stylesheet">
+<fieldset>
+
+
+<legend>Resoluciones</legend>
+<div id="advertencia" class='alert alert-warning'
+     style="text-align:center;display:none;">
+
+
+</div>
+
+<div class="tabbable">
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#1A" class="tab-a" data-toggle="tab">Ingresar y Actualizar </a></li>
+
+    <li class=""><a href="#1B" class="tab-b" data-toggle="tab">Asignación de servidores </a></li>
+    <a class="btn btn-primary pull-right" id="buscar_res" data-target=".bs-example-modal-lg">Buscar Resolución</a>
+
+</ul>
+<div class="tab-content">
+<br>
+<div class="tab-pane active" id="1A">
+
+    <form class="form-horizontal well" id="primerForm">
+
+        <div class="row form-group " id="Primera_fila">
+
+            <div class="col-md-6" id="div_resoluc_est">
+
+            </div>
+            <div id="sec_depen" style="display: none;">
+                <div class="col-md-6" id="div_depen_est">
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="row form-group">
+            <div class="col-md-6">
+                <label class="col-md-5 control-label" for="nro_resol">N° de Resolución<span style="color:red;">*</span></label>
+
+                <div class="col-md-7">
+                    <input type="text" class="form-control" id="nro_resol">
+                </div>
+
+            </div>
+
+            <div class="span1" style="display:none;">
+                <label class="control-label" for="anio_resol">Año</label>
+
+                <div class="controls">
+                    <input type="text" id="anio_resol">
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-6">
+                <label class="col-md-5 control-label" for="fechaR">Fecha de Resoluci&oacuten<span
+                        style="color:red;">*</span></label>
+
+                <div class="col-md-7">
+
+                    <div class="input-group">
+                        <input  type="text" value="" id="fechaR" class="form-control" placeholder="Ejm. 11/05/2004"
+
+                               readonly>
+                        <span class="input-group-btn">
+                           <button class="btn btn-default" type="button" id="fechaR_show"><span class=" glyphicon glyphicon-calendar"></span></button>
+                            <button class="btn btn-default" type="button" id="fechaR_clos" ><span class="glyphicon glyphicon-refresh"></span></button>
+             </span>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row form-group">
+            <div class="col-md-12" id="div">
+                <label class="col-md-2 control-label" for="motivi_est" style="margin-left:3.6%;">Motivo <span style="color:red;">*</span></label>
+                <div class="col-md-6">
+
+                    <div class="input-group">
+                        <input class="form-control" type="text" id="motivi_est" disabled="disabled">
+                        <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="select_resol"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+         <br>
+
+        <legend>Vigencia y Descripción de los Resolutivos</legend>
+        <div class="row form-group">
+
+
+            <div class="col-md-6">
+                <label class="col-md-5 control-label" for="fechaIni">Fecha de Inicio o de Ejecución</label>
+
+                <div class="col-md-7">
+
+                    <div class="input-group">
+                        <input class="form-control" type="text" value="" id="fechaIni" placeholder="Ejm. 11/05/2004"  readonly="">
+                        <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="fechaIni_show" ><span class="glyphicon glyphicon-calendar"></span></button>
+                        <button class="btn btn-default" type="button" id="fechaIni_clos"><span class="glyphicon glyphicon-refresh"></span></button>
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <label class="col-md-5 control-label" for="fechaFin">Fecha Final o de Término</label>
+
+                <div class="col-md-7">
+                    <div class="input-group">
+                        <input type="text" value="" id="fechaFin" class="form-control" placeholder="Ejm. 13/05/2004" readonly="">
+                        <span class="input-group-btn">
+                                 <button class="btn btn-default" type="button" id="fechaFin_show"><span class="glyphicon glyphicon-calendar"></span></button>
+                        <button class="btn btn-default" type="button" id="fechaFin_clos" ><span class="glyphicon glyphicon-refresh"></span></button>
+                        </span>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row form-group" id="Quinta_fila">
+            <div class="col-md-12">
+                <label class="control-label col-md-3" style="margin-left: -4.8%;">Descripci&oacuten Obligatoria <span id="descr_obli" style="color:red;">*</span></label>
+
+                <div class="col-md-8">
+                    <input  type="text" class="form-control" placeholder="Escriba la descripción que es obligatoria" id="descriOb">
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-group" id="Sexta_fila">
+            <div class="col-md-12">
+                <label class="col-md-3 control-label" style="margin-left: -4.8%;">Descripci&oacuten Adicional</label>
+
+                <div class="col-md-8">
+                    <input  type="text"class="form-control" placeholder="Escriba la descripción adicional, pero no es obligatoria" id="descriOp">
+                </div>
+            </div>
+        </div>
+          <hr>
+        <div class="form-actions" id="form_save_rts" style="text-align:center;">
+            <a class="btn btn-primary left" id="guardar">Guardar</a>
+
+            <a class="btn btn-default left" id="nuevo">Nuevo</a>
+
+        </div>
+
+
+    </form>
+    <div id="tabla-serv-asociados">
+
+    </div>
+</div>
+
+
+<div class="tab-pane" id="1B">
+
+    <form class="form-horizontal well" id="tercerForm" onsubmit="return false;">
+        <div class="row form-group">
+            <div class="col-md-2 col-md-offset-1">
+                <label class="control-label"> Buscar por :</label>
+            </div>
+            <div class="col-md-2">
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="Radios1" value="option1" checked>
+                        Año
+                    </label>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="Radios2" value="option2">
+                        Por Fecha de la Aplicación de la Resolución
+                    </label>
+                </div>
+
+            </div>
+        </div>
+        <hr>
+        <div class="row form-group" id="div_busc_anio">
+            <div class="col-md-8">
+
+                <label class="col-md-4 control-label" for="busca-resol">Ingrese año de Resolución <span style="color:red;">*</span> </label>
+
+
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="busca-resol" autocomplete="off">
+                        <span class="input-group-btn">
+
+                            <a id="buscaAnio" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></a>
+                        </span>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+        <div class="row form-group" id="div_busc_fecha" style="display: none">
+            <div class="row" id="fechas">
+                <div class="col-md-5">
+                    <label class="col-md-4 control-label">Fecha Inicio <span style="color:red;">*</span></label>
+
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input  type="text" value="" class="form-control" id="r_ini" placeholder="Ejm. 11/05/2004" readonly="">
+                            <span class="input-group-btn">
+                                   <button class="btn btn-default" type="button" id="r_ini_show"><span class="glyphicon glyphicon-calendar"></span></button>
+                            <button class="btn btn-default" type="button" id="r_ini_clos"><span class="glyphicon glyphicon-refresh"></span></button>
+                            </span>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label class="col-md-4 control-label">Fecha Fin <span style="color:red;">*</span></label>
+
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input  type="text" value="" class="form-control" id="r_fin" placeholder="Ejm. 11/05/2004" readonly="">
+                            <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="r_fin_show" ><span class="glyphicon glyphicon-calendar"></span></button>
+                            <button class="btn btn-default" type="button" id="r_fin_clos"><span class="glyphicon glyphicon-refresh"></span></button>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group col-md-2">
+                    <button class="btn btn-primary" id="buscaxfechas"> Buscar</button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+    <form class="form-horizontal" id="form_tabla_todas">
+        <div id="tabla-totalResoluciones">
+
+        </div>
+    </form>
+    <br>
+    <form class="form-horizontal" id="form_tabla_serv">
+        <div id="tabla-resoluciones">
+
+        </div>
+    </form>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+<div id="serv-table-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+</div>
+
+<div id="serv-table-modal2" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+</div>
+
+<div id="serv-table-modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+</div>
+
+<div id="serv-table-modal4" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+</div>
+<div id="serv-table-modal5" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+</div>
+<div id="serv-table-modal6" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <strong>La resolución se eliminará<br/>
+
+                        Si desea continuar haga click en aceptar. </strong>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#serv-table-modal2" >Cancelar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="eliminar_resoluciones"  data-toggle="modal" data-target="#serv-table-modal2">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="serv-table-modal7" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Eliminar</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <strong>La resolución se eliminará<br/>
+
+                        Si desea continuar haga click en aceptar. </strong>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="eliminar_trabajadores">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="advertencia_seleccion_servidores" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel"
+     style="display: none; ">
+    <div class="modal-header">
+        <a href="#" class="close" data-dismiss="modal"><i class="icon-remove"></i></a>
+
+        <h3>Selección de Servidores</h3>
+    </div>
+    <div class="modal-body">
+        <div class="paddingT15 paddingB15" id="modal_text">
+            Debe de seleccionar al menos 1 servidor
+            para poder eliminarlo
+        </div>
+    </div>
+</div>
+​
+
+
+</fieldset>
+<div class="avgrund-cover" style="z-index: 4;"></div>
+<aside id="default-popup" class="avgrund-popup aside" style="z-index: 8;">
+    <p>
+        <strong>El servidor seleccionado se eliminará de la Resolución.<br/>
+
+        Si desea continuar haga click en aceptar.   </strong>
+    </p>
+
+    <div class="">
+        <a id="eliminar_trabajadores" class="continuar">Aceptar</a>
+        <a id="cancavmodal" class="cancavmodal">Cancelar</a>
+    </div>
+    <a class="avgrund-close">close</a>
+</aside>
+<aside id="error-popup" class="avgrund-popup aside" style="z-index: 8;">
+    <p>
+        <strong>Se debe seleccionar por lo menos una Resolución para poder eliminar!!</strong>
+
+    </p>
+
+    <div class="">
+        <a class="continuar" id="close_modal" style="margin-top: 6%;margin-left: 37%;">Aceptar</a>
+
+    </div>
+    <a class="avgrund-close">close</a>
+</aside>
+<!--<aside id="error-resolucion" class="avgrund-popup aside" style="z-index: 8;">
+    <p>
+        <strong>Se debe seleccionar por lo menos una Resolución para poder eliminarlo!!</strong>
+
+    </p>
+
+    <div class="">
+        <a class="continuar" id="close_modal" style="margin-top: 6%;margin-left: 37%;">Aceptar</a>
+
+    </div>
+    <a class="avgrund-close">close</a>
+</aside>    -->
+<!--
+<aside id="default-popup2" class="avgrund-popup aside" style="z-index: 8;">
+    <p>
+       <strong>La resolución se eliminará<br/>
+
+        Si desea continuar haga click en aceptar. </strong>
+    </p>
+
+    <div class="">
+        <a id="eliminar_resoluciones" class="continuar">Aceptar</a>
+        <a id="cancavmodal" class="cancavmodal">Cancelar</a>
+    </div>
+    <a class="avgrund-close">close</a>
+</aside>  -->

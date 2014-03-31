@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.quipu.rrhh.persistence.ServidorCASMapper">
+
+<select id="findEnPlanilla" resultType="edu.quipu.rrhh.models.ServidorCAS">
+    SELECT UD_ID AS unidadId,ser_num_ruc AS ruc, ser_ape_pat AS paterno, ser_ape_mat AS materno, ser_nom AS nombre, t_contrato_numero AS numeroContrato, t_adenda_numero AS ultimaAdenda, horas_laboradas AS horasCumplir, minutos_laborados AS minutosTardanza,
+    monto AS monto, round(total_pago,2) totalPago , nvl(NUM_OPE_SOL_SUS,'NO') numeroOperacionCuarta
+    ,CASE WHEN round(total_pago,2)>1500
+    THEN  decode(NUM_OPE_SOL_SUS,null,round(total_pago,2)*9/10,round(total_pago,2))
+    WHEN round(total_pago,2) &lt;= 1500
+    THEN round(total_pago,2)
+    ELSE round(total_pago,2)
+    END honorarioMensual, apnum AS numeroPlanilla, placod AS planillaCorrelativo, plaest AS estadoServidor, dplacod AS detallePlanillaCorrelativo, ser_cod AS codigo, c_ser_cod AS codigoObservacion
+    FROM
+    (SELECT a.UD_ID, se.ser_tip_act,S.SER_NUM_RUC,S.SER_APE_PAT, S.SER_APE_MAT, S.SER_NOM, A.num_dias_inasis HORAS_LABORADAS,
+    A.NUM_HNL_MINT minutos_laborados, A.HORAS_CUMPLIR, sif.itp_monto monto,
+    decode(A.num_dias_inasis,30,0,(sif.itp_monto - (sif.itp_monto/14400)* A.NUM_HNL_MINT - (sif.itp_monto/30)* A.num_dias_inasis ))  total_pago, e8.NUM_OPE_SOL_SUS, ap.apnum, pla.placod, pla.plaest, dp.dplacod, S.SER_COD, obs.c_ser_cod, contrato.t_contrato_numero, contrato.t_adenda_numero
+    FROM SERVIDOR S, asistencia.ASISTENCIA A, servidor_estado se, datapersuel.servidor_item_fijo sif,SUNAT.estructura8 e8, QPRODATACONTA.APERTURA_PLANILLA ap, QPRODATACONTA.PLANILLA pla, QPRODATACONTA.DETALLE_PLANILLA dp, QPRODATACONTA.TB_OBS_SERVIDOR_PLANILLA obs, QPDATAGESTION.TB_CONTRATOS_ADENDAS contrato
+    WHERE A.COD_SER = S.SER_COD and s.ser_cod=se.ser_cod AND se.ser_est_act=7 AND ser_con_pla_act=1
+    AND mes=decode(#{mes},1,12,#{mes}-1) AND A.ANIO=decode(#{mes},1,#{anio}-1,#{anio}) AND ser_num_ruc is not null
+    AND sif.ser_cod=se.ser_cod AND sif.num_serest=se.num_serest
+    <if test="esFacultad">
+        AND ser_cod_dep_rac IN( SELECT ud_id FROM QPRODATAQUIPU.UNI_DEP WHERE
+        UNINIV2=#{udid})
+    </if>
+    <if test="!esFacultad">
+        AND ser_cod_dep_rac =#{udid}
+    </if>
+    AND ap.apanio=#{anio} AND ap.apmes=#{mes} AND ap.apnum=#{apnum} AND pla.apanio=ap.apanio AND pla.apnum=ap.apnum AND pla.serruc =s.SER_NUM_RUC || '  '
+    AND dp.apanio=pla.apanio AND dp.apnum=pla.apnum AND dp.placod=pla.placod AND e8.NUM_DOC_PRES_SERV_4CAT(+) = s.SER_NUM_RUC AND e8.EJERC(+)=#{anio} AND obs.c_ser_cod(+)=sif.ser_cod AND obs.n_anio(+)=#{anio} AND obs.n_mes(+)=#{mes} AND contrato.ser_cod(+)=sif.ser_cod AND contrato.t_contratoadenda_estado(+)='ACTIVO' AND NVL(contrato.t_adenda_numero,0)=(SELECT NVL(MAX(t_adenda_numero),0)
+    FROM TB_CONTRATOS_ADENDAS WHERE t_contrato_numero=contrato.t_contrato_numero AND ser_cod=contrato.ser_cod)
+    )
+    WHERE monto>=total_pago
+    UNION
+    SELECT UD_ID AS unidadId, ser_num_ruc AS ruc, ser_ape_pat AS paterno, ser_ape_mat AS materno, ser_nom AS nombre, t_contrato_numero AS numeroContrato, t_adenda_numero AS ultimaAdenda, horas_laboradas AS horasCumplir, minutos_laborados AS minutosTardanza,
+    monto AS monto,round(monto) totalPago , nvl(NUM_OPE_SOL_SUS,'NO') numeroOperacionCuarta
+    ,CASE WHEN round(monto,2)>1500
+    THEN  decode(NUM_OPE_SOL_SUS,null,round(monto,2)*9/10,round(monto,2))
+    WHEN round(monto,2)&lt;= 1500
+    THEN round(monto,2)
+    ELSE round(monto,2)
+    END honorarioMensual, apnum AS numeroPlanilla, placod AS planillaCorrelativo, plaest AS estadoServidor
+    , dplacod AS detallePlanillaCorrelativo, ser_cod AS codigo, c_ser_cod AS codigoObservacion
+    FROM
+    (SELECT a.UD_ID,se.ser_tip_act,S.SER_NUM_RUC,S.SER_APE_PAT, S.SER_APE_MAT, S.SER_NOM, A.num_dias_inasis HORAS_LABORADAS,
+    A.NUM_HNL_MINT minutos_laborados, A.HORAS_CUMPLIR, sif.itp_monto monto,
+    decode(A.num_dias_inasis,30,0,(sif.itp_monto - (sif.itp_monto/14400)* A.NUM_HNL_MINT - (sif.itp_monto/30)* A.num_dias_inasis ))  total_pago, e8.NUM_OPE_SOL_SUS, ap.apnum, pla.placod, pla.plaest, dp.dplacod, S.SER_COD, obs.c_ser_cod, contrato.t_contrato_numero, contrato.t_adenda_numero
+    FROM SERVIDOR S, asistencia.ASISTENCIA A, servidor_estado se, datapersuel.servidor_item_fijo sif,SUNAT.estructura8 e8, QPRODATACONTA.APERTURA_PLANILLA ap, QPRODATACONTA.PLANILLA pla, QPRODATACONTA.DETALLE_PLANILLA dp, QPRODATACONTA.TB_OBS_SERVIDOR_PLANILLA obs, QPDATAGESTION.TB_CONTRATOS_ADENDAS contrato
+    WHERE A.COD_SER = S.SER_COD and s.ser_cod=se.ser_cod AND se.ser_est_act=7 AND ser_con_pla_act=1
+    AND mes=decode(#{mes},1,12,#{mes}-1) AND A.ANIO=decode(#{mes},1,#{anio}-1,#{anio}) AND ser_num_ruc is not null
+    AND sif.ser_cod=se.ser_cod AND sif.num_serest=se.num_serest
+    <if test="esFacultad">
+        AND ser_cod_dep_rac IN( SELECT ud_id FROM QPRODATAQUIPU.UNI_DEP WHERE
+        UNINIV2=#{udid})
+    </if>
+    <if test="!esFacultad">
+        AND ser_cod_dep_rac =#{udid}
+    </if>
+    AND ap.apanio=#{anio} AND ap.apmes=#{mes} AND ap.apnum=#{apnum} AND pla.apanio=ap.apanio AND pla.apnum=ap.apnum AND pla.serruc =s.SER_NUM_RUC || '  '
+    AND dp.apanio=pla.apanio AND dp.apnum=pla.apnum AND dp.placod=pla.placod AND e8.NUM_DOC_PRES_SERV_4CAT(+) = s.SER_NUM_RUC AND e8.EJERC(+)=#{anio} AND obs.c_ser_cod(+)=sif.ser_cod AND obs.n_anio(+)=#{anio} AND obs.n_mes(+)=#{mes} AND contrato.ser_cod(+)=sif.ser_cod AND contrato.t_contratoadenda_estado(+)='ACTIVO' AND NVL(contrato.t_adenda_numero,0)=(SELECT NVL(MAX(t_adenda_numero),0)
+    FROM TB_CONTRATOS_ADENDAS WHERE t_contrato_numero=contrato.t_contrato_numero AND ser_cod=contrato.ser_cod)
+    )
+    WHERE monto&lt;total_pago ORDER BY 3
+</select> 
+
+<select id="findSinPlanilla" resultType="edu.quipu.rrhh.models.ServidorCAS">
+    SELECT UD_ID AS unidadId,ser_num_ruc AS ruc, ser_ape_pat AS paterno, ser_ape_mat AS materno, ser_nom AS nombre, t_contrato_numero AS numeroContrato, t_adenda_numero AS ultimaAdenda, horas_laboradas AS horasCumplir, minutos_laborados AS minutosTardanza,
+    monto AS monto, round(total_pago,2) totalPago,nvl(NUM_OPE_SOL_SUS,'NO') numeroOperacionCuarta
+    ,CASE WHEN round(total_pago,2)>1500
+            THEN  decode(NUM_OPE_SOL_SUS,null,round(total_pago,2)*9/10,round(total_pago,2))
+          WHEN round(total_pago,2) &lt;= 1500
+            THEN round(total_pago,2)
+          ELSE round(total_pago,2)
+     END honorarioMensual, ser_cod AS codigo, c_ser_cod AS codigoObservacion
+FROM
+    (SELECT a.UD_ID, se.ser_tip_act,S.SER_NUM_RUC,S.SER_APE_PAT, S.SER_APE_MAT, S.SER_NOM, A.num_dias_inasis HORAS_LABORADAS,
+        A.NUM_HNL_MINT minutos_laborados, A.HORAS_CUMPLIR, sif.itp_monto monto,
+        decode(A.num_dias_inasis,30,0,(sif.itp_monto - (sif.itp_monto/14400)* A.NUM_HNL_MINT - (sif.itp_monto/30)* A.num_dias_inasis ))  total_pago, e8.NUM_OPE_SOL_SUS, S.SER_COD, obs.c_ser_cod, contrato.t_contrato_numero, contrato.t_adenda_numero
+    FROM SERVIDOR S, asistencia.ASISTENCIA A, servidor_estado se, datapersuel.servidor_item_fijo sif,SUNAT.estructura8 e8, QPRODATACONTA.TB_OBS_SERVIDOR_PLANILLA obs, QPDATAGESTION.TB_CONTRATOS_ADENDAS contrato
+    WHERE A.COD_SER = S.SER_COD and s.ser_cod=se.ser_cod AND se.ser_est_act=7 AND ser_con_pla_act=1
+       AND mes=decode(#{mes},1,12,#{mes}-1) AND A.ANIO=decode(#{mes},1,#{anio}-1,#{anio}) AND ser_num_ruc is not null
+       AND sif.ser_cod=se.ser_cod AND sif.num_serest=se.num_serest
+		<if test="esFacultad">
+			AND ser_cod_dep_rac IN( SELECT ud_id FROM QPRODATAQUIPU.UNI_DEP WHERE
+			UNINIV2=#{udid})
+		</if>
+		<if test="!esFacultad">
+			AND ser_cod_dep_rac =#{udid}
+		</if>
+       AND e8.NUM_DOC_PRES_SERV_4CAT(+) = s.SER_NUM_RUC AND e8.EJERC(+)=#{anio} AND trim(s.SER_NUM_RUC) NOT IN( SELECT trim(pla.serruc) FROM QPRODATACONTA.Planilla pla WHERE pla.apanio=#{anio} AND pla.apnum IN (SELECT apnum FROM QPRODATACONTA.Apertura_planilla WHERE apanio=#{anio} AND apmes=#{mes} AND aptipo='P') )
+       AND obs.c_ser_cod(+)=sif.ser_cod AND obs.n_anio(+)=#{anio} AND obs.n_mes(+)=#{mes} AND contrato.ser_cod(+)=sif.ser_cod AND contrato.t_contratoadenda_estado(+)='ACTIVO' AND NVL(contrato.t_adenda_numero,0)=(SELECT NVL(MAX(t_adenda_numero),0)
+    FROM TB_CONTRATOS_ADENDAS WHERE t_contrato_numero=contrato.t_contrato_numero AND ser_cod=contrato.ser_cod)
+    )
+WHERE monto>=total_pago
+UNION
+ SELECT UD_ID AS unidadId,ser_num_ruc AS ruc, ser_ape_pat AS paterno, ser_ape_mat AS materno, ser_nom AS nombre, t_contrato_numero AS numeroContrato, t_adenda_numero AS ultimaAdenda, horas_laboradas AS horasCumplir, minutos_laborados AS minutosTardanza,
+   monto AS monto,round(monto) totalPago,nvl(NUM_OPE_SOL_SUS,'NO') numeroOperacionCuarta
+   ,CASE WHEN round(monto,2)>1500
+           THEN  decode(NUM_OPE_SOL_SUS,null,round(monto,2)*9/10,round(monto,2))
+         WHEN round(monto,2)&lt;= 1500
+           THEN round(monto,2)
+         ELSE round(monto,2)
+    END honorarioMensual, ser_cod AS codigo, c_ser_cod AS codigoObservacion
+FROM
+    (SELECT a.UD_ID,se.ser_tip_act,S.SER_NUM_RUC,S.SER_APE_PAT, S.SER_APE_MAT, S.SER_NOM, A.num_dias_inasis HORAS_LABORADAS,
+        A.NUM_HNL_MINT minutos_laborados, A.HORAS_CUMPLIR, sif.itp_monto monto,
+        decode(A.num_dias_inasis,30,0,(sif.itp_monto - (sif.itp_monto/14400)* A.NUM_HNL_MINT - (sif.itp_monto/30)* A.num_dias_inasis ))  total_pago, e8.NUM_OPE_SOL_SUS, S.SER_COD, obs.c_ser_cod, contrato.t_contrato_numero, contrato.t_adenda_numero
+    FROM SERVIDOR S, asistencia.ASISTENCIA A, servidor_estado se, datapersuel.servidor_item_fijo sif,SUNAT.estructura8 e8, QPRODATACONTA.TB_OBS_SERVIDOR_PLANILLA obs, QPDATAGESTION.TB_CONTRATOS_ADENDAS contrato
+    WHERE A.COD_SER = S.SER_COD and s.ser_cod=se.ser_cod AND se.ser_est_act=7 AND ser_con_pla_act=1
+    AND mes=decode(#{mes},1,12,#{mes}-1) AND A.ANIO=decode(#{mes},1,#{anio}-1,#{anio}) AND ser_num_ruc is not null
+    AND sif.ser_cod=se.ser_cod AND sif.num_serest=se.num_serest
+		<if test="esFacultad">
+			AND ser_cod_dep_rac IN( SELECT ud_id FROM QPRODATAQUIPU.UNI_DEP WHERE
+			UNINIV2=#{udid})
+		</if>
+		<if test="!esFacultad">
+			AND ser_cod_dep_rac =#{udid}
+		</if>
+    AND e8.NUM_DOC_PRES_SERV_4CAT(+) = s.SER_NUM_RUC AND e8.EJERC(+)=#{anio} AND trim(s.SER_NUM_RUC) NOT IN( SELECT trim(pla.serruc) FROM QPRODATACONTA.Planilla pla WHERE pla.apanio=#{anio} AND pla.apnum IN (SELECT apnum FROM QPRODATACONTA.Apertura_planilla WHERE apanio=#{anio} AND apmes=#{mes} AND aptipo='P') ) 
+    AND obs.c_ser_cod(+)=sif.ser_cod AND obs.n_anio(+)=#{anio} AND obs.n_mes(+)=#{mes} AND contrato.ser_cod(+)=sif.ser_cod AND contrato.t_contratoadenda_estado(+)='ACTIVO'  AND NVL(contrato.t_adenda_numero,0)=(SELECT NVL(MAX(t_adenda_numero),0)
+    FROM TB_CONTRATOS_ADENDAS WHERE t_contrato_numero=contrato.t_contrato_numero AND ser_cod=contrato.ser_cod)
+    )
+WHERE monto&lt;total_pago ORDER BY 3 
+</select> 
+
+<select id="find" resultType="edu.quipu.rrhh.models.ServidorCAS">
+SELECT UD_ID AS unidadId, ser_num_ruc AS ruc, ser_ape_pat AS paterno, ser_ape_mat AS materno, ser_nom AS nombre, t_contrato_numero AS numeroContrato, t_adenda_numero AS ultimaAdenda, horas_laboradas AS horasCumplir, minutos_laborados AS minutosTardanza,
+    monto AS monto,round(total_pago,2) totalPago, nvl(NUM_OPE_SOL_SUS,'NO') numeroOperacionCuarta
+    ,CASE WHEN round(total_pago,2)>1500
+            THEN  decode(NUM_OPE_SOL_SUS,null,round(total_pago,2)*9/10,round(total_pago,2))
+          WHEN round(total_pago,2) &lt;= 1500
+            THEN round(total_pago,2)
+          ELSE round(total_pago,2)
+     END honorarioMensual, ser_cod AS codigo, c_ser_cod AS codigoObservacion
+FROM
+    (SELECT a.UD_ID, se.ser_tip_act,S.SER_NUM_RUC,S.SER_APE_PAT, S.SER_APE_MAT, S.SER_NOM, A.num_dias_inasis HORAS_LABORADAS,
+        A.NUM_HNL_MINT minutos_laborados, A.HORAS_CUMPLIR, sif.itp_monto monto,
+        decode(A.num_dias_inasis,30,0,(sif.itp_monto - (sif.itp_monto/14400)* A.NUM_HNL_MINT - (sif.itp_monto/30)* A.num_dias_inasis ))  total_pago, e8.NUM_OPE_SOL_SUS, S.SER_COD, obs.c_ser_cod, contrato.t_contrato_numero, contrato.t_adenda_numero
+    FROM SERVIDOR S, asistencia.ASISTENCIA A, servidor_estado se, datapersuel.servidor_item_fijo sif,SUNAT.estructura8 e8, QPRODATACONTA.TB_OBS_SERVIDOR_PLANILLA obs, QPDATAGESTION.TB_CONTRATOS_ADENDAS contrato
+    WHERE A.COD_SER = S.SER_COD and s.ser_cod=se.ser_cod AND se.ser_est_act=7 AND ser_con_pla_act=1
+        AND mes=decode(#{mes},1,12,#{mes}-1) AND A.ANIO=decode(#{mes},1,#{anio}-1,#{anio}) AND ser_num_ruc is not null
+        AND sif.ser_cod=se.ser_cod AND sif.num_serest=se.num_serest
+		<if test="esFacultad">
+			AND ser_cod_dep_rac IN( SELECT ud_id FROM QPRODATAQUIPU.UNI_DEP WHERE
+			UNINIV2=#{udid})
+		</if>
+		<if test="!esFacultad">
+			AND ser_cod_dep_rac =#{udid}
+		</if>
+        AND e8.NUM_DOC_PRES_SERV_4CAT(+) = s.SER_NUM_RUC AND e8.EJERC(+)=#{anio} AND obs.c_ser_cod(+)=sif.ser_cod AND obs.n_anio(+)=#{anio} AND obs.n_mes(+)=#{mes} AND contrato.ser_cod(+)=sif.ser_cod AND contrato.t_contratoadenda_estado(+)='ACTIVO'  AND NVL(contrato.t_adenda_numero,0)=(SELECT NVL(MAX(t_adenda_numero),0)
+    FROM TB_CONTRATOS_ADENDAS WHERE t_contrato_numero=contrato.t_contrato_numero AND ser_cod=contrato.ser_cod)
+    )
+WHERE monto>=total_pago
+UNION
+ SELECT UD_ID AS unidadId,ser_num_ruc AS ruc, ser_ape_pat AS paterno, ser_ape_mat AS materno, ser_nom AS nombre, t_contrato_numero AS numeroContrato, t_adenda_numero AS ultimaAdenda, horas_laboradas AS horasCumplir, minutos_laborados AS minutosTardanza,
+   monto AS monto,round(monto) totalPago, nvl(NUM_OPE_SOL_SUS,'NO') numeroOperacionCuarta
+   ,CASE WHEN round(monto,2)>1500
+           THEN  decode(NUM_OPE_SOL_SUS,null,round(monto,2)*9/10,round(monto,2))
+         WHEN round(monto,2)&lt;= 1500
+           THEN round(monto,2)
+         ELSE round(monto,2)
+    END honorarioMensual, ser_cod AS codigo, c_ser_cod AS codigoObservacion
+FROM
+    (SELECT a.UD_ID,se.ser_tip_act,S.SER_NUM_RUC,S.SER_APE_PAT, S.SER_APE_MAT, S.SER_NOM, A.num_dias_inasis HORAS_LABORADAS,
+        A.NUM_HNL_MINT minutos_laborados, A.HORAS_CUMPLIR, sif.itp_monto monto,
+        decode(A.num_dias_inasis,30,0,(sif.itp_monto - (sif.itp_monto/14400)* A.NUM_HNL_MINT - (sif.itp_monto/30)* A.num_dias_inasis)) total_pago, e8.NUM_OPE_SOL_SUS, S.SER_COD, obs.c_ser_cod, contrato.t_contrato_numero, contrato.t_adenda_numero
+    FROM SERVIDOR S, asistencia.ASISTENCIA A, servidor_estado se, datapersuel.servidor_item_fijo sif,SUNAT.estructura8 e8, QPRODATACONTA.TB_OBS_SERVIDOR_PLANILLA obs, QPDATAGESTION.TB_CONTRATOS_ADENDAS contrato
+    WHERE A.COD_SER = S.SER_COD and s.ser_cod=se.ser_cod AND se.ser_est_act=7 AND ser_con_pla_act=1
+        AND mes=decode(#{mes},1,12,#{mes}-1) AND A.ANIO=decode(#{mes},1,#{anio}-1,#{anio}) AND ser_num_ruc is not null
+        AND sif.ser_cod=se.ser_cod AND sif.num_serest=se.num_serest
+		<if test="esFacultad">
+			AND ser_cod_dep_rac IN( SELECT ud_id FROM QPRODATAQUIPU.UNI_DEP WHERE
+			UNINIV2=#{udid})
+		</if>
+		<if test="!esFacultad">
+			AND ser_cod_dep_rac =#{udid}
+		</if>
+        AND e8.NUM_DOC_PRES_SERV_4CAT(+) = s.SER_NUM_RUC AND e8.EJERC(+)=#{anio} AND obs.c_ser_cod(+)=sif.ser_cod AND obs.n_anio(+)=#{anio} AND obs.n_mes(+)=#{mes} AND contrato.ser_cod(+)=sif.ser_cod AND contrato.t_contratoadenda_estado(+)='ACTIVO'  AND NVL(contrato.t_adenda_numero,0)=(SELECT NVL(MAX(t_adenda_numero),0)
+    FROM TB_CONTRATOS_ADENDAS WHERE t_contrato_numero=contrato.t_contrato_numero AND ser_cod=contrato.ser_cod)
+    )
+WHERE monto&lt;total_pago ORDER BY 3 
+</select>   
+</mapper>

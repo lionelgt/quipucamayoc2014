@@ -1,0 +1,867 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="conformidad" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"  >
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<parameter name="mes" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Integer(6)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="anio" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Integer(2013)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="udid" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Integer(10453)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="usuario" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["cgeronimo"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="uddesc" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Recursos Humanos"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="miniLogoQuipu" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="vectorSeleccionados" class="java.util.Collection" isForPrompting="false"/>
+	<parameter name="origen" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Administracion Central"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="planilla" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["P001"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT UD_ID,ser_num_ruc , ser_ape_pat, ser_ape_mat, ser_nom, t_contrato_numero, t_adenda_numero, horas_laboradas, minutos_laborados,
+    monto,round(total_pago,2) total_pago,nvl(NUM_OPE_SOL_SUS,'NO') suspencion,
+    CASE WHEN round(total_pago,2)>1500
+            THEN  decode(NUM_OPE_SOL_SUS,null,round(total_pago,2)*1/10,0)
+          ELSE 0
+    END descuento,
+    CASE WHEN round(total_pago,2)>1500
+            THEN  decode(NUM_OPE_SOL_SUS,null,round(total_pago,2)*9/10,round(total_pago,2))
+          WHEN round(total_pago,2)<= 1500
+            THEN round(total_pago,2)
+          ELSE round(total_pago,2)
+     END total
+FROM
+    (SELECT a.UD_ID, se.ser_tip_act,S.SER_NUM_RUC,S.SER_APE_PAT, S.SER_APE_MAT, S.SER_NOM, A.num_dias_inasis HORAS_LABORADAS,
+        A.NUM_HNL_MINT minutos_laborados, A.HORAS_CUMPLIR, sif.itp_monto monto,
+        decode(A.num_dias_inasis,30,0,(sif.itp_monto - (sif.itp_monto/14400)* A.NUM_HNL_MINT - (sif.itp_monto/30)* A.num_dias_inasis ))  total_pago, e8.NUM_OPE_SOL_SUS, contrato.t_contrato_numero, contrato.t_adenda_numero
+    FROM SERVIDOR S, asistencia.ASISTENCIA A, servidor_estado se, datapersuel.servidor_item_fijo sif,SUNAT.estructura8 e8, QPDATAGESTION.TB_CONTRATOS_ADENDAS contrato
+    WHERE A.COD_SER = S.SER_COD and s.ser_cod=se.ser_cod AND se.ser_est_act=7 AND ser_con_pla_act=1
+        AND mes=decode($P{mes},1,12,$P{mes}-1) AND A.ANIO=decode($P{mes},1,$P{anio}-1,$P{anio}) AND ser_num_ruc is not null
+        AND sif.ser_cod=se.ser_cod AND sif.num_serest=se.num_serest AND contrato.ser_cod(+)=sif.ser_cod AND contrato.t_contratoadenda_estado(+)='ACTIVO'
+  AND NVL(contrato.t_adenda_numero,0)=(SELECT NVL(MAX(t_adenda_numero),0)
+       FROM TB_CONTRATOS_ADENDAS WHERE t_contrato_numero=contrato.t_contrato_numero AND ser_cod=contrato.ser_cod)
+        AND ser_cod_dep_rac IN (SELECT ud_id
+FROM QPRODATAQUIPU.UNI_DEP WHERE UNINIV2=$P{udid}
+UNION ALL
+SELECT ud_id
+FROM QPRODATAQUIPU.UNI_DEP
+WHERE  ud_id=$P{udid} and NOT EXISTS (SELECT * FROM QPRODATAQUIPU.UNI_DEP WHERE UNINIV2=$P{udid} ))
+        AND e8.NUM_DOC_PRES_SERV_4CAT(+) = s.SER_NUM_RUC AND e8.EJERC(+)=$P{anio}
+        AND $X{IN, s.SER_NUM_RUC, vectorSeleccionados})
+WHERE monto>=total_pago
+
+UNION
+
+SELECT UD_ID,ser_num_ruc, ser_ape_pat, ser_ape_mat, ser_nom,  t_contrato_numero, t_adenda_numero, horas_laboradas, minutos_laborados,
+    monto,round(monto,2) total_pago,nvl(NUM_OPE_SOL_SUS,'NO') suspencion,
+    CASE WHEN round(monto,2)>1500
+            THEN  decode(NUM_OPE_SOL_SUS,null,round(monto,2)*1/10,0)
+          ELSE 0
+    END descuento,
+    CASE WHEN round(monto,2)>1500
+            THEN  decode(NUM_OPE_SOL_SUS,null,round(monto,2)*9/10,round(monto,2))
+          WHEN round(monto,2)<= 1500
+            THEN round(monto,2)
+          ELSE round(monto,2)
+     END total
+FROM
+    (SELECT a.UD_ID,se.ser_tip_act,S.SER_NUM_RUC,S.SER_APE_PAT, S.SER_APE_MAT, S.SER_NOM, A.num_dias_inasis HORAS_LABORADAS,
+        A.NUM_HNL_MINT minutos_laborados, A.HORAS_CUMPLIR, sif.itp_monto monto,
+        decode(A.num_dias_inasis,30,0,(sif.itp_monto - (sif.itp_monto/14400)* A.NUM_HNL_MINT - (sif.itp_monto/30)* A.num_dias_inasis)) total_pago, e8.NUM_OPE_SOL_SUS, contrato.t_contrato_numero, contrato.t_adenda_numero
+    FROM SERVIDOR S, asistencia.ASISTENCIA A, servidor_estado se, datapersuel.servidor_item_fijo sif,SUNAT.estructura8 e8,  QPDATAGESTION.TB_CONTRATOS_ADENDAS contrato
+    WHERE A.COD_SER = S.SER_COD and s.ser_cod=se.ser_cod AND se.ser_est_act=7 AND ser_con_pla_act=1
+        AND mes=decode($P{mes},1,12,$P{mes}-1) AND A.ANIO=decode($P{mes},1,$P{anio}-1,$P{anio}) AND ser_num_ruc is not null
+        AND sif.ser_cod=se.ser_cod AND sif.num_serest=se.num_serest AND contrato.ser_cod(+)=sif.ser_cod AND contrato.t_contratoadenda_estado(+)='ACTIVO'
+  AND NVL(contrato.t_adenda_numero,0)=(SELECT NVL(MAX(t_adenda_numero),0)
+       FROM TB_CONTRATOS_ADENDAS WHERE t_contrato_numero=contrato.t_contrato_numero AND ser_cod=contrato.ser_cod)
+        AND ser_cod_dep_rac IN (SELECT ud_id
+FROM QPRODATAQUIPU.UNI_DEP WHERE UNINIV2=$P{udid}
+UNION ALL
+SELECT ud_id
+FROM QPRODATAQUIPU.UNI_DEP
+WHERE  ud_id=$P{udid} and NOT EXISTS (SELECT * FROM QPRODATAQUIPU.UNI_DEP WHERE UNINIV2=$P{udid} ))
+        AND e8.NUM_DOC_PRES_SERV_4CAT(+) = s.SER_NUM_RUC AND e8.EJERC(+)=$P{anio}
+        AND $X{IN, s.SER_NUM_RUC, vectorSeleccionados}
+    )
+WHERE monto<total_pago
+ORDER BY 3]]>
+	</queryString>
+	<field name="UD_ID" class="java.math.BigDecimal"/>
+	<field name="SER_NUM_RUC" class="java.lang.String"/>
+	<field name="SER_APE_PAT" class="java.lang.String"/>
+	<field name="SER_APE_MAT" class="java.lang.String"/>
+	<field name="SER_NOM" class="java.lang.String"/>
+	<field name="T_CONTRATO_NUMERO" class="java.lang.String"/>
+	<field name="T_ADENDA_NUMERO" class="java.math.BigDecimal"/>
+	<field name="HORAS_LABORADAS" class="java.math.BigDecimal"/>
+	<field name="MINUTOS_LABORADOS" class="java.math.BigDecimal"/>
+	<field name="MONTO" class="java.math.BigDecimal"/>
+	<field name="TOTAL_PAGO" class="java.math.BigDecimal"/>
+	<field name="SUSPENCION" class="java.lang.String"/>
+	<field name="DESCUENTO" class="java.math.BigDecimal"/>
+	<field name="TOTAL" class="java.math.BigDecimal"/>
+	<variable name="fecha" class="java.util.Date" resetType="Page">
+		<initialValueExpression><![CDATA[new Date()]]></initialValueExpression>
+	</variable>
+	<variable name="sumaTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="unidad" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTAL_PAGO}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="sumaHonorario" class="java.math.BigDecimal" resetType="Group" resetGroup="unidad" calculation="Sum">
+		<variableExpression><![CDATA[$F{MONTO}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="sumaInasistencias" class="java.math.BigDecimal" resetType="Group" resetGroup="unidad" calculation="Sum">
+		<variableExpression><![CDATA[$F{HORAS_LABORADAS}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="sumaMinTard" class="java.math.BigDecimal" resetType="Group" resetGroup="unidad" calculation="Sum">
+		<variableExpression><![CDATA[$F{MINUTOS_LABORADOS}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="sumaTotalNeto" class="java.math.BigDecimal" resetType="Group" resetGroup="unidad" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTAL}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="countCAS" class="java.math.BigDecimal" resetType="Group" resetGroup="unidad" calculation="Count">
+		<variableExpression><![CDATA[$F{SER_NUM_RUC}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<group name="unidad">
+		<groupExpression><![CDATA[$P{udid}]]></groupExpression>
+		<groupHeader>
+			<band height="78">
+				<staticText>
+					<reportElement   x="0" y="53" width="70" height="25"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[RUC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="70" y="53" width="204" height="25"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[APELLIDOS Y NOMBRES]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="424" y="53" width="57" height="25"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Importe Contratado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="584" y="53" width="52" height="25"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Monto a Pagar]]></text>
+				</staticText>
+				<textField>
+					<reportElement   x="49" y="38" width="753" height="15"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{uddesc}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement   x="0" y="38" width="49" height="15"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[UNIDAD:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="738" y="53" width="64" height="25"/>
+					<box>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[TOTAL BRUTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="274" y="53" width="108" height="25"/>
+					<box>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Contrato]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="382" y="53" width="42" height="25"/>
+					<box>
+						<bottomPen lineWidth="0.25"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Adenda]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="481" y="53" width="43" height="25"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Minutos Tardanza]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="524" y="53" width="60" height="25"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Días Inasistencia]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="636" y="53" width="52" height="25"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Suspension de Cuarta]]></text>
+				</staticText>
+				<staticText>
+					<reportElement   x="688" y="53" width="50" height="25"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.25"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Descuento por Cuarta]]></text>
+				</staticText>
+				<textField>
+					<reportElement   x="49" y="23" width="753" height="15"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{origen}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement   x="0" y="23" width="49" height="15"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ORIGEN:]]></text>
+				</staticText>
+				<textField>
+					<reportElement   x="749" y="-1" width="52" height="15"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{planilla}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement   x="700" y="-1" width="49" height="15"/>
+					<textElement verticalAlignment="Bottom">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<text><![CDATA[PLANILLA:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<textField isBlankWhenNull="true">
+					<reportElement   x="403" y="0" width="58" height="19"/>
+					<box>
+						<topPen lineWidth="2.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MONTO}.equals( null )?"":$V{sumaHonorario}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement   x="461" y="0" width="63" height="19"/>
+					<box>
+						<topPen lineWidth="2.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MINUTOS_LABORADOS}.equals( null )?"":$V{sumaMinTard}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement   x="524" y="0" width="60" height="19"/>
+					<box>
+						<topPen lineWidth="2.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{HORAS_LABORADAS}.equals( null )?"":$V{sumaInasistencias}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement   x="584" y="0" width="52" height="19"/>
+					<box>
+						<topPen lineWidth="2.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{TOTAL_PAGO}.equals( null )?"":$V{sumaTotal})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement   x="738" y="0" width="64" height="18"/>
+					<box>
+						<pen lineWidth="2.0"/>
+						<topPen lineWidth="2.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{TOTAL}.equals( null )?"":$V{sumaTotalNeto})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement   x="10" y="0" width="100" height="21"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Total de CAS:]]></text>
+				</staticText>
+				<textField>
+					<reportElement   x="110" y="0" width="100" height="21"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{countCAS}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement   x="151" y="52" width="500" height="18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LISTADO DE PAGOS DEL PERSONAL COTRATADO BAJO LA MODALIDAD CAS]]></text>
+			</staticText>
+			<textField>
+				<reportElement   x="700" y="21" width="102" height="13"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement   x="647" y="21" width="53" height="13"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy   h:mm a" isBlankWhenNull="false">
+				<reportElement   key="textField-6" x="699" y="7" width="103" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement   x="647" y="7" width="52" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha y Hora:]]></text>
+			</staticText>
+			<image>
+				<reportElement   key="image-1" x="0" y="0" width="49" height="52"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement   key="staticText-6" x="49" y="7" width="285" height="13"/>
+				<textElement>
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   key="staticText-7" x="49" y="21" width="308" height="13"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[SISTEMA INTEGRAL DE RECURSOS HUMANOS - QUIPUCAMAYOC]]></text>
+			</staticText>
+			<textField>
+				<reportElement   x="0" y="52" width="151" height="18"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Año y Mes: "+$P{anio}+" - "+($P{mes}==1?"ENERO":($P{mes}==2?"FEBRERO":($P{mes}==3?"MARZO":($P{mes}==4?"ABRIL":($P{mes}==5?"MAYO":($P{mes}==6?"JUNIO":($P{mes}==7?"JULIO":($P{mes}==8?"AGOSTO":($P{mes}==9?"SETIEMBRE":($P{mes}==10?"OCTUBRE":($P{mes}==11?"NOVIEMBRE":($P{mes}==12?"DICIEMBRE":""))))))))))))]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement   x="524" y="0" width="60" height="25">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue()>1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Días Inasistencia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="584" y="0" width="52" height="25">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue()>1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Monto a Pagar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="636" y="0" width="52" height="25">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue()>1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Suspension de Cuarta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="738" y="0" width="64" height="25">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue()>1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TOTAL BRUTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="424" y="0" width="57" height="25">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue()>1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Importe Contratado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="382" y="0" width="42" height="25">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue()>1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Adenda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="274" y="0" width="108" height="25">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue()>1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="0" y="0" width="70" height="25">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue()>1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[RUC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="70" y="0" width="204" height="25">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue()>1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[APELLIDOS Y NOMBRES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="481" y="0" width="43" height="25">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue()>1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Minutos Tardanza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="688" y="0" width="50" height="25">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue()>1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Descuento por Cuarta]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement   x="0" y="0" width="70" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SER_NUM_RUC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement   x="70" y="0" width="204" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SER_APE_PAT}+" "+$F{SER_APE_MAT}+", "+$F{SER_NOM}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="424" y="0" width="57" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONTO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="584" y="0" width="52" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL_PAGO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="738" y="0" width="64" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="274" y="0" width="108" height="13"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T_CONTRATO_NUMERO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="382" y="0" width="42" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{T_ADENDA_NUMERO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="481" y="0" width="43" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MINUTOS_LABORADOS}+".00"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="524" y="0" width="60" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HORAS_LABORADAS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="636" y="0" width="52" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUSPENCION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="688" y="0" width="50" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCUENTO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="31" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement   x="0" y="14" width="16" height="17"/>
+				<imageExpression><![CDATA[$P{miniLogoQuipu}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement   x="16" y="20" width="333" height="11"/>
+				<textElement markup="none">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[SISTEMA INTEGRAL DE RECURSOS HUMANOS - QUIPUCAMAYOC]]></text>
+			</staticText>
+			<textField>
+				<reportElement   x="706" y="11" width="68" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement   x="774" y="11" width="28" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="161">
+			<staticText>
+				<reportElement   x="0" y="103" width="525" height="10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[* Si el CAS es nuevo no aparecerá en este listado. Esto no interferirá con el proceso del pago del nuevo CAS.]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement   x="0" y="144" width="16" height="17"/>
+				<imageExpression><![CDATA[$P{miniLogoQuipu}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement   x="16" y="150" width="333" height="11"/>
+				<textElement markup="none">
+					<font size="8" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[SISTEMA INTEGRAL DE RECURSOS HUMANOS - QUIPUCAMAYOC]]></text>
+			</staticText>
+			<textField>
+				<reportElement   x="706" y="141" width="68" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement   x="774" y="141" width="28" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement   x="424" y="59" width="270" height="15"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nombre:................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="451" y="38" width="217" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="122" y="38" width="217" height="20"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="95" y="58" width="270" height="16"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nombre:..................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="0" y="113" width="525" height="10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[**Facultades: El documento debe ser firmado por el Decano o Director Administrativo y el Jefe de Personal.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="95" y="74" width="270" height="16"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Cargo:..................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="424" y="74" width="270" height="16"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Cargo:..................................................................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement   x="0" y="123" width="525" height="10"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[***Dependencias: El documento debe ser firmado por el Jefe de la dependencia y/o encargado de realizar las planillas.]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

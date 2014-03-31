@@ -1,0 +1,20 @@
+<table id="table-roles-1" class="table table-bordered " style="font-size: 14px;" >
+
+    <thead class="header" style="color: #040404;background-color:#f5f5f5">
+    <tr>
+        <th>Roles</th>
+        <th>Elecci&#243;n</th>
+    </tr>
+    </thead>
+
+    <tbody class="table-data" >
+    {{#each items}}
+        <tr id="{{id}}" class="" >
+            <td >{{description}}</td>
+            <td><input id="input{{id}}" class="checks" type="checkbox" value="{{active}}" datar="{{active}}" name="input{{id}}" /></td>
+        </tr>
+    {{else}}
+        <td colspan="6">No se encontraron roles </td>
+    {{/each}}
+    </tbody>
+</table>

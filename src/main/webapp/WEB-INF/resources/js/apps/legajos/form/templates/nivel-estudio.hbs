@@ -1,0 +1,9 @@
+<label class="col-md-5 control-label" for="niv_est">Nivel alcanzado</label>
+
+<div class="col-md-7">
+    <select id="niv_est" class="form-control">
+        {{#each items}}
+            <option value="{{niveldescripcion}}" id="{{niveldescripcion}}">{{niveldescripcion}}</option>
+        {{/each}}
+    </select>
+</div>

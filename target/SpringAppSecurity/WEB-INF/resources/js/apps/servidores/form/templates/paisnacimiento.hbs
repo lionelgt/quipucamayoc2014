@@ -1,0 +1,13 @@
+<label class="control-label col-md-5" for="epais">País</label>
+
+<div class="col-md-7">
+
+        <ul id="lista" style="display: none;">
+            {{#each items}}
+
+                <li id="{{codigo}}">{{descripcion}}</li>
+            {{/each}}
+        </ul>
+
+    <input type="text" id="autocom" placeholder="Ingrese Pais..."  class="typeahead tt-query form-control" autocomplete="off" spellcheck="false">
+</div>

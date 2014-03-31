@@ -1,0 +1,79 @@
+ <table class="table table-bordered " style="font-size: 10px;">
+            <thead class="header" style="color: #040404;background-color:#f5f5f5">
+                    <tr>
+                      <th><input type="checkbox" id="select-all" style="margin-top: 0px;width: 12px;height: 12px;"> Todos</th>
+                      <th>RUC</th>
+                      <th>Apellidos y nombres</th>
+                      <th>Contrato</th>
+                      <th>Adenda</th>
+                      <th>Importe contratado</th>
+                      <th>Minutos tardanza</th>
+                      <th>Dias inasistencia</th>
+                      <th>Suspension de cuarta</th>
+                      <!--<th>planilla correlativo</th>-->
+                      <!--<th>numero de planilla</th>-->
+                      <th>Monto a pagar</th>
+                      <th>Observaciones</th>
+                    </tr>
+            </thead>
+            <tbody>
+            {{#each items}}
+                <tr id="{{ruc}}" class="">
+                     <td><input type="checkbox" class="check-all" style="margin-top: 0px;width: 12px;height: 12px;"></td>
+                     <td>{{ruc}}</td>
+                     <td>{{paterno}} {{materno}} {{nombre}}</td>
+                     <td>{{numeroContrato}}</td>
+                     <td>{{ultimaAdenda}}</td>
+                     <td>{{monto}}</td>
+                     <td>{{minutosTardanza}}</td>
+                     <td>{{horasCumplir}}</td>
+                     <td>{{numeroOperacionCuarta}}</td>
+                     <td hidden="true">{{planillaCorrelativo}}</td>
+                     <td hidden="true">{{numeroPlanilla}}</td>
+                     <td>{{totalPago}}</td>
+                     <td><a class="btn btn-mini btn-warning" id="add-observacion"><i class="icon-tasks"></i></a> {{numeroObservaciones}}</td>
+                </tr>
+            {{else}}
+                <td colspan="6">No existen servidores CAS en este periodo</td>
+            {{/each}}
+            </tbody>
+
+    <style type="text/css">
+        .control{
+            background-color:#62c462;
+            border: 1px solid #fad42e;
+        }
+        .control:hover{
+            opacity: 0.7;
+        }
+        .devueltos{
+            background-color:#ee5f5b;
+            border: 1px solid #fad42e;
+        }
+        .devueltos:hover{
+            opacity: 0.7;
+        }
+        .rrhh{
+            background-color:#5bc0de ;
+            border: 1px solid #fad42e;
+        }
+        .rrhh:hover{
+            opacity: 0.7;
+        }
+        .textonegrito {
+            color: #000000;
+            font-weight:900;
+            font-style:italic ;
+            /*color: #ffffff;*/
+        }
+        #tabla-servidores .table > tbody > tr{
+            cursor: pointer;
+        }
+
+        #tabla-servidores .highlight{
+            background-color:#fbec88 ;
+            border: 1px solid #fad42e;
+        }
+
+     </style>
+</table>

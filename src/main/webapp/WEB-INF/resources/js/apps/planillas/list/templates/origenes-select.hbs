@@ -1,0 +1,9 @@
+<label class="control-label" for="select-origenes">Origen :</label>
+
+<div class="controls">
+    <select id="select-origenes">
+        {{#each items}}
+            <option value="{{origenCodigo}}">{{origenCodigo}} - {{origenDescripcion}}</option>
+        {{/each}}
+    </select>
+</div>

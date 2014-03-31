@@ -1,0 +1,11 @@
+<label class="control-label" for="select-planillasCAS">Planilla :</label>
+
+<div class="controls">
+    <select id="select-planillasCAS">
+        {{#each items}}
+            <option value="{{numero}}">{{numero}}</option>
+        {{else}}
+            <option value="0" selected>Sin planillas</option>
+        {{/each}}
+    </select>
+</div>

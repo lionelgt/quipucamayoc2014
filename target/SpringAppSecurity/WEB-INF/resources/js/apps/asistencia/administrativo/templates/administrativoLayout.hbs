@@ -1,0 +1,560 @@
+<fieldset>
+
+<legend>Asistencia</legend>
+<div id="notificacion" class='alert alert-warning'
+     style="text-align:center;display:none;">
+</div>
+
+<div class="tabbable">
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#1A" class="tab-a" data-toggle="tab">Creacion de Horarios</a></li>
+
+    <li class=""><a href="#1B" class="tab-b" data-toggle="tab">Asignación de Horarios</a></li>
+
+</ul>
+
+<div class="tab-content">
+<br>
+
+<div class="tab-pane active" id="1A">
+
+
+<div class="">
+<div class="table-responsive">
+
+<div class="well-sm">
+    <fieldset class="inline col-md-10" style="border: 2px solid #e5e5e5;padding: 0px;margin-bottom: 20px;width: 935px;">
+        <legend style="width: 180px;border-bottom: 0px;margin-left: 29px;">Datos Obligatorios</legend>
+        <div class="row form-group">
+            <div class="col-md-10" style="padding-left: 46px;">
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="diurno">Horario
+                        Diurno
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="nocturno">Horario
+                        Nocturno
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-10" style="padding-left: 46px;">
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox1" value="0"> Con tolerancia de Ingreso
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox2" value="1"> Considerar como horario de
+                    Lactancia
+                </label>
+            </div>
+        </div>
+    </fieldset>
+    <div class="pull-right col-md-2" style="padding-left: 25px;" id="evaluar_horas">
+        <div class="btn btn-info" style="width: 147px;height: 129px;background-color: #39b3d7;color: #ffffff;text-align: center;margin-top: 12px;">
+            <div id="poner_hora" style="width: 105px;height: 30px;color:#ffffff "></div>
+            <span class="glyphicon glyphicon-refresh text-center"></span>
+            <br>
+            <span class="glyphicon-class text-center">Evaluar Horas</span>
+        </div>
+    </div>
+</div>
+<table class="table table-condensed table-bordered">
+    <thead>
+    <tr>
+        <th>---------</th>
+        <th><label class="checkbox-inline">
+            <input type="checkbox" id="domingo" class="dias" value="1"> Domingo
+        </label></th>
+        <th><label class="checkbox-inline">
+            <input type="checkbox" id="lunes" class="dias" value="2"> Lunes
+        </label></th>
+        <th><label class="checkbox-inline">
+            <input type="checkbox" id="martes" class="dias" value="3"> Martes
+        </label></th>
+        <th><label class="checkbox-inline">
+            <input type="checkbox" id="miercoles" class="dias" value="4"> Miercoles
+        </label></th>
+        <th><label class="checkbox-inline">
+            <input type="checkbox" id="jueves" class="dias" value="5"> Jueves
+        </label></th>
+        <th><label class="checkbox-inline">
+            <input type="checkbox" id="viernes" class="dias" value="6"> Viernes
+        </label></th>
+        <th><label class="checkbox-inline">
+            <input type="checkbox" id="sabado" class="dias" value="7"> Sabado
+        </label></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Hora Ingreso</td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker1">
+                    <input type="text" class="form-control cambio" id="ingreso1" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker2">
+                    <input type="text" class="form-control cambio" id="ingreso2" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker3">
+                    <input type="text" class="form-control cambio" id="ingreso3" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker4">
+                    <input type="text" class="form-control cambio" id="ingreso4" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker5">
+                    <input type="text" class="form-control" id="ingreso5" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker6">
+                    <input type="text" class="form-control" id="ingreso6" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker7">
+                    <input type="text" class="form-control" id="ingreso7" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>Hora Salida</td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker8">
+                    <input type="text" class="form-control" id="salida8" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker9">
+                    <input type="text" class="form-control" id="salida9" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker10">
+                    <input type="text" class="form-control" id="salida10" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker11">
+                    <input type="text" class="form-control" id="salida11" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker12">
+                    <input type="text" class="form-control" id="salida12" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker13">
+                    <input type="text" class="form-control" id="salida13" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <div class="input-group input-group-sm date" id="datetimepicker14">
+                    <input type="text" class="form-control" id="salida14" readonly>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                    </span>
+                </div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="form-actions" id="form_insert" style="text-align: center;">
+    <button type="submit" class="btn btn-primary left" id="save_horario">Guardar</button>
+    <button type="reset" class="btn btn-default" id="cancel_horario">Cancelar</button>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="tab-pane" id="1B">
+<form class="form-horizontal">
+    <div class="row form-group">
+
+        <div class="col-md-10">
+            <div class="row">
+                <div id="cont_serv" style="display: none;">
+                    <div class="col-md-8" >
+
+                        <strong style="font-size: 18px;">Servidor:</strong>
+
+                        <strong  id="desc-servidor_asis" style="font-size: 16px; color: #00585f;"></strong>
+                    </div>
+                    <div class="col-md-4">
+                        <strong style="font-size: 18px;">Código:</strong>
+                        <strong id="serv_cod" style="font-size: 16px; color: #00585f;"></strong>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+       <div class="col-md-2">
+           <button id="buscar_serv_hor" class="btn btn-primary pull-right" type="button"><span
+                   class="glyphicon glyphicon-search"></span>
+               Buscar Servidor
+           </button>
+       </div>
+
+    </div>
+    <div class="">
+        <fieldset class="inline" style="border: 2px solid #e5e5e5;padding-bottom: 15px;">
+            <legend style="width: 30%;border-bottom: 0px;margin-left: 29px;">Criterios de Busqueda de Horario</legend>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <div class="text-center radio-inline">
+                        <div class="radio-inline">
+                            <label>
+                                <input type="radio" name="options" id="optionsRadios1" value="D" >Horario
+                                Diurno
+                            </label>
+                        </div>
+                        <div class="radio-inline">
+                            <label>
+                                <input type="radio" name="options" id="optionsRadios2" value="N">Horario
+                                Nocturno
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div id="opt_diurno" class="radio-inline"
+                         style="border-left: 2px solid #e5e5e5; border-right:2px solid #e5e5e5; padding-right: 10px;padding-left: 10px;">
+                        <div>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="domingo" class="dia_bus" value="1"> Domingo
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="lunes" class="dia_bus" value="2"> Lunes
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="martes" class="dia_bus" value="3"> Martes
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="miercoles" class="dia_bus" value="4"> Miercoles
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="jueves" class="dia_bus" value="5"> Jueves
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="viernes" class="dia_bus" value="6"> Viernes
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="sabado" class="dia_bus" value="7"> Sabado
+                            </label>
+                        </div>
+                        <br>
+
+                        <div class="text-center">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="Checkbox1" value="op1"> Con tolerancia de Ingreso
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="Checkbox2" value="op2"> Considerar como horario de
+                                Lactancia
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="radio-inline text-center" style="margin-left: -101%;">
+                        <button id="buscar_horarios" class="btn btn-primary btn-sm" type="button"><span
+                                class="glyphicon glyphicon-search"></span>
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+             <div class="row form-group">
+                    <div class="col-md-12" id="tipo_noct">
+
+
+                    </div>
+
+             </div>
+
+            <div class=""  id="div_tabla_horarios">
+
+            </div>
+        </fieldset>
+        <br>
+        <br>
+
+
+            <fieldset class="inline" style="border: 2px solid #e5e5e5;padding-bottom: 15px;">
+                <legend style="width: 30%;border-bottom: 0px;margin-left: 29px;">Registre los siguientes Datos</legend>
+                <legend style="width: 1099px;margin-left: 16px;">Fecha del Horario actual</legend>
+                <div class="row form-group" id="espec_certif">
+                    <div class="col-md-6" >
+                        <div><label class="col-md-5 control-label" for="f_inicio_act" id="espec">Fecha Inicial</label>
+
+                            <div class="col-md-7">
+                                <input type="text" id="f_inicio_act" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-5 control-label" for="f_final_act">Fecha Final </label>
+
+                        <div class="col-md-7" id="nume4">
+                            <input type="text" class="form-control" id="f_final_act">
+                        </div>
+                    </div>
+
+                </div>
+                <legend style="width: 1099px;margin-left: 16px;">Fecha del Horario a cambiar</legend>
+                <div class="row form-group">
+
+
+                    <div class="col-md-6">
+                        <label class="col-md-5 control-label" for="f_inicio_cambio">Fecha Inicial</label>
+
+                        <div class="col-md-7">
+
+                            <div class="input-group">
+                                <input class="form-control" type="text" value="" id="f_inicio_cambio" placeholder="Ejm. 11/05/2004"
+                                       readonly="">
+                        <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="f_inicio_cambio_show"><span
+                                        class="glyphicon glyphicon-calendar"></span></button>
+                        <button class="btn btn-default" type="button" id="f_inicio_cambio_clos"><span
+                                class="glyphicon glyphicon-refresh"></span></button>
+                        </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="col-md-5 control-label" for="f_final_cambio">Fecha Final </label>
+
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <input type="text" value="" id="f_final_cambio" class="form-control" placeholder="Ejm. 13/05/2004"
+                                       readonly="">
+                        <span class="input-group-btn">
+                                 <button class="btn btn-default" type="button" id="f_final_cambio_show"><span
+                                         class="glyphicon glyphicon-calendar"></span></button>
+                        <button class="btn btn-default" type="button" id="f_final_cambio_clos"><span
+                                class="glyphicon glyphicon-refresh"></span></button>
+                        </span>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <br>
+            <br>
+            <fieldset class="inline" style="border: 2px solid #e5e5e5;padding-bottom: 15px;">
+                <legend style="width: 30%;border-bottom: 0px;margin-left: 29px;">Registre Datos del Documento</legend>
+
+                <div class="row form-group">
+                    <div class="col-md-6" id="div_tipo_doc">
+
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-5 control-label" for="num_doc">Nº Documento <span style="color:red;">*</span></label>
+
+                        <div class="col-md-7">
+                            <input type="text" id="num_doc" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label class="col-md-5 control-label" for="num_exp">Nº Expedicion <span style="color:red;">*</span></label>
+
+                        <div class="col-md-7">
+                            <input type="text" id="num_exp" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="col-md-5 control-label" for="fec_doc">Fecha Documento <span style="color:red;">*</span></label>
+
+                        <div class="col-md-7">
+                            <input type="text" id="fec_doc" class="form-control" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12" id="div">
+                        <label class="col-md-2 control-label" for="origen" style="margin-left:3.6%;">Origen <span style="color:red;">*</span></label>
+                        <div class="col-md-6">
+
+                            <div class="input-group">
+                                <input class="form-control" type="text" id="origen" disabled="disabled">
+                        <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="select_unidad"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12" id="div">
+                        <label class="col-md-2 control-label" for="destino" style="margin-left:3.6%;">Destino <span style="color:red;">*</span></label>
+                        <div class="col-md-6">
+
+                            <div class="input-group">
+                                <input class="form-control" type="text" id="destino" disabled="disabled">
+                        <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="select_unidad"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12" id="">
+                        <label class="col-md-2 control-label" for="destino" style="margin-left:3.6%;">Asunto <span style="color:red;">*</span></label>
+                        <div class="col-md-6">
+                            <textarea name="" id="" cols="87" rows="5" class="form-control"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+            <br>
+            <br>
+
+            <div class="form-actions" id="form_insert" style="text-align: center;">
+                <button type="submit" class="btn btn-primary left" id="save_estudio">Guardar</button>
+                <button type="reset" class="btn btn-default" id="cancel_estudio">Cancelar</button>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+</div>
+</div>
+<div id="serv-table-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
+</div>
+<div id="show_origen" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+</div>
+<script type="text/javascript">
+    $(function () {
+        var callbacks = $.Callbacks();
+        callbacks.add(addDatePicker);
+
+        callbacks.add(addDisableDatetime);
+        callbacks.fire();
+
+
+        function addDatePicker() {
+
+            for (var i = 1; i <= 14; i++) {
+                $('#datetimepicker' + i).datetimepicker({
+                    pickDate: false
+                });
+            }
+
+        }
+
+        function addDisableDatetime() {
+            for (var i = 1; i <= 14; i++) {
+
+                $('#datetimepicker' + i).data("DateTimePicker").disable();
+            }
+        }
+
+
+    });
+</script>
+<style type="text/css">
+    .pintar {
+        background-color: #00585f;
+        color: #fff;
+    }
+
+    .addColorEnable {
+        background-color: #fff;
+    }
+
+    .addColorDisabled {
+        background-color: #eee;
+    }
+</style>
+
+</fieldset>

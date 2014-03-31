@@ -1,0 +1,38 @@
+<table id="table-estudios-servidor" class="table table-bordered table-hover" style="font-size: 12px;">
+    <thead class="header" style="color: #040404;background-color:#f5f5f5">
+    <tr>
+        <th>Tipo de Estudio</th>
+        <th>Pais</th>
+        <th>Centro de Estudio</th>
+        <th>Fecha de Inicio</th>
+        <th>Fecha fin</th>
+        <th>Duracion</th>
+        <th>Especialidad</th>
+        <th>Certificado</th>
+        <th>Horas</th>
+        <th>Nivel Alcanzado</th>
+        <th>editar</th>
+        <th>eliminar</th>
+    </tr>
+    </thead>
+    <tbody id="fam_content">
+        {{#each items}}
+        <tr id="{{id}}" class="">
+            <td data="{{tipCod}}">{{tipEstDesc}}</td>
+            <td data="{{xhoras}}">{{pais}}</td>
+            <td data="{{nro_titulacion}}">{{centro_estudio}}</td>
+            <td data="{{nro_colegiatura}}">{{f_inicio}}</td>
+            <td data="{{codpais}}">{{f_fin}}</td>
+            <td>{{duracion}}</td>
+            <td>{{especialidad}}</td>
+            <td data="{{fecha_expedicion}}">{{certificado}}</td>
+            <td>{{horas}}</td>
+            <td>{{niveldescripcion}}</td>
+            <td><a id="upd_est" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-pencil"></span></a></td>
+            <td><a id="modalAV" class="btn  btn-danger btn-xs" data-toggle="modal"  data-target="#serv-table-modal6"><span  class="glyphicon glyphicon-trash"></span></a></td>
+        </tr>
+        {{else}}
+        <td colspan="6">No existen estudios para este Servidor</td>
+        {{/each}}
+    </tbody>
+</table>
