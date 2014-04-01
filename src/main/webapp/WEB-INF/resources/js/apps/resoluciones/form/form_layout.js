@@ -4,7 +4,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
     "apps/resoluciones/form/view/mostrarMotivosTraba-view","apps/resoluciones/form/view/actualizarResoServi-view","apps/resoluciones/form/view/actualizarResoMoti-view","apps/resoluciones/form/model/guardaresolucion",
     "apps/resoluciones/form/model/guardarServidor","apps/resoluciones/form/model/updateServidor",
     "apps/resoluciones/form/model/deleteServidor", "apps/resoluciones/form/model/guardarMotivoTrabajador","apps/resoluciones/form/model/deleteMotivo","apps/resoluciones/form/view/validarResolucion",
-    "lib/jquery.dataTables.min","lib/avgrund","bootstrap"],
+    "lib/jquery.dataTables.min","bootstrap"],
     function (ErzaManager, layoutTpl,datePicker,ResolucionView,MotivoView,DepenView,ServiView,TrabaView,UpdateServiView,TodasResolucionesView,TablaActuaResolView,TablaMotivosTrabaView,TablaMotivoAddView,MostrarMotivoTrabaView, ActualizarResoServiView, ActualizarResoMotiView, addResolucion,
               addServidor,updateServidor,deleteServidor,addMotivoTrabajador,BorrarMotivoTraba,ValidarExisteResolucion) {
         ErzaManager.module('ResolucionApp.List.View', function (View, ErzaManager, Backbone, Marionette, $, _) {
@@ -114,7 +114,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     "click #mostrar_traba": "fun_mostrar_trabajores",
 
                     "click #buscar_res":"fun_actualizar_resolucion",
-                   // "click #eliminar_servi": "fun_eliminar_traba",
+
                     "click #busca-resolu": "fun_selec_resoluciones",
                     "click #buscaAnio": "fun_buscar_anio_resol",
                     "click #buscaxfechas": "fun_buscarxfechas_anio_resol",
@@ -155,12 +155,11 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                 onRender: function(){
                     this.initialFetch();
-//                    this.tablaSolicitudes.show(this.solicitudesView) ;
-//                    this.tablaPerfil.show(this.perfilView);
+
                     this.comoboMotivo.show(this.motivossView);
                     this.comboDepen.show(this.depenView);
                     this.comboResolucion.show(this.resoluView);
-                    //this.tablaTraba.show(this.trabaView);
+
 
                     var temp_help = $("#advertencia");
                     temp_help.hide();
@@ -179,39 +178,27 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                          "saveMotivoTrabajador":new addMotivoTrabajador(),
                          "addMotivoTraba":new addMotivoTrabajador(),
                          "borrarMotivoTraba":new BorrarMotivoTraba()
-                        //
-                        // "BorrarOtroMotivoTrabajador": new BorrarOtroMotivoTrabajador
+
                      });
 
 //
-//                    this.model.set({
-//                        "updateestadoperfil": new UpdateEstadoServidor()
-//                    });
+//
                 },
 
                 initialFetch: function(){
 
-                    var self=this;
-                    console.log("Llegue al initial fech de resoluciones");
 
-//                    var fetch=this.solicitudesView.fetchSolicitudes();
-//                    var fetch2=this.perfilView.fetchPerfiles();
+
+
                     this.resoluView.fetchTipoResoluciones();
 
                     this.motivossView.fetchTipoMotivos();
                     this.depenView.fetchTipoDepen(this.tipo);
                     this.serviView.fetchServidores();
-                    //this.tablaMotivoTraba.fetchTodosMotivos(function(){
 
-                    //});
 
                 },
-                cancelaravmodal:function(){
-                    Avgrund.hide();
-                },
-                cancelarmodal:function(){
-                    Avgrund.hide();
-                } ,
+
                 buscarporanio:function(){
 
                     $('#div_busc_fecha').hide();
@@ -292,26 +279,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     $('#serv-table-modal').modal()
                 },
 
-                tablaEstilos: function(id){
-                    $("#"+id+"_wrapper").addClass('table-position');
-                    $('#'+id+'_paginate').addClass('table-footer');
-                    $('#'+id+'_filter input').on('keyup',function(){
-                        $('#'+id+'_previous').addClass('previous');
-                        $('#'+id+'_next').addClass('next');
-                    })  ;
-                    $('#'+id+'_previous').click(function(){
 
-                        $(this).addClass('previous');
-                        $('#'+id+'_next').addClass('next');
-                    });
-                    $('#'+id+'_next').click(function(){
-                        $(this).addClass('next');
-                        $('#'+id+'_previous').addClass('previous');
-                    });
-                    $('#'+id+'_previous').addClass('previous');
-                    $('#'+id+'_next').addClass('next');
-                    $('#'+id).addClass('table-bordered');
-                },
 
                 fun_select_motivos:function(){
                     this.numero_click=1;
@@ -329,7 +297,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     this.tableMotivos.show(this.tablaMotivoTraba)
 
 
-                    $('#serv-table-modal3').modal()  //se activa modal
+                    $('#serv-table-modal3').modal()
                 },
                 selecTrabajadores:function(){
                     if($('#select-all').is(':checked'))
@@ -347,12 +315,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         $('.table-trabajador > tbody > tr').removeClass("highlight");
                         this.trabajadoresSeleccionados.splice(0,this.trabajadoresSeleccionados.length);
                     };
-                    console.log("atrape el dni "+ dni_sel);
 
-                    for(var j=0;j<this.trabajadoresSeleccionados.length;j++){
-//
-                        console.log(" el vector de los dni son baba "+this.trabajadoresSeleccionados[j]+" "  );
-                    }
 
                 },
 
@@ -376,8 +339,6 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     this.tipo=aux;
 
 
-                    console.log("Cambie la dependencia a valor  ="+ aux);
-                    console.log("la bre es : "+this.tipoResolucion);
                     this.depenView.fetchTipoDepen(this.tipo,function(){
                         $('#dependencias_ver').trigger('change');
                     });
@@ -403,53 +364,52 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                 fun_cambio_depen:function(){
                     this.capturar_formato_resolucion();
-                    console.log("La depeendencia es: "+ this.tipoDependencia);
+
                 },
                 ingre_nro_resol:function(ev){
                     this.nroR=$('#nro_resol').val();
-                    console.log("Registrado en nroR :"+this.nroR);
-//                    if(this.nroR!=null)this.trabaView.fetchTrabajadores(this.nroR);
+
                 },
 
                 ingre_anio_resol2:function(ev){
-//                     this.anioR2=$('#anio_resol').val();
+//
                     this.anioR2=$('#busca-resol').val();
-                    console.log("Registrado en nroR2 :"+this.anioR2);
+
                 },
 
                 ingre_anio_resol:function(ev){
                     this.anioR=$('#anio_resol').val();
-                    console.log("Registrado en anioR :"+this.anioR);
+
                 },
 
                 ingre_descriOb:function(ev){
                   this.descriObli=$('#descriOb').val();
-                    console.log("Registrado en descriOb :"+this.descriObli);
+
                 },
 
                 ingre_descriOp:function(ev){
                     this.descriOp=$('#descriOp').val();
-                    console.log("Registrado en descriOp :"+this.descriOp);
+
                 },
 
                 ingre_anio_resol_modal:function(ev){
                     this.anioModal=$('#anio-resol-modal').val();
-                    console.log("La resol que se busca en el modal es  :"+this.anioModal)
+
 
 
                },
 
                 busca_resol:function(ev){
                     this.auxbuscador=$('#busca-resol').val();
-                    console.log("Registrado en auxBucador: "+ this.auxbuscador)
+
 
                     this.trabaView.fetchTrabajadores(this.auxbuscador)
-//                    this.trabaView.fetchTrabajadores().setUrlTodosServi()
+//
                 },
 
                 fun_cambio_moti:function(ev){
                    this.motivo=$('#motivo_ver').val();
-                    console.log("El motivo es :"+this.motivo);
+
                 },
 
                 fechaR_show:function(){
@@ -542,7 +502,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                           $('.dataTables_filter input').addClass('buscador');
 
                            $('.dataTables_filter input').attr('placeholder','Buscar..');
-                            console.log("entro");
+
 
 
 
@@ -550,17 +510,13 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     });
 
                     this.tablaTodasResolucionesAnio.show(this.todasResolucionesView) ;
-//
-                    this.tablaEstilos('table-todas');
 
-//
-//
                 },
 
                 fun_buscarxfechas_anio_resol:function(){
-//                  this.tablaTodasResolucionesAnio.reset();
+//
                     var self=this;
-                    console.log( $('#r_ini').val()+"---"+$('#r_fin').val());
+
                     if($('#r_ini').val()==""){
                        this.fec1busc="0";
                     }else{
@@ -585,14 +541,12 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                             }
                     });
                     this.tablaTodasResolucionesAnio.show(this.todasResolucionesView) ;
-//
-//
-                    this.tablaEstilos('table-todas');
+
 
                 },
 
                 fun_selec_servi:function(ev){
-                    //this.btnasignar=1;
+
                     var clickedElement=$(ev.currentTarget);
                     this.resolCompleta=clickedElement.parent().parent().attr('id');
                     this.dniTable=clickedElement.attr('data1');
@@ -614,7 +568,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                 },
 
                 fun_selec_resoluciones:function(ev){
-                    var clickedElement=$(ev.currentTarget);
+
 
 
                     this.tablaTodasResolucionesAnio.show(this.todasResolucionesView)
@@ -631,8 +585,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
 
                     var self=this;
-                    console.log("ACAAAAAAAA!!!!!!!!");
-                    console.log("valor"+this.btnasignar);
+
                     if(this.btnasignar==1){
 
                         this.model.get("borraServidor").set({
@@ -651,7 +604,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         });
 
                         self_s.fail(function(){
-                            console.log("Se elimino Servidor "+self.nroResol);
+
                             self.trabaView.fetchTrabajadores(self.nroResol, function(){
                                 if(self.trabaView.collection.length!=0){
                                     $("#table-trabajador").dataTable();
@@ -667,11 +620,6 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                             self.tablaTraba.show(self.trabaView);
                         }) ;
 
-
-
-
-
-                        Avgrund.hide();
                     }
                     if(this.btnasignar==2){
 
@@ -694,7 +642,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         });
 
                         self_s.fail(function(){
-                            console.log("Se elimino Servidor "+self.nroResol);
+
                             self.trabaView.fetchTrabajadores(self.nroResol, function(){
                                 if(self.trabaView.collection.length!=0){
                                     $("#table-trabajador").dataTable();
@@ -711,7 +659,6 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                             self.tablaasociaciondirecta.show(self.trabaView);
                         }) ;
 
-                        Avgrund.hide();
 
                     }
 
@@ -725,30 +672,20 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     this.del_num_ser=clickedElement.attr('data3');
                     this.del_cod_mot=clickedElement.attr('data4');
 
-                        //Avgrund.show("#default-popup");
-
-                        console.log("Selecciono mas de 0");
-
-
-
-
-
                 },
                 eliminarResoluciones: function(ev){
-                    //$('#serv-table-modal2').modal('hide');
+
                     var clickedElement=$(ev.currentTarget);
 
                     this.elimResol=clickedElement.attr('data1');
-                    console.log("eliminar:"+this.elimResol);
 
-                    //Avgrund.show("#default-popup2");
 
 
                 },
 
 
                 seleccionarServidor:function(e){
-                   // alert("hola mundo");
+
                     var self=this;
 
                     var clickedElement=$(e.currentTarget);
@@ -757,12 +694,10 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     var codAnti=clickedElement.attr('data2');
 
                     if(codAnti==null){ codAnti="null"}
-                    //$('#'+dni).val
 
-                    console.log(this.btnasignar+" el boton esta en")
+
                     if(this.btnasignar==1){
-                        console.log("PARTE 1");
-                        console.log("Atrape a la resolucion : "+self.nroResol+" Atrape a dni="+dni+" atrape al estado="+estado+" con cod Anti: "+codAnti)
+
 
                         self.model.get("trabajadorResolucion").set({
                             "idTrabajadorResolucion": '0',
@@ -792,7 +727,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                 }
                             })
 
-                            self.tablaEstilos('table-trabajador');
+
                             self.tablaTraba.show(this.trabaView);
 
                         });
@@ -808,20 +743,16 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                     $('.dataTables_filter input').addClass('buscador');
                                     $('.dataTables_filter input').attr('placeholder','Buscar..');
                                     $('#desc-resolucion').text(self.nroResol);
-                                    console.log("error"+self.nroResol);
+
                                 }
                             })
 
-                            self.tablaEstilos('table-trabajador');
+
                             self.tablaTraba.show(this.trabaView);
                         });
                     }
                     if(this.btnasignar==2){
 
-
-
-                        console.log("PARTE 2");
-                        console.log("Atrape a la resolucion : "+self.nroResol+" Atrape a dni="+dni+" atrape al estado="+estado+" con cod Anti: "+codAnti)
 
                         self.model.get("trabajadorResolucion").set({
                             "idTrabajadorResolucion": '0',
@@ -851,17 +782,17 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                 }
                             })
 
-                            self.tablaEstilos('table-trabajador');
+
                             self.tablaasociaciondirecta.show(this.trabaView);
 
 
                         });
                         self_s.fail(function () {
-                           // alert("Resolucion:"+self.nroResol);
+
 
                             self.trabaView.fetchTrabajadores(self.nroResol, function(){
                                 if(self.trabaView.collection.length!=0){
-                                    console.log("acaa!!!!");
+
                                     $("#table-trabajador").dataTable();
                                     $('#table-trabajador').addClass('container-modal');
                                     $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
@@ -870,17 +801,17 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                     $('.dataTables_filter input').addClass('buscador');
                                     $('.dataTables_filter input').attr('placeholder','Buscar..');
 
-                                    console.log("Numero de resolucion:"+self.nroResol)
+
                                     $('#desc-resolucion').text(self.nroResol);
                                 }
                             })
 
-                            self.tablaEstilos('table-trabajador');
+
                             self.tablaasociaciondirecta.show(self.trabaView);
                         });
                     }
 
-                    console.log("Ya inserto")
+
 
                     $('#serv-table-modal').modal("hide")
 
@@ -889,12 +820,11 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                 seleccionarResolucion:function(e){
 
-                    //this.tablaasociaciondirecta.hidden();
-                   // alert("selecciono resolucion");
+
 
                     var self=this;
                     var clickedElement=$(e.currentTarget);
-                    this.IdResolucion=clickedElement.attr('id'); // atrapo al id de la resolucion
+                    this.IdResolucion=clickedElement.attr('id');
                     var nroResol=clickedElement.children(':nth-child(2)').text();
                     this.fecha_inicio=clickedElement.children(':nth-child(4)').text();
                     this.fecha_fin=clickedElement.children(':nth-child(5)').text();
@@ -902,7 +832,6 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
 
 
-                    console.log("Atrape a su resolu: "+nroResol+" y a la ID: "+this.IdResolucion)
                     this.trabaView.fetchTrabajadores(nroResol, function(){
                         if(self.trabaView.collection.length!=0){
                         $("#table-trabajador").dataTable();
@@ -919,10 +848,8 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     })
 
                     self.tablaTraba.show(self.trabaView);
-                    //this.tablaEstilos('table-trabajador');
-                    //this.tablaTraba.show(this.trabaView);
-                    this.nroResol=nroResol; //se guarda el nombre de la resolucion  para su posterior uso
-//                    $('#serv-table-modal3').modal("hide")
+
+                    this.nroResol=nroResol;
                 },
 
                 fun_actualizar_resolucion:function(){
@@ -947,13 +874,12 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         $('.dataTables_filter input').attr('placeholder','Buscar..');
                     })
                     this.tableUpdateReso.show(this.tablaActuaResol)
-                   // this.tablaEstilos('table-resol-modal');
+
                 },
 
                 seleccionarResolucionModal:function(e){
 
-//                    $("#guardar").hide()
-//                    $("#confirmar-actualizar").show()
+//
                     $("#advertencia").hide();
                     var self=this;
                     var aux;
@@ -963,35 +889,33 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     this.IdResolucion=clickedElement.attr('data0');
                     var numero_resol=clickedElement.attr('data1');
                     var cod_resol=clickedElement.attr('data2');
-                    var fecha_expedicion=clickedElement.attr('data3');
+
                     var motivo=clickedElement.attr('data9');
                     this.idMotivo= clickedElement.attr('data4');
-                    console.log(motivo+" este es el motivo") ;
+
                     var fecha_inicio=clickedElement.attr('data5');
                     var fecha_fin=clickedElement.attr('data6');
                     var obliga=clickedElement.attr('data7');
                     var adicional=clickedElement.attr('data8');
 
-                    console.log("atrape el motivo: "+motivo+" y podria hasta mas cosas")
 
                     this.resolCompleta=numero_resol; //se guarda para el update de la tabla tb_trabajador_resolucion
 
                     var splits= new Array();
-                    var splitFecha=new Array();
+
                     splits=numero_resol.split("-")
-                    console.log("----"+splits[1]);
+
                     if(splits[1]=="R"){
                         splits[1]="RECTOR";
-                        console.log("----"+splits[1]);
+
                     };
                     if(splits.length==4){
                         splits[1]= splits[2];
                     }
-                    splitFecha=fecha_expedicion.split("-")
+
 
                     $('#serv-table-modal2').modal('hide')
 
-                    //por si se updatea la resolucion
                     switch(cod_resol.trim()){
                         case '0': cod_resol='RR';
                             break;
@@ -1015,13 +939,10 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     }
 
 
-                    console.log("El valor de : "+cod_resol+" de aux es ahora: "+aux)
-                    console.log("El valor que ira a dependencias es :"+splits[1])
-
 
 
                     $("#resolucion_ver").val(aux).trigger('change') ;
-//                   $("#dependencias_ver").val(splits[1]).trigger('change');
+//
                     $("#nro_resol").val(splits[0]);
 
                     this.depenView.fetchTipoDepen(aux,function(){
@@ -1040,15 +961,15 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                     $("#fechaR").val(fecha_resol);
 
-                    //this.motivo=motivo;
+
                     if(motivo.length<3){motivo=motivo+" ";}
                     $("#motivi_est").val(motivo)
 
-//                    alert("fecha inicio"+fecha_inicio);
-                    splitFecha=fecha_inicio.split("-")
+
+
                     $("#fechaIni").val(fecha_inicio)
 
-                    splitFecha=fecha_fin.split("-")
+
                     $("#fechaFin").val(fecha_fin)
 
                     $("#descriOb").val(obliga)
@@ -1060,14 +981,11 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         $("#descripOp").val(adicional);
                     }
 
+                    this.band=1;
 
-                    //updateando en la resolucion
-                    // this.updateResolucionView.fetchUpdateResolucion()
-                    this.band=1
 
-                    //mostrando los servidores asociados a esa resolucion
 
-                    console.log("Atrape a su resolu: "+numero_resol+" y a la ID: "+this.IdResolucion)
+
                     this.trabaView.fetchTrabajadores(numero_resol, function(){
                         if(self.trabaView.collection.length!=0){
                             $("#table-trabajador").dataTable();
@@ -1086,11 +1004,8 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     self.tablaasociaciondirecta.show(self.trabaView);
 
                     $("#tabla-serv-asociados").show();
-                    //this.tablaEstilos('table-trabajador');
-                    //this.tablaTraba.show(this.trabaView);
-                    this.nroResol=numero_resol; //se guarda el nombre de la resolucion  para su posterior uso
-//                    $('#serv-table-modal3').modal("hide")
-                    console.log("termino de hacer todo lo que ")
+
+                    this.nroResol=numero_resol;
 
                 },
 
@@ -1098,10 +1013,9 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                 fun_selec_trabajador:function(ev){
 
                         var clickedElement=$(ev.currentTarget);
-                        var dni=clickedElement.parent().parent().children(':nth-child(3)').text();         //doble parent() para seleccionar dni
-                        var check=clickedElement.parent().parent().children(':nth-child(1)').children();   //doble parent atrapar chek y ponerlo en el vector
-                        console.log("viendo el chechk "+check);
-                        console.log("atrape el dni "+ dni);
+                        var dni=clickedElement.parent().parent().children(':nth-child(3)').text();
+                        var check=clickedElement.parent().parent().children(':nth-child(1)').children();
+
                         if(clickedElement.hasClass('highlight')&&check.hasClass("check")){
                             clickedElement.removeClass("highlight");
                             check.removeClass("check");
@@ -1116,24 +1030,17 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                             check.addClass("check");
                             check.prop('checked',true);
                             this.trabajadoresSeleccionados.push(dni);
-                            //console.log("atrape el dni "+ dni);
+
 
                         }
-                    console.log("Array "+this.trabajadoresSeleccionados.length);
-                    //var estado=clickedElement.children(':nth-child(6)').text();
-                    var resol=clickedElement.attr('data2');
-                    var est=clickedElement.attr('data3');
-                    var codAn=clickedElement.attr('data4');
 
-                    for(var j=0;j<this.trabajadoresSeleccionados.length;j++){
 
-                        console.log(" de un solo check el vector de los dni seleccionados asi nomas es de  "+this.trabajadoresSeleccionados[j]+"   solamente");
-                    }
+
 
 
                 },
                 capturar_formato_resolucion:function(){
-                    //alert("hojas");
+
                     if($('#dependencias_ver').val()=='DGA'){
                         this.tipoDependencia= $('#dependencias_ver').val();
                     }else{
@@ -1143,7 +1050,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                             if($('#dependencias_ver').val()=='OGRRHH'){
                                 this.tipoDependencia= "DGA-OGRRHH";
                             }else{
-                                //alert("esta vez:"+$('#dependencias_ver').val());
+
                                 if($('#dependencias_ver').val()==null){
                                    this.tipoDependencia=0;
                                 }
@@ -1160,16 +1067,14 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     this.anioR=$("#fechaR").val().substring(6,10);
                     $('#anio_resol').val(this.anioR);
 
-                    if(self.band==0) {  //guardar
-                       /* alert("dimen:"+self.validarExisteResolucion.collection.length);
-                        alert("resol:"+self.nroR+" :-: "+self.tipoDependencia+" :-: "+self.anioR); */
-                         console.log(" AQUIIII!!!!!");
+                    if(self.band==0) {
+
+
                         if($("#nro_resol").val()!=""){
                                 self.nroR=$("#nro_resol").val().trim();
                         }
                         self.validarExisteResolucion.fetchresolucion(self.nroR+"-"+self.tipoDependencia+"-"+self.anioR,function(){
-                            console.log("ajshahsajhs");
-                            console.log(self.validarExisteResolucion.collection.length);
+
                             if(self.validarExisteResolucion.collection.length!=0){
 
                                 $("#advertencia").removeClass("alert-success");
@@ -1179,13 +1084,13 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                                 temp_help.html("<strong>La resolución "+self.nroR+"-"+self.tipoDependencia+"-"+self.anioR+" ya existe</strong>");
                             }else{
-                                console.log("el anio es: "+$("#fechaR").val().substring(6,10));
+
                                 if(isNaN($('#nro_resol').val())){
                                     $("#advertencia").removeClass("alert-success");
                                     $("#advertencia").removeClass("alert-danger");
                                     $("#advertencia").addClass("alert-warning");
                                     temp_help.show();
-                                    // self.validarExisteResolucion.collection.length=0;
+
                                     temp_help.html("<strong>El número de resolución no debe tener caracteres</strong>");
                                 }else{
                                 if($("#motivi_est").val()=="MOTIVOS VARIOS"){
@@ -1195,12 +1100,12 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                         $("#advertencia").removeClass("alert-danger");
                                         $("#advertencia").addClass("alert-warning");
                                         temp_help.show();
-                                        // self.validarExisteResolucion.collection.length=0;
+
                                         temp_help.html('<strong>Existen campos obligatorios vacíos</strong>');
                                     }
                                     else{
                                         temp_help.hide();
-                                        console.log("La resolucion sera : "+self.nroR+"-"+self.tipoDependencia+"-"+self.anioR)
+
                                         self.model.get("resolucion").set({
                                             "idResolucion":self.IdResolucion,
                                             "numero_resol": self.nroR+"-"+self.tipoDependencia+"-"+self.anioR,
@@ -1215,18 +1120,15 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                         });
 
 
-                                        console.log(self.model.get("resolucion"));
-                                        console.log("la fecha es : "+$("#fechaR").val())
-                                        console.log(self.tipoResolucion+"-"+self.nroR+"-"+self.tipoDependencia+"-"+self.anioR)
 
                                         self.model.get("resolucion").url = "rest/resoluciones/addResolucion";
                                         self.numero_resol =self.nroR+"-"+self.tipoDependencia+"-"+self.anioR;
 
                                         self.nroResol=self.numero_resol;
-                                        // alert("Resolucion:"+self.numero_resol);
+
                                         var self_s = self.model.get("resolucion").save({}, {wait: true});
                                         self_s.fail(function(){
-                                            // alert("entro acaa"+self.numero_resol);
+
                                             self.trabaView.fetchTrabajadores(self.numero_resol, function(){
                                                 if(self.trabaView.collection.length!=0){
 
@@ -1249,7 +1151,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                                             self.tablaasociaciondirecta.show(self.trabaView);
                                         });
-                                        console.log("Ya inserto")
+
                                         $("#advertencia").removeClass("alert-danger");
                                         $("#advertencia").removeClass("alert-warning");
                                         $("#advertencia").addClass("alert-success");
@@ -1257,7 +1159,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                         temp_help.html("<strong>Se registró con éxito la resolución "+self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR+"</strong>")
                                         $('#mostrar_servi2').show();
                                         $('#nuevo').show();
-                                        //refrescar
+
 
                                     }
 
@@ -1269,12 +1171,12 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                     $("#advertencia").removeClass("alert-danger");
                                     $("#advertencia").addClass("alert-warning");
                                     temp_help.show();
-                                   // self.validarExisteResolucion.collection.length=0;
+
                                     temp_help.html("<strong>Existen campos obligatorios vacíos</strong>");
                                 }
                                 else{
                                     temp_help.hide();
-                                    console.log("La resolucion sera : "+self.nroR+"-"+self.tipoDependencia+"-"+self.anioR)
+
                                     self.model.get("resolucion").set({
                                         "idResolucion":self.IdResolucion,
                                         "numero_resol": self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR,
@@ -1289,18 +1191,14 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                     });
 
 
-                                    console.log(self.model.get("resolucion"));
-                                    console.log("la fecha es : "+$("#fechaR").val())
-                                    console.log(self.tipoResolucion+"-"+self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR)
-
                                     self.model.get("resolucion").url = "rest/resoluciones/addResolucion";
                                       self.numero_resol =self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR;
 
                                     self.nroResol=self.numero_resol;
-                                    // alert("Resolucion:"+self.numero_resol);
+
                                     var self_s = self.model.get("resolucion").save({}, {wait: true});
                                     self_s.fail(function(){
-                                       // alert("entro acaa"+self.numero_resol);
+
                                         self.trabaView.fetchTrabajadores(self.numero_resol, function(){
                                             if(self.trabaView.collection.length!=0){
 
@@ -1323,7 +1221,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                                         self.tablaasociaciondirecta.show(self.trabaView);
                                     });
-                                    console.log("Ya inserto")
+
                                     $("#advertencia").removeClass("alert-danger");
                                     $("#advertencia").removeClass("alert-warning");
                                     $("#advertencia").addClass("alert-success");
@@ -1331,7 +1229,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                     temp_help.html("<strong>Se registró con éxito la resolución "+self.nroR+"-"+self.tipoDependencia+"-"+self.anioR+"</strong>")
                                     $('#mostrar_servi2').show();
                                     $('#nuevo').show();
-                                    //refrescar
+
 
                                 }
                                 }
@@ -1340,9 +1238,9 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         })
 
                     }
-                    else{   //actualizar  cambiar
+                    else{
 
-                        console.log("el anio es: "+$("#fechaR").val().substring(6,10))
+
                         if($('#descriOb').val()=="" || $("#fechaR").val()=="" || $("#nro_resol").val()=="" || $('#motivi_est').val()=="" ){
 
                             $("#advertencia").removeClass("alert-success");
@@ -1372,18 +1270,15 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                             var self_s = self.model.get("resolucion").save({}, {wait: true});
 
 
-                            console.log("La r anterior es: "+self.resolCompleta)
-                            console.log("la r nueva es : "+nueva)
                             self.actualizarResoServiView.fetchUpdateResoServi(nueva,self.resolCompleta)
                             self.actualizarResoMotiView.fetchUpdateResoMoti(nueva,self.resolCompleta)
-                            console.log("Ya updateo todo")
+
 
 
                             self.band=2;
-                            console.log("La dependencia es: "+$("#dependencias_ver").val());
-                            console.log("updateo de resol listo");
 
-                            var aux=" "
+
+
                             $("#advertencia").removeClass("alert-error");
                             $("#advertencia").addClass("alert-success");
                             temp_help.show();
@@ -1402,15 +1297,13 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     this.numero_click=2;
 
                     var self=this;
-                    //$('#tablaMotivos').dataTable();
+
                     var clickedElement=$(ev.currentTarget);
                     this.dniTable=clickedElement.attr('data5'); //se guarda dni
                     this.estadoTraba=clickedElement.attr('data6');   //se guarda estado
 
-                    console.log("El dni actual es: "+ this.dniTable)
-                    console.log("El estado actual es:"+this.estadoTraba)
                       this.tablaMotivoadd.fetchAddMotivos(function(){
-                          console.log("ACAAAAAA!!!!");
+
                           $('#tablaAddMotivo').dataTable();
                           $('#tablaAddMotivo_wrapper').addClass('table-position');
                           $('#tablaAddMotivo_wrapper').append("<div id='footer-table'></div>");
@@ -1422,17 +1315,14 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                       })
                     self.addMotivos.show(self.tablaMotivoadd);
                     $('#serv-table-modal5').modal();
-                      //la region pinta a la vista
-                  //  $('#serv-table-modal5').modal();
 
-                     //se activa modal
                 },
                 fun_eliminar_resol_modal:function(){
                     var self=this;
 
 
                     var url='rest/resoluciones/deleteResolucion/'+this.elimResol;
-                    // alert(idfamiliar);
+
                     $.ajax({
                         type: 'DELETE',
                         url: url,
@@ -1467,13 +1357,13 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                             self.tableUpdateReso.show(self.tablaActuaResol)
                         }
                     });
-                    Avgrund.hide();
+
                 },
 
 
                 selec_save_MotivoTraba:function(e){
                     var self=this;
-                    var temp_help = $("#advertencia");
+
                     var clickedElement=$(e.currentTarget);
                     var idMoti=clickedElement.children(':nth-child(1)').text();
                     this.idMotivo=idMoti;
@@ -1495,29 +1385,12 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         if(idMoti.length==1){idMoti=idMoti+"  ";  }
 
 
-                        console.log("los datos enviados :")
-                        console.log("Reso: "+this.nroResol)
-                        console.log("Cod del traba: "+this.dniTable)
-                        console.log("esto del traba: "+this.estadoTraba)
-                        console.log("Motivo: "+idMoti)
 
-                        console.log("La fecha ini: "+this.fecha_inicio)
-                        console.log("fecha fin: "+this.fecha_fin)
-                        console.log("descripcion: "+this.descriObli)
-
-                        //verificando fechas
-
-
-                        //desmembrando fecha
-                        var splitFecha=new Array();
-                        var splitFecha2=new Array();
                         var fechaAux,fechaAux2;
 
-                        //verificando fechas
-                        if(!this.fecha_inicio){
-                            //temp_help.show();
 
-                            //temp_help.text("La resolucion no tiene fecha inicial")
+                        if(!this.fecha_inicio){
+
                         }
                         if(!this.fecha_inicio==false){
 
@@ -1526,9 +1399,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
 
                         if(!this.fecha_fin){
-                           // temp_help.show();
 
-                           // temp_help.text("La resolucion no tiene fecha final")
                         }
                         if(!this.fecha_fin==false){
 
@@ -1539,10 +1410,6 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         this.fechaIni=fechaAux
                         this.fechaFin=fechaAux2
 
-
-                        console.log("La fecha inicial sera ahora: "+fechaAux)
-
-                        console.log("La fecha final sera ahora: "+fechaAux2)
 
 
                         self.model.get("addMotivoTraba").set({
@@ -1558,7 +1425,6 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         });
 
 
-                        console.log(this.model.get("saveMotivoTrabajador"));
 
 
                         this.model.get("addMotivoTraba").url = "rest/resoluciones/addMotivoTrabajador";
@@ -1583,7 +1449,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                             })
                         });
                         self_s.fail(function(){
-                            console.log("Hola Mundo");
+
                             self.trabaView.fetchTrabajadores(self.nroResol, function(){
                                 if(self.trabaView.collection.length!=0){
                                     $("#table-trabajador").dataTable();
@@ -1600,7 +1466,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                             })
 
                         });
-                        console.log("Ya inserto el motivo para el trabajador")
+
                         $('#serv-table-modal5').modal("hide")
                     }};
                     if(this.numero_click==1){
@@ -1618,11 +1484,11 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     $("#serv-table-modal4").delay(100).queue(function(){
 
 
-                        self.dniTable=clickedElement.attr('data7'); //se guarda dni
+                        self.dniTable=clickedElement.attr('data7');
                         self.mostrarMotivoTrabaView.fetchMostrarMotivoTraba(self.dniTable,function(){
 
                             if(self.mostrarMotivoTrabaView.collection.length!=0){
-                               // alert("aca entro");
+
                             $("#tabla-motivo-traba").dataTable();
                             $('#tabla-motivo-traba_wrapper').addClass('table-position');
                             $('#tabla-motivo-traba_wrapper').append("<div id='footer-table'></div>");
@@ -1630,27 +1496,16 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                 $('#tabla-motivo-traba_previous').html("<i class='glyphicon glyphicon-backward'></i>");
                                 $('.dataTables_filter input').addClass('buscador');
                                 $('.dataTables_filter input').attr('placeholder','Buscar..');
-                                /*this.tablaMotivoTraba.fetchTodosMotivos(function(){
 
-                                 $('#tablaMotivos').dataTable();
-                                 $('#tablaMotivos_wrapper').addClass('table-position');
-                                 $('#tablaMotivos_wrapper').append("<div id='footer-table'></div>");
-                                 $('#tablaMotivos_next').html("<i  class='icon-forward'></i>");
-                                 $('#tablaMotivos_previous').html("<i class='icon-backward'></i>");
-                                 $('.dataTables_filter input').addClass('buscador');
-                                 $('.dataTables_filter input').attr('placeholder','Buscar..');
-                                 });*/
 
-                            self.tablaEstilos('tabla-motivo-traba')
                             $('#serv-table-modal4').modal()  //se activa modal
 
                             $("#serv-table-modal4").dequeue();    }
 
 
                         })
-                        self.mostrarMotivoTraba.show(self.mostrarMotivoTrabaView)  //la region pinta a la vista
-                        self.tablaEstilos('tabla-motivo-traba');
-                        $('#serv-table-modal4').modal();  //se activa modal
+                        self.mostrarMotivoTraba.show(self.mostrarMotivoTrabaView)
+                        $('#serv-table-modal4').modal();
                         $("#serv-table-modal4").dequeue();
 
 
@@ -1674,19 +1529,15 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         $('.tabla-motivo-traba > tbody > tr').removeClass("highlight");
                         this.motivosSeleccionados.splice(0,this.motivosSeleccionados.length);
                     };
-                    console.log("atrape el motivo "+ moti_sel);
 
-                    for(var j=0;j<this.motivosSeleccionados.length;j++){
-                        console.log("el vector de los motivos son: "+this.motivosSeleccionados[j]+"   bababa");
-                    }
+
                 },
 
                 fun_selec_motivo_traba:function(ev){
                     var clickedElement=$(ev.currentTarget);
                     var moti=clickedElement.children(':nth-child(2)').text();
                     var check=clickedElement.children(':nth-child(1)').children();
-                    console.log("viendo el chechk "+check);
-                    console.log("atrape el motivo "+ moti);
+
                     if(clickedElement.hasClass('highlight')&&check.hasClass("check")){
                         clickedElement.removeClass("highlight");
                         check.removeClass("check");
@@ -1701,39 +1552,30 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                     }
 
-                    for(var j=0;j<this.motivosSeleccionados.length;j++){
-//
-                        console.log(" bababa el vector de los motivos seleccionados asi nomas es de  "+this.motivosSeleccionados[j]+"   solamente");
-                    }
 
                 },
 
 
                 fun_eliminar_motivo:function(){
-                    var aux="",aux1="",aux2="";
-                    var dnis= new Array();
-                    var estados= new Array();
-                    var codeAntiguos=new Array();
-                    var self=this;
+                    var aux="";
+
                     if(this.motivosSeleccionados.length==0){
-                        console.log("debe seleccionar al menos un motivo ahoraaaaaa!!!!!!!!");
+
 
                     }else{
 
 
                         for(var i=0;i<this.motivosSeleccionados.length;i++){
-                           // this.codMotivos[i]=$("#"+this.motivosSeleccionados[i]).children(':nth-child(2)').text();
+
                             aux=aux+this.motivosSeleccionados[i]+"-";
-                            //aux1=aux1+this.codMotivos[i]+"-";
-                            console.log("los motivos originales son: "+this.motivosSeleccionados[i])
-                            console.log("los motivos aux son: "+aux)
+
+
                         }
-                        console.log("El aux en total es: "+aux)
 
 
 
                         for(var j=0;j<this.motivosSeleccionados.length;j++){
-                            //borrando
+
                             this.model.get("borrarMotivoTraba").set({
                                 "idMotivoTraba":"0",
                                 "resolucion":this.nroResol,
@@ -1758,18 +1600,18 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
 
                             });
-                            console.log("Ya borro ahorita "+this.motivosSeleccionados[j]+" de resolucion "+this.nroResol+" de usuario: "+this.dniTable)
+
                         }
 
                     }
 
 
-                   // this.trabaView.fetchTrabajadores(this.nroResol) //la variable que posee el nombre de la resolucion, dond estamos eliminando el servidor
+
                     this.motivosSeleccionados.length=0;
                     this.estadosTraba.length=0
                     this.codeAntiguo.length=0
-                    //this.trabaView.fetchTrabajadores(this.nroResol) //la variable que posee el nombre de la resolucion, dond estamos eliminando el servidor
-                    $('#serv-table-modal4').modal("hide")  //se activa modal
+
+                    $('#serv-table-modal4').modal("hide")
                 }
 
             });

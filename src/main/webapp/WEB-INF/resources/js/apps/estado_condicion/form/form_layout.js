@@ -6,7 +6,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
     "apps/estado_condicion/form/view/tabla_dep","apps/estado_condicion/form/view/tabla_cond_pla", "apps/estado_condicion/form/model/Guardar_Cond_Lab","apps/estado_condicion/form/model/Guardar_Alert",
     "apps/estado_condicion/form/model/Guardar_Cond_Aseg", "apps/estado_condicion/form/model/Guardar_Dependencia", "apps/estado_condicion/form/model/Guardar_Cond_Banco", "apps/estado_condicion/form/model/Guardar_Cond_Pla",
     "apps/estado_condicion/form/view/categoria_prof","apps/planillas/list/view/unidades-dialog",
-    "jquery","lib/jquery.dataTables.min","lib/bootstrap-datepicker","lib/avgrund","lib/jquery.numeric","bootstrap"],
+    "jquery","lib/jquery.dataTables.min","lib/bootstrap-datepicker","lib/jquery.numeric","bootstrap"],
 
     function (ErzaManager, InicioTemp, ListarServidorView, ListarResolView, TipoView, EstadoView, RegimenView,
               EntidadView, EstadoAfpView, TipoPagoView, CondPlaView, Tabla_Cond_LabView, Tabla_Pago_BancoView,Tabla_Cond_AsegView, Tabla_DepView,Tabla_Cond_PlaView, Guardar_CondLabModel,
@@ -142,8 +142,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                 },
 
                 initialFetch: function(){
-                    var self=this;
-                    //alert("Hola Mundo");
+
                     this.TipoView.getTipo();
                     this.EstadoView.getTipoEstado();
                     this.RegimenView.getRegimen();
@@ -193,44 +192,24 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                 llamarModalUnidades: function(){
                     this.unidadesModalReg.show(this.unidadesDialog);
-                    //console.log("entrando");
+
                     $('#modal-unidades').modal("show");
-                    //console.log("saliendo");
+
                 },
 
                 seleccionarunidad:function(){
                     $('#modal-unidades').modal('hide');
                     this.unidadSelected = this.unidadesDialog.unidadClicked;
 
-                    console.log("Cambio unidad: "+this.unidadSelected.unidadDesc);
 
-                    //alert("Cambio unidad: "+this.unidadSelected.unidadDesc);
+
+
                     this.udcod= this.unidadSelected.unidadDesc.substr(0,5);
-                    //alert(this.udcod);
+
                     $('#nom_dep').text(this.unidadSelected.unidadDesc);
                 },
 
 
-                tablaEstilos: function(id){
-                    $("#"+id+"_wrapper").addClass('table-position');
-                    $('#'+id+'_paginate').addClass('table-footer');
-                    $('#'+id+'_filter input').on('keyup',function(){
-                        $('#'+id+'_previous').addClass('previous');
-                        $('#'+id+'_next').addClass('next');
-                    })  ;
-                    $('#'+id+'_previous').click(function(){
-
-                        $(this).addClass('previous');
-                        $('#'+id+'_next').addClass('next');
-                    });
-                    $('#'+id+'_next').click(function(){
-                        $(this).addClass('next');
-                        $('#'+id+'_previous').addClass('previous');
-                    });
-                    $('#'+id+'_previous').addClass('previous');
-                    $('#'+id+'_next').addClass('next');
-                    $('#'+id).addClass('table-bordered');
-                },
 
 
 
@@ -326,14 +305,13 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                     $('#tipito').val(desctip);
                     $('#catito').val(cat);
                     $('#estito').val(est);
-                   //alert(cod+"y su tipo es: "+desctip);
+
                     $('#estado_condicion-modal1').modal('hide');
-                    //Vemos que tipo tiene para asi cargar el layout correspondiente
-                    //lert("a"+this.ti+"b"+this.ti.length);
+
                     $('#cargando').fadeOut("slow");
                     $('#new').fadeOut("slow");
                     if(this.ti=="DOCENTE"){
-                       // alert("entro a docente"+this.ti);
+
                         this.cod_ti=1;
                         $('#cod_doc').val("0") ; //para resetear el combo docente
                         $('#categ_prof').val("9");  //para resetear el combo categoria
@@ -347,7 +325,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                     }
                     else if(this.ti=="ADMINISTRATIVO          "){
-                        //alert("entro a adm"+this.ti);
+
                         this.cod_ti=2;
                         $('#cod_adm').val("0") ;
                         $('#categ_prof').val("9") ;
@@ -520,7 +498,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                 seleccionarResolucion: function(e){
                     var clickedElement=$(e.currentTarget);
                     this.numresol=clickedElement.children(':nth-child(1)').text();
-                    //alert("ahi ta tu resolucion" + this.numresol);
+
                     $('#numresol').val(this.numresol);
                     $('#numresol_dep').val(this.numresol);
                     $('#numresol_aseg').val(this.numresol);
@@ -557,7 +535,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                    var codigo = this.codigo;//$('#id-servidor').text();
                    var numserest = this.numserest;//$('#id-numserest').text();
 
-                  // alert("el numero de resolucion es: "+numres +", el tipo es: "+tipo+", el estado es: "+estado+", la categoria es: "+categoria+"el codigo es: "+codigo+" el numserest es: "+numserest);
+
 
                     if(this.numresol!=null && categoria!="9"){
                         $("#advertencia").hide();
@@ -582,13 +560,13 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                     self_s.done(function () {
 
-                        console.log("done - funciono");
+
 
                     });
 
                     self_s.fail(function () {
 
-                        console.log("fail - no funciono :)");
+
 
                     });
 
@@ -606,14 +584,13 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                         self_is.done(function () {
 
-                            console.log("done - funciono");
 
                         });
                         var cod=this.codigo;
                         var numest=this.numserest;
 
                         self_is.fail(function () {
-                            console.log("codigo"+cod+" num"+numest);
+
                             self.Tabla_Cond_LabView.fetchTablaCondLab(cod,numest,function () {
 
                                     $("#table-cond-lab").dataTable();
@@ -687,11 +664,11 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                         var self_s= this.model.get("guardarcondaseg").save({},{wait:true});
                         var self= this;
                         self_s.done(function(){
-                            console.log("done - funciono");
+
                         });
 
                         self_s.fail(function(){
-                            console.log("falil - no funciono");
+
                         });
                         //Aqui se inserta en alertas pendientes
                         this.model.get("guardaralertpend").set({
@@ -710,7 +687,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                         self_s.done(function () {
 
-                            console.log("done - funciono");
+
 
                         });
 
@@ -772,20 +749,20 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                             "udcod":udcod
 
                         })
-                        //
-                        // alert(email+ numres+ codigo+ numserest+ udcod);
+
 
                         this.model.get("guardardependencia").url='api/estado_condicion/adddep';
                         var self_s= this.model.get("guardardependencia").save({},{wait:true});
                         var self= this;
                         self_s.done(function(){
-                            console.log("done - funciono");
+
                         });
 
                         self_s.fail(function(){
-                            console.log("fail - no funciono");
+
                         });
                         //Aqui se inserta en alertas pendientes
+
                         this.model.get("guardaralertpend").set({
                             "codigo": codigo,
                             "numserest": numserest,
@@ -802,7 +779,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                         self_s.done(function () {
 
-                            console.log("done - funciono");
+
 
                         });
 
@@ -868,14 +845,14 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                         var self_s=this.model.get("guardarpagobanco").save({}, {wait: true});
                         var self=this;
                         self_s.done(function(){
-                            console.log("done - funciono");
+
                         });
 
                         self_s.fail(function(){
-                            console.log("falil - no funciono");
+
                         });
 
-                        //Aqui se inserta en la tabla alertas pendientes
+
                         this.model.get("guardaralertpend").set({
                             "codigo": codigo,
                             "numserest": numserest,
@@ -892,7 +869,6 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                         self_s.done(function () {
 
-                            console.log("done - funciono");
 
                         });
 
@@ -944,11 +920,11 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                             var self_s=this.model.get("guardarpagobanco").save({}, {wait: true});
 
                             self_s.done(function(){
-                                console.log("done - funciono");
+
                             });
 
                             self_s.fail(function(){
-                                console.log("falil - no funciono");
+
                             });
 
                             //Aqui se inserta en la tabla alertas pendientes
@@ -968,7 +944,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                             self_s.done(function () {
 
-                                console.log("done - funciono");
+
 
                             });
 
@@ -1034,11 +1010,11 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                         var self_s=this.model.get("guardarcondpla").save({}, {wait: true});
                         var self=this;
                         self_s.done(function(){
-                            console.log("done - funciono");
+
                         });
 
                         self_s.fail(function(){
-                            console.log("falil - no funciono");
+
                         });
 
                         //Aqui se inserta en la tabla alertas pendientes
@@ -1058,7 +1034,6 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                         self_s.done(function () {
 
-                            console.log("done - funciono");
 
                         });
 
@@ -1110,11 +1085,11 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                                 var self_s=this.model.get("guardarcondpla").save({}, {wait: true});
                                 var self=this;
                                 self_s.done(function(){
-                                    console.log("done - funciono");
+
                                 });
 
                                 self_s.fail(function(){
-                                    console.log("falil - no funciono");
+
                                 });
 
                                 //Aqui se inserta en la tabla alertas pendientes
@@ -1134,7 +1109,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                                 self_s.done(function () {
 
-                                    console.log("done - funciono");
+
 
                                 });
 

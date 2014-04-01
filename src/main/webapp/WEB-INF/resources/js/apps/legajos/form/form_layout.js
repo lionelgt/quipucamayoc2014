@@ -4,7 +4,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
     "apps/legajos/form/model/addEstudio","apps/legajos/form/model/updateEstudio","apps/legajos/form/view/tipo-tiempo-servicio","apps/legajos/form/view/tipo-tiempo-reconoc","apps/legajos/form/view/resoluciones-table","apps/legajos/form/view/resoluciones-fam",
     "apps/legajos/form/model/addResolucion","apps/legajos/form/view/table-resolucion","apps/legajos/form/model/updateResolucion","apps/legajos/form/view/table-familiar",
     "apps/legajos/form/view/tipo-pago","apps/legajos/form/model/addDatosFamiliares","apps/legajos/form/model/editDatosFamiliares","apps/legajos/form/model/beneficiario",
-    "apps/legajos/form/model/updateBenef","apps/legajos/form/view/validarDocumento","apps/legajos/form/view/validarEditDocument","lib/jquery.dataTables.min","lib/bootstrap-datepicker","lib/avgrund","bootstrap"],
+    "apps/legajos/form/model/updateBenef","apps/legajos/form/view/validarDocumento","apps/legajos/form/view/validarEditDocument","lib/jquery.dataTables.min","lib/bootstrap-datepicker","bootstrap"],
     function (ErzaManager, layoutTpl,ServidoresTableView,TipoEstudioView,NivelEstudioView,PaisEstudioView,TableEstudioView,
               EstadoCivilView,TipoBeneficioView,TipDocumentView,TipoParentescoView,CarreraEstudioView,IdiomaEstudioView,AddEstudio,UpdateEstudio,
               TipoTiempoServicioView,TipoTiempoReconciView,ResolucionesTableView,ResolucionesFamiliar,AddResolucion,TableResolucionView,UpdateResolucion,TableFamiliarView,TipoPagoView,
@@ -167,7 +167,8 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
             },
 
             initialFetch: function(){
-                var self=this;
+
+
                 this.tipoEstudioView.getTipoEstudio(
                     function () {
                         $("#idio_est").hide();
@@ -192,69 +193,41 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
                 this.tipoTiempoReconociView.fetchReconcimiento(this.tipo_tmpo_recon);
                 this.tipoPagoView.getTipPago();
-                this.servidoresTableView.fetchServidores();
-            },
+                this.servidoresTableView.fetchServidores(function(){
 
-            tablaEstilos: function(id){
-                $("#"+id+"_wrapper").addClass('table-position');
-                $('#'+id+'_paginate').addClass('table-footer');
-                $('#'+id+'_filter input').on('keyup',function(){
-                    $('#'+id+'_previous').addClass('previous');
-                    $('#'+id+'_next').addClass('next');
-                })  ;
-                $('#'+id+'_previous').click(function(){
-                    $(this).addClass('previous');
-                    $('#'+id+'_next').addClass('next');
                 });
-                $('#'+id+'_next').click(function(){
-                    $(this).addClass('next');
-                    $('#'+id+'_previous').addClass('previous');
-                });
-                $('#'+id+'_previous').addClass('previous');
-                $('#'+id+'_next').addClass('next');
-                $('#'+id).addClass('table-bordered');
             },
 
 
-            invokeModalServ: function(){
+
+
+            invokeModalServ: function(e){
                 var self=this;
+                var clickedElement=$(e.currentTarget);
 
-                /*
-                $('#new').fadeIn(1000).delay(150).queue(function(){
+                clickedElement.button('loading');
 
-                    $('#loading').show().delay(1000).queue(function(){
+                setTimeout(function () {
+                    clickedElement.button('reset');
 
-                        self.servidoresTableView.fetchServidores(function(){
-                            $('#loading').hide();
-                            $("#table-servidores2").dataTable();
-                            $('#serv-table-modal').addClass('container-modal');
-                            $('#table-servidores2_wrapper').append("<div id='footer-table'></div>");
-                            $('#table-servidores2_next').html("<i  class='icon-forward'></i>");
-                            $('#table-servidores2_previous').html("<i class='icon-backward'></i>");
-                            $('.dataTables_filter input').addClass('buscador');
-                            $('.dataTables_filter input').attr('placeholder','Buscar..');
-                            self.tablaEstilos('table-servidores2');
-                            $('#cargando').show(1);
-                            $('#loading').dequeue();
-                            $('#new').dequeue();
+                    self.servidoresModal.show(self.servidoresTableView);
 
-                        });
-                        self.servidoresModal.show(self.servidoresTableView) ;
-                    });
-
-                });    */
-
-                self.servidoresModal.show(self.servidoresTableView);
-                $("#table-servidores2").dataTable();
+                    if(self.servidoresTableView.collection.length!=0){
+                        $("#table-servidores2").dataTable();
 
 
-                $('#table-servidores2_wrapper').append("<div id='footer-table'></div>");
-                $('#table-servidores2_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                $('#table-servidores2_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                        $('#table-servidores2_wrapper').append("<div id='footer-table'></div>");
+                        $('#table-servidores2_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                        $('#table-servidores2_previous').html("<i class='glyphicon glyphicon-backward'></i>");
 
-                $('.dataTables_filter input').attr('placeholder','Buscar..');
+                        $('.dataTables_filter input').attr('placeholder','Buscar..');
+                    }
 
-                $('#serv-table-modal1').modal();
+
+                    $('#serv-table-modal1').modal();
+                }, 2000);
+
+
 
             },
 
@@ -337,7 +310,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                 $('#resol-table-fam').modal('hide');
             },
             seleccionarServidor: function(e){
-                   //alert("hola");
+
                 var self=this;
                 var clickedElement=$(e.currentTarget);
                 this.codigo=clickedElement.children(':nth-child(1)').text();
@@ -356,7 +329,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
               this.tableFamiliarView.fetchFamiliares(this.codigo,
                     function () {
-                        console.log(self.tableFamiliarView.collection.length);
+
                         if(self.tableFamiliarView.collection.length!=0){
                             $("#table-familiare-servidor").dataTable();
 
@@ -367,7 +340,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
 
                             $('.dataTables_filter input').attr('placeholder','Buscar..');
-                            console.log("entro");
+
                         }
                 });
                 this.tablefamily.show(this.tableFamiliarView);
@@ -383,7 +356,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                             $('#table-estudios-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
                             $('#table-estudios-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
                             $('.dataTables_filter input').attr('placeholder','Buscar..');
-                            console.log("entro");
+
                         }
                     });
                 this.tablaEstudios.show(this.tableEstudioView);
@@ -399,7 +372,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                             $('#table-resoluciones-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
 
                             $('.dataTables_filter input').attr('placeholder','Buscar..');
-                            console.log("entro");
+
                         }
                 });
                 this.tablaResoluciones.show(this.tableResolucionView);
@@ -414,21 +387,6 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
                 this.tip_tmpo_serv_o_recon='001';
 
-
-                //this.tipoTiempoServicio.reset();
-                //this.limpiar_navtab();
-               /* this.tipoTiempoServicioView.fetchTipots(this.tip_tmpo_serv_o_recon,function(){
-                    if(this.id_tiempo!="0"){
-                            alert("por k!!!!");
-                        this.tipoTiempoServicio.reset();
-                        $("#tipo_ts").val(this.id_tiempo) ;
-                        $('#tipo_ts>#INGRESO').prop('selected', true);
-                    }
-
-                });
-                this.tipoTiempoServicio.show(this.tipoTiempoServicioView);  */
-                //$('#tipo_ts>#INGRESO').prop('selected', true);
-                //$("#tipo_ts").val(this.id_tiempo) ;
                 $('#por_tiempo_servicio').show();
                 $('#por_reconocimiento').hide();
 
@@ -451,16 +409,12 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
             fun_options_reconocimiento:function(){
                this.tip_tmpo_serv_o_recon='002';
-                /*this.tipoReconocimientoServicio.reset();
 
-                this.tipoTiempoServicioView.fetchTipots(this.tip_tmpo_serv_o_recon);
-                this.tipoReconocimientoServicio.show(this.tipoTiempoServicioView);  */
 
                 $('#por_tiempo_servicio').hide();
                 $('#por_reconocimiento').show();
-               // if(this.id_tiempo!="0"){
-                    //$("#tipo_ts").val(this.id_tiempo) ;
-               // }
+
+
                 $("#tipo_ts").val("0");
                 $("#f_ingreso").val("");
                 $("#resolucion").val("");
@@ -495,53 +449,17 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
             },
 
-            /*fun_validetta:function(tip){
-                if(tip=="001"||tip=="002"||tip=="003"){
-                    $('#nro_coleg').attr("data-validetta","required");
-                    $('#nro_titu').attr("data-validetta","required");
-                    $('#certificado').attr("data-validetta","required");
 
-                    $('#horas').removeAttr("data-validetta");
-                    $('#nume1 span').remove();
-                }
-                if(tip=="004"||tip=="005"||tip=="006"){
-                    $('#horas').attr("data-validetta","required");
-                    $('#nro_titu').attr("data-validetta","required");
-                    $('#certificado').attr("data-validetta","required");
-
-                    $('#nro_coleg').removeAttr("data-validetta");
-                    $('#nume2 span').remove();
-                }
-                if(tip=="007"){
-                    $('#nro_titu').attr("data-validetta","required");
-                    $('#certificado').attr("data-validetta","required");
-
-                    $('#horas').removeAttr("data-validetta");
-                    $('#nume1 span').remove();
-                    $('#nro_coleg').removeAttr("data-validetta");
-                    $('#nume2 span').remove();
-                }
-                if(tip=="008"||tip=="009"){
-                    $('#horas').removeAttr("data-validetta");
-                    $('#nume1 span').remove();
-                    $('#nro_coleg').removeAttr("data-validetta");
-                    $('#nume2 span').remove();
-                    $('#nro_titu').removeAttr("data-validetta");
-                    $('#nume3 span').remove();
-                    $('#certificado').removeAttr("data-validetta");
-                    $('#nume4 span').remove();
-                }
-            },   */
 
             cambioTipo:function(carrera,callBack){
 
 
                 var self=this;
-                //this.limpiar_navtab();
+
                 $('#leg_exp').val("");
                 var tipoyxhoras=$("#leg_tip").val();
                 this.tipo=tipoyxhoras.substr(0,3);
-                //self.fun_validetta(self.tipo);
+
                 var xhoras=tipoyxhoras.substr(4);
 
 
@@ -550,7 +468,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
                 function () {
                     if(self.nivelEstudioView.collection.length==0){
-                       // alert("Mostrar");
+
                         $('#div_niv_est').hide();
 
                     }else{
@@ -682,7 +600,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
             },
 
             MostrarSexo:function(){
-                // alert($('#nivel').val());
+
             },
 
             fun_legaj_nac_show:function(){
@@ -791,17 +709,11 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                 $("#legaj_nac").val("");
             },
 
-            validarcampos:function(tipo){
-                if(tipo=='001'||tipo=='002'||tipo=='003'){
-                  if($('#centro_estudio')==null){
 
-                  }
-                }
-            },
 
             agregarEstudio: function(){
                 var self=this;
-                console.log("/////////////////////////////////") ;
+
 
                     if($("#leg_tip").val()=="000"){
                         $("#fam-advertencia").removeClass("alert-success");
@@ -846,7 +758,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                               var fechaFin=365*anioF+30*mesF+diaF;
 
                                               if(fechaFin>fechaInicio){
-                                                  console.log("entro")
+
                                                   if(self.xfecha_xduracion==0){
                                                       self.duracion="-";
                                                   };
@@ -868,8 +780,6 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                   self.nro_coleg=$("#nro_coleg").val();
                                                   self.nvl_alcanz=$("#niv_est").val();
 
-
-                                                  console.log("set model");
                                                   self.model.get("addestudio").set({
                                                       "codigo": self.codigo,
                                                       "tipCod": self.tipo,
@@ -887,14 +797,14 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                       "niveldescripcion":self.nvl_alcanz
                                                   });
 
-                                                  console.log(self.model.get("addestudio"));
+
                                                   self.model.get("addestudio").url = "api/legajos/addEstudio";
 
                                                   var self_s=self.model.get("addestudio").save({}, {wait: true});
 
 
                                                   self_s.fail(function () {
-                                                      console.log("datos servidor save fail!");
+
                                                       self.tableEstudioView.fetchEstudios(self.codigo,
                                                           function () {
                                                               $("#table-estudios-servidor").dataTable();
@@ -964,7 +874,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                   $("#fam-advertencia").show();
                                               }
                                               else{
-                                                  console.log("entro")
+
                                                   if(self.xfecha_xduracion==0){
                                                       self.duracion="-";
                                                   };
@@ -976,7 +886,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                   };
 
                                                   var tipoyxhoras=$("#leg_tip").val();
-                                                  var tipo=tipoyxhoras.substr(0,3);
+
 
                                                   self.espec= $("#especialidad").val();
                                                   self.nro_tit= $("#nro_titu").val();
@@ -987,7 +897,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
 
 
-                                                  console.log("set model");
+
                                                   self.model.get("addestudio").set({
                                                       "codigo": self.codigo,
                                                       "tipCod": self.tipo,
@@ -1005,13 +915,13 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                       "niveldescripcion":self.nvl_alcanz
                                                   });
 
-                                                  console.log(self.model.get("addestudio"));
+
                                                   self.model.get("addestudio").url = "api/legajos/addEstudio";
 
                                                   var self_s=self.model.get("addestudio").save({}, {wait: true});
 
                                                   self_s.fail(function () {
-                                                      console.log("datos servidor save fail!");
+
                                                       self.tableEstudioView.fetchEstudios(self.codigo,
                                                           function () {
                                                               $("#table-estudios-servidor").dataTable();
@@ -1111,7 +1021,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                  var anioF=parseInt($("#legaj_fin").val().substring(6,10));
                                                  var fechaFin=365*anioF+30*mesF+diaF;
                                                  if(fechaFin>fechaInicio){
-                                                     console.log("entro")
+
                                                      if(self.xfecha_xduracion==0){
                                                          self.duracion="-";
                                                      };
@@ -1123,7 +1033,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                      };
 
                                                      var tipoyxhoras=$("#leg_tip").val();
-                                                     var tipo=tipoyxhoras.substr(0,3);
+
 
 
 
@@ -1136,7 +1046,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                      self.horas=parseInt($('#horas').val());
 
 
-                                                     console.log("set model");
+
                                                      self.model.get("addestudio").set({
                                                          "codigo": self.codigo,
                                                          "tipCod": self.tipo,
@@ -1154,13 +1064,13 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                          "niveldescripcion":self.nvl_alcanz
                                                      });
 
-                                                     console.log(self.model.get("addestudio"));
+
                                                      self.model.get("addestudio").url = "api/legajos/addEstudio";
 
                                                      var self_s=self.model.get("addestudio").save({}, {wait: true});
 
                                                      self_s.fail(function () {
-                                                         console.log("datos servidor save fail!");
+
                                                          self.tableEstudioView.fetchEstudios(self.codigo,
                                                              function () {
                                                                  $("#table-estudios-servidor").dataTable();
@@ -1228,7 +1138,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                      $("#fam-advertencia").show();
                                                  }
                                                  else{
-                                                     console.log("entro")
+
                                                      if(self.xfecha_xduracion==0){
                                                          self.duracion="-";
                                                      };
@@ -1240,7 +1150,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                      };
 
                                                      var tipoyxhoras=$("#leg_tip").val();
-                                                     var tipo=tipoyxhoras.substr(0,3);
+
 
                                                      self.espec= $("#especialidad").val();
                                                      self.nro_tit= $("#nro_titu").val();
@@ -1251,7 +1161,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                      self.horas=parseInt($('#horas').val());
 
 
-                                                     console.log("set model");
+
                                                      self.model.get("addestudio").set({
                                                          "codigo": self.codigo,
                                                          "tipCod": self.tipo,
@@ -1269,13 +1179,13 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                          "niveldescripcion":self.nvl_alcanz
                                                      });
 
-                                                     console.log(self.model.get("addestudio"));
+
                                                      self.model.get("addestudio").url = "api/legajos/addEstudio";
 
                                                      var self_s=self.model.get("addestudio").save({}, {wait: true});
 
                                                      self_s.fail(function () {
-                                                         console.log("datos servidor save fail!");
+
                                                          self.tableEstudioView.fetchEstudios(self.codigo,
                                                              function () {
                                                                  $("#table-estudios-servidor").dataTable();
@@ -1366,7 +1276,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                            var fechaFin=365*anioF+30*mesF+diaF;
 
                                            if(fechaFin>fechaInicio){
-                                               console.log("entro")
+
                                                if(self.xfecha_xduracion==0){
                                                    self.duracion="-";
                                                };
@@ -1378,14 +1288,14 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                };
 
                                                var tipoyxhoras=$("#leg_tip").val();
-                                               var tipo=tipoyxhoras.substr(0,3);
+
 
 
                                                self.espec= $("#idio_est").val();
                                                self.nro_tit= $("#nro_titu").val();
                                                self.fecha_exp=$("#leg_exp").val();
                                                self.certif=$
-                                               console.log("set model");
+
                                                self.model.get("addestudio").set({
                                                    "codigo": self.codigo,
                                                    "tipCod": self.tipo,
@@ -1403,13 +1313,13 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                    "niveldescripcion":self.nvl_alcanz
                                                });
 
-                                               console.log(self.model.get("addestudio"));
+
                                                self.model.get("addestudio").url = "api/legajos/addEstudio";
 
                                                var self_s=self.model.get("addestudio").save({}, {wait: true});
 
                                                self_s.fail(function () {
-                                                   console.log("datos servidor save fail!");
+
                                                    self.tableEstudioView.fetchEstudios(self.codigo,
                                                        function () {
                                                            $("#table-estudios-servidor").dataTable();
@@ -1475,7 +1385,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                            }
                                            else{
 
-                                               console.log("entro")
+
                                                if(self.xfecha_xduracion==0){
                                                    self.duracion="-";
                                                };
@@ -1487,7 +1397,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                };
 
                                                var tipoyxhoras=$("#leg_tip").val();
-                                               var tipo=tipoyxhoras.substr(0,3);
+
 
 
                                                self.espec= $("#idio_est").val();
@@ -1497,7 +1407,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                self.nro_coleg="-";
                                                self.nvl_alcanz=$("#niv_est").val();
 
-                                               console.log("set model");
+
                                                self.model.get("addestudio").set({
                                                    "codigo": self.codigo,
                                                    "tipCod": self.tipo,
@@ -1515,13 +1425,12 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                    "niveldescripcion":self.nvl_alcanz
                                                });
 
-                                               console.log(self.model.get("addestudio"));
                                                self.model.get("addestudio").url = "api/legajos/addEstudio";
 
                                                var self_s=self.model.get("addestudio").save({}, {wait: true});
 
                                                self_s.fail(function () {
-                                                   console.log("datos servidor save fail!");
+
                                                    self.tableEstudioView.fetchEstudios(self.codigo,
                                                        function () {
                                                            $("#table-estudios-servidor").dataTable();
@@ -1597,7 +1506,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                         var anioF=parseInt($("#legaj_fin").val().substring(6,10));
                                         var fechaFin=365*anioF+30*mesF+diaF;
                                        if(fechaFin>fechaInicio){
-                                           console.log("entro")
+
                                            if(self.xfecha_xduracion==0){
                                                self.duracion="-";
                                            };
@@ -1609,7 +1518,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                            };
 
                                            var tipoyxhoras=$("#leg_tip").val();
-                                           var tipo=tipoyxhoras.substr(0,3);
+
 
                                            self.espec="-";
                                            self.nro_tit="-";
@@ -1619,7 +1528,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                            self.nvl_alcanz=$("#niv_est").val();
 
 
-                                           console.log("set model");
+
                                            self.model.get("addestudio").set({
                                                "codigo": self.codigo,
                                                "tipCod": self.tipo,
@@ -1637,13 +1546,13 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                "niveldescripcion":self.nvl_alcanz
                                            });
 
-                                           console.log(self.model.get("addestudio"));
+
                                            self.model.get("addestudio").url = "api/legajos/addEstudio";
 
                                            var self_s=self.model.get("addestudio").save({}, {wait: true});
 
                                            self_s.fail(function () {
-                                               console.log("datos servidor save fail!");
+
                                                self.tableEstudioView.fetchEstudios(self.codigo,
                                                    function () {
                                                        $("#table-estudios-servidor").dataTable();
@@ -1707,7 +1616,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                             $("#fam-advertencia").show();
                                         }
                                         else{
-                                            console.log("entro")
+
                                             if(self.xfecha_xduracion==0){
                                                 self.duracion="-";
                                             };
@@ -1719,7 +1628,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                             };
 
                                             var tipoyxhoras=$("#leg_tip").val();
-                                            var tipo=tipoyxhoras.substr(0,3);
+
 
 
                                             self.espec="-";
@@ -1730,7 +1639,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                             self.nvl_alcanz=$("#niv_est").val();
 
 
-                                            console.log("set model");
+
                                             self.model.get("addestudio").set({
                                                 "codigo": self.codigo,
                                                 "tipCod": self.tipo,
@@ -1748,13 +1657,13 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                 "niveldescripcion":self.nvl_alcanz
                                             });
 
-                                            console.log(self.model.get("addestudio"));
+
                                             self.model.get("addestudio").url = "api/legajos/addEstudio";
 
                                             var self_s=self.model.get("addestudio").save({}, {wait: true});
 
                                             self_s.fail(function () {
-                                                console.log("datos servidor save fail!");
+
                                                 self.tableEstudioView.fetchEstudios(self.codigo,
                                                     function () {
                                                         $("#table-estudios-servidor").dataTable();
@@ -1826,7 +1735,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                     type: 'DELETE',
                     url: url,
                     success: function(){
-                        console.log("datos estudio save ok!");
+
                         self.tableEstudioView.fetchEstudios(self.codigo,
                             function () {
                                 $("#table-estudios-servidor").dataTable();
@@ -1837,7 +1746,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                 $('.dataTables_filter input').attr('placeholder','Buscar..');
                             });
                         self.tablaEstudios.show(self.tableEstudioView);
-                        self.tablaEstilos('table-estudios-servidor')
+
                     },
                     error: function(){
                         self.tableEstudioView.fetchEstudios(self.codigo,
@@ -1850,10 +1759,10 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                 $('.dataTables_filter input').attr('placeholder','Buscar..');
                             });
                         self.tablaEstudios.show(self.tableEstudioView);
-                        self.tablaEstilos('table-estudios-servidor')
+
                     }
                 });
-                Avgrund.hide();
+
 
             },
 
@@ -1895,28 +1804,10 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                 $("#form_insert_ts").show();
                 $("#form_update_ts").hide();
             },
-           /* resetResolucion:function(){
 
-                $("#fam-advertencia").hide();
-                $('#por_tiempo_servicio').each (function(){
-                    this.reset();
-                });
-                $('#form_insert_ts').show();
-                $('#form_update_ts').hide();
-
-                $('#por_reconocimiento').each (function(){
-                    this.reset();
-                });
-
-             // $("#option_ts").prop("checked",true).trigger("change");
-                //$("#optionsRadios1").prop("checked", true).trigger('click');
-               $('#form_insert_rts').show();
-                $('#form_update_rts').hide();
-
-            },  */
 
             fun_cargar_estudio:function(ev){
-                var self=this;
+
                 this.cargar=1;
                  $('#leg_tip > #'+this.tipo).removeAttr("selected");
                 var element = $(ev.currentTarget);
@@ -1928,7 +1819,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
                 var carrera=element.parent().parent().children(':nth-child(7)').text();
                 this.cambioTipo(carrera,function(){
-                    console.log("ejecutando callback")
+
                     $('#niv_est').val(element.parent().parent().children(':nth-child(10)').text().trim());
                     $('#niv_est > #'+element.parent().parent().children(':nth-child(10)').text()).attr('selected', true);
                 });
@@ -2061,7 +1952,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                 var self_s=this.model.get("updateestudio").save({}, {wait: true});
 
                                                 self_s.fail(function () {
-                                                    console.log("datos servidor save fail!");
+
                                                     self.tableEstudioView.fetchEstudios(self.codigo,
                                                         function () {
                                                             $("#table-estudios-servidor").dataTable();
@@ -2170,7 +2061,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                 var self_s=this.model.get("updateestudio").save({}, {wait: true});
 
                                                 self_s.fail(function () {
-                                                    console.log("datos servidor save fail!");
+
                                                     self.tableEstudioView.fetchEstudios(self.codigo,
                                                         function () {
                                                             $("#table-estudios-servidor").dataTable();
@@ -2306,7 +2197,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                 var self_s=this.model.get("updateestudio").save({}, {wait: true});
 
                                                 self_s.fail(function () {
-                                                    console.log("datos servidor save fail!");
+
                                                     self.tableEstudioView.fetchEstudios(self.codigo,
                                                         function () {
                                                             $("#table-estudios-servidor").dataTable();
@@ -2414,7 +2305,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                 var self_s=this.model.get("updateestudio").save({}, {wait: true});
 
                                                 self_s.fail(function () {
-                                                    console.log("datos servidor save fail!");
+
                                                     self.tableEstudioView.fetchEstudios(self.codigo,
                                                         function () {
                                                             $("#table-estudios-servidor").dataTable();
@@ -2501,7 +2392,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                             this.cargar=0;
                                             var tipoyxhoras=$("#leg_tip").val();
                                             var tipo=tipoyxhoras.substr(0,3);
-                                            console.log("tipo "+tipo+" "+this.xfecha_xduracion);
+
 
                                             if(this.xfecha_xduracion==0){
                                                 this.duracion="-";
@@ -2542,7 +2433,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                             var self_s=this.model.get("updateestudio").save({}, {wait: true});
 
                                             self_s.fail(function () {
-                                                console.log("datos servidor save fail!");
+
                                                 self.tableEstudioView.fetchEstudios(self.codigo,
                                                     function () {
                                                         $("#table-estudios-servidor").dataTable();
@@ -2605,7 +2496,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                             this.cargar=0;
                                             var tipoyxhoras=$("#leg_tip").val();
                                             var tipo=tipoyxhoras.substr(0,3);
-                                            console.log("tipo "+tipo+" "+this.xfecha_xduracion);
+
 
                                             if(this.xfecha_xduracion==0){
                                                 this.duracion="-";
@@ -2645,7 +2536,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                             var self_s=this.model.get("updateestudio").save({}, {wait: true});
 
                                             self_s.fail(function () {
-                                                console.log("datos servidor save fail!");
+
                                                 self.tableEstudioView.fetchEstudios(self.codigo,
                                                     function () {
                                                         $("#table-estudios-servidor").dataTable();
@@ -2707,7 +2598,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                     this.cargar=0;
                                     var tipoyxhoras=$("#leg_tip").val();
                                     var tipo=tipoyxhoras.substr(0,3);
-                                    console.log("tipo "+tipo+" "+this.xfecha_xduracion);
+
 
                                     if(this.xfecha_xduracion==0){
                                         this.duracion="-";
@@ -2748,7 +2639,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                     var self_s=this.model.get("updateestudio").save({}, {wait: true});
 
                                     self_s.fail(function () {
-                                        console.log("datos servidor save fail!");
+
                                         self.tableEstudioView.fetchEstudios(self.codigo,
                                             function () {
                                                 $("#table-estudios-servidor").dataTable();
@@ -2806,7 +2697,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                         this.cargar=0;
                                         var tipoyxhoras=$("#leg_tip").val();
                                         var tipo=tipoyxhoras.substr(0,3);
-                                        console.log("tipo "+tipo+" "+this.xfecha_xduracion);
+
 
                                         if(this.xfecha_xduracion==0){
                                             this.duracion="-";
@@ -2847,7 +2738,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                         var self_s=this.model.get("updateestudio").save({}, {wait: true});
 
                                         self_s.fail(function () {
-                                            console.log("datos servidor save fail!");
+
                                             self.tableEstudioView.fetchEstudios(self.codigo,
                                                 function () {
                                                     $("#table-estudios-servidor").dataTable();
@@ -2928,12 +2819,12 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                       "res_codser":self.codigo,
                                       "res_num_serest": self.num_ser_est
                                   });
-                                  console.log($("#tipo_ts").val()+"-"+$("#f_ingreso").val()+"-"+$("#resolucion").val()+"-"+self.codigo+"-"+self.num_ser_est);
+
                                   self.model.get("addresolucion").url = "api/legajos/addResolucion";
                                   var self_s=self.model.get("addresolucion").save({}, {wait: true});
 
                                   self_s.fail(function () {
-                                      console.log("datos resolucion save fail!"+self.codigo+" "+self.num_ser_est);
+
                                       self.tableResolucionView.fetchResol(self.codigo,self.num_ser_est,
                                           function () {
                                               if(self.tableResolucionView.collection.length!=0){
@@ -3002,12 +2893,12 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                        "res_num_serest": self.num_ser_est
                                    });
 
-                                   console.log($("#tipo_ts").val()+"-"+$("#f_ingreso").val()+"-"+$("#resolucion").val()+"-"+self.codigo+"-"+self.num_ser_est);
+
                                    self.model.get("addresolucion").url = "api/legajos/addResolucion";
                                    var self_s=self.model.get("addresolucion").save({}, {wait: true});
 
                                    self_s.fail(function () {
-                                       console.log("datos resolucion save fail!"+self.codigo+" "+self.num_ser_est);
+
                                        self.tableResolucionView.fetchResol(self.codigo,self.num_ser_est,
                                            function () {
                                                if(self.tableResolucionView.collection.length!=0){
@@ -3077,7 +2968,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                     type: 'DELETE',
                     url: url,
                     success: function(){
-                        console.log("datos tiempo de servicio save ok!");
+
                         self.tableResolucionView.fetchResol(self.codigo,self.num_ser_est,
                             function () {
                                 if(self.tableResolucionView.collection.length!=0){
@@ -3090,10 +2981,10 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                 }
                             });
                         self.tablaResoluciones.show(self.tableResolucionView);
-                        self.tablaEstilos('table-resoluciones-servidor');
+
                     },
                     error: function(){
-                        console.log("datos tiempo de servicio fail!");
+
                         self.tableResolucionView.fetchResol(self.codigo,self.num_ser_est,
                             function () {
                                 if(self.tableResolucionView.collection.length!=0){
@@ -3106,10 +2997,10 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                 }
                             });
                         self.tablaResoluciones.show(self.tableResolucionView);
-                        self.tablaEstilos('table-resoluciones-servidor');
+
                     }
                 });
-                Avgrund.hide();
+
             },
 
             fun_cargar_tmp_servicio:function(ev){
@@ -3119,26 +3010,24 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                 var element = $(ev.currentTarget);
                 this.id_tiempo_servicio=element.parent().parent().attr('id');
                 var temporal=element.parent().parent().children(':nth-child(1)').attr('data');
-                var texto=element.parent().parent().children(':nth-child(1)').text();
+
 
                 this.id_tiempo=element.parent().parent().children(':nth-child(1)').attr('data1');
 
-                console.log(temporal);
+
                 $('input:radio[name=tipos_servicio][value='+temporal+']').click();
                 if(temporal=='001'){
 
-                   // function fn1() {
+
                         this.tip_tmpo_serv_o_recon=temporal;
 
 
                        $("#option_rts").prop("disabled",true);
-                      // $("#option_ts").prop("disabled",false);
-                    //$('input:radio[name=tipos_servicio][value=001]').click();
 
 
 
                        $("#tipo_ts").val(this.id_tiempo);
-                        // alert("poema");
+
                        $("#tipo_ts").prop("disabled",true);
                         $('#form_insert_ts').hide();
                         $('#form_update_ts').show();
@@ -3146,7 +3035,6 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                         $("#fecha_resolt").val(element.parent().parent().children(':nth-child(3)').attr('data'));
                         $("#f_ingreso").val(element.parent().parent().children(':nth-child(2)').text());
 
-                       // alert("moderatto");
 
                 };
                 if(temporal=='002'){
@@ -3154,10 +3042,10 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
 
 
-                         //$("#option_rts").prop("disabled",false);
+
                         $("#option_ts").prop("disabled",true);
                         this.tip_tmpo_serv_o_recon=temporal;
-                        //$('input:radio[name=tipos_servicio][value=002]').click();
+
                         $('#form_insert_rts').hide();
                         $('#form_update_rts').show();
                         $("#tipo_rec").val(this.id_tiempo);
@@ -3221,13 +3109,13 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                 "res_dia": 0
                             });
 
-                            console.log(this.model.get("updateresolucion"));
+
                             this.model.get("updateresolucion").url = "api/legajos/updateResolucion";
 
                             var self_s=this.model.get("updateresolucion").save({}, {wait: true});
 
                             self_s.fail(function () {
-                                console.log("datos servidor save fail!");
+
                                 self.tableResolucionView.fetchResol(self.codigo,self.num_ser_est,
                                     function () {
                                         if(self.tableResolucionView.collection.length!=0){
@@ -3292,13 +3180,13 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                     "res_mes": $("#fecha_resolt_mes").val(),
                                     "res_dia": $("#fecha_resolt_dia").val()
                                 });
-                                console.log(this.model.get("updateresolucion"));
+
                                 this.model.get("updateresolucion").url = "api/legajos/updateResolucion";
 
                                 var self_s=this.model.get("updateresolucion").save({}, {wait: true});
 
                                 self_s.fail(function () {
-                                    console.log("datos servidor save fail!");
+
                                     self.tableResolucionView.fetchResol(self.codigo,self.num_ser_est,
                                         function () {
                                             if(self.tableResolucionView.collection.length!=0){
@@ -3454,7 +3342,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                  var self_s = self.model.get("datosfamiliares").save({}, { wait: true});
 
                                                  self_s.done(function(){
-                                                     console.log("funciono BIEN");
+
                                                      self.tableFamiliarView.fetchFamiliares(self.codigo,
                                                          function () {
                                                              $("#table-familiare-servidor").dataTable();
@@ -3555,7 +3443,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                                  var self_s = self.model.get("datosfamiliares").save({}, { wait: true});
 
                                                                  self_s.done(function(){
-                                                                     console.log("funciono BIEN");
+
                                                                      self.tableFamiliarView.fetchFamiliares(self.codigo,
                                                                          function () {
                                                                              $("#table-familiare-servidor").dataTable();
@@ -3574,7 +3462,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                                      titularcuenta=$('#titularcuenta').val();
 
 
-                                                                     // alert("tipo pago:"+tipopago+" numcuenta:"+numcuenta+" titularcuenta:"+titularcuenta+"dnipero"+numdoc);
+
                                                                      self.model.get("beneficiarios").set({
                                                                          "tipopago": $("#lega_tip_pago").val(),
                                                                          "tipbeneficio":$("#tip_benef_fam").val(),
@@ -3678,7 +3566,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                          var self_s = self.model.get("datosfamiliares").save({}, { wait: true});
 
                                                          self_s.done(function(){
-                                                             console.log("funciono BIEN");
+
                                                              self.tableFamiliarView.fetchFamiliares(self.codigo,
                                                                  function () {
                                                                      $("#table-familiare-servidor").dataTable();
@@ -3689,7 +3577,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                                      $('.dataTables_filter input').attr('placeholder','Buscar..');
                                                                  });
                                                              self.tablefamily.show(self.tableFamiliarView);
-                                                             self.tablaEstilos('table-familiare-servidor')
+
                                                          });
                                                          self_s.fail(function(){
                                                              tipopago=$('#lega_tip_pago').val();
@@ -3739,7 +3627,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                                          $("#beneficio").val("000").trigger('change');
                                                                      });
 
-                                                                 self.tablaEstilos('table-familiare-servidor')
+
                                                                  self.tablefamily.show(self.tableFamiliarView);
                                                              });
 
@@ -3908,7 +3796,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                      var self_s = self.model.get("editdatosfamiliares").save({}, { wait: true});
 
                                                     self_s.fail(function(){
-                                                        console.log("funciono ERROR");
+
                                                         self.tableFamiliarView.fetchFamiliares(self.codigo,
                                                             function () {
                                                                 $("#table-familiare-servidor").dataTable();
@@ -4001,7 +3889,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                                          var self_s = self.model.get("updatebenefam").save({}, { wait: true});
 
                                                                          self_s.done(function(){
-                                                                             console.log("funciono BIEN");
+
                                                                              self.tableFamiliarView.fetchFamiliares(self.codigo,
                                                                                  function () {
                                                                                      $("#table-familiare-servidor").dataTable();
@@ -4011,13 +3899,13 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
                                                                                      $('.dataTables_filter input').attr('placeholder','Buscar..');
                                                                                  });
-                                                                             //this.tablaEstudios.show(this.tableEstudioView);
+
                                                                              self.tablefamily.show(self.tableFamiliarView);
-                                                                             self.tablaEstilos('table-familiare-servidor')
-                                                                             //this.tablaEstilos('table-estudios-servidor')
+
+
                                                                          });
                                                                          self_s.fail(function(){
-                                                                             console.log("funciono ERROR");
+
                                                                              self.tableFamiliarView.fetchFamiliares(self.codigo,
                                                                                  function () {
                                                                                      $("#table-familiare-servidor").dataTable();
@@ -4103,7 +3991,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                                  var self_s = self.model.get("updatebenefam").save({}, { wait: true});
 
                                                                  self_s.done(function(){
-                                                                     console.log("funciono BIEN");
+
                                                                      self.tableFamiliarView.fetchFamiliares(self.codigo,
                                                                          function () {
                                                                              $("#table-familiare-servidor").dataTable();
@@ -4119,7 +4007,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
                                                                  });
                                                                  self_s.fail(function(){
-                                                                     console.log("funciono ERROR");
+
                                                                      self.tableFamiliarView.fetchFamiliares(self.codigo,
                                                                          function () {
                                                                              $("#table-familiare-servidor").dataTable();
@@ -4189,16 +4077,14 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
             fun_delete_fam:function(e){
                 var self = this;
-                //var clickedElement=$(e.currentTarget);
-                //var idfamiliar=clickedElement.parent().parent().attr('dataid');
-                //idfamiliar=$('#idfamiliar').text();
+
                 var url='api/legajos/deleteFamiliar/'+self.id_familiar;
-                // alert(idfamiliar);
+
                 $.ajax({
                     type: 'DELETE',
                     url: url,
                     success: function(){
-                        console.log("funciono BIEN");
+
                         self.tableFamiliarView.fetchFamiliares(self.codigo,
                             function () {
                                 $("#table-familiare-servidor").dataTable();
@@ -4208,13 +4094,13 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
                                 $('.dataTables_filter input').attr('placeholder','Buscar..');
                             });
-                        //this.tablaEstudios.show(this.tableEstudioView);
+
                         self.tablefamily.show(self.tableFamiliarView);
-                        self.tablaEstilos('table-familiare-servidor')
+
                     },
                     error: function(){
 
-                        console.log("funciono MAL");
+
                         self.tableFamiliarView.fetchFamiliares(self.codigo,
                             function () {
                                 $("#table-familiare-servidor").dataTable();
@@ -4225,33 +4111,30 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                 $('.dataTables_filter input').attr('placeholder','Buscar..');
                             });
                         self.tablefamily.show(self.tableFamiliarView);
-                        self.tablaEstilos('table-familiare-servidor')
+
                     }
                 });
-                Avgrund.hide();
+
             },
             bvmodal:function(e){
                 var clickedElement=$(e.currentTarget);
                 this.id_familiar=clickedElement.parent().parent().attr('dataid');
-               // Avgrund.show("#delete-popup-fam");
+
             },
             avmodal:function(ev){
-                //this.resetEstudio();
+
 
                 var element = $(ev.currentTarget);
                 this.id_est_delete =element.parent().parent().attr('id');
-                //Avgrund.show("#default-popup");
+
             },
 
-            cancelaravmodal:function(){
-                Avgrund.hide();
-            },
 
             avmodal2:function(ev){
 
                 var element = $(ev.currentTarget);
                 this.id_tyrs_delete=element.parent().parent().attr('id');
-               // Avgrund.show("#default-popup2");
+
             },
 
             limpiar_navtab:function(){

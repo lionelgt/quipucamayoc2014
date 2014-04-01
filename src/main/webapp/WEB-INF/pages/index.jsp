@@ -12,31 +12,7 @@
 </head>
 <body>
 
-    <%--<sec:authorize access="isAnonymous()">--%>
-    <%--<p>--%>
-    <%--<a href="/spring_security_login">Sign In</a>--%>
-    <%--</p>--%>
-    <%--</sec:authorize>--%>
 
-   <%-- <sec:authorize access="isAuthenticated()">
-        <br>
-
-        <p>Hi, ${userDetails.username}! <a href="/j_spring_security_logout">Sign Out</a></p>
-    </sec:authorize>
-
-    <sec:authorize access="hasRole('admin')">
-        <p>
-            <a href="/admin">Admin page</a>
-            <a href="/planilla">Admin planilla</a>
-        </p>
-    </sec:authorize>
-    <sec:authorize access="hasRole('userperfil')">
-        <p>
-            <h1>usted es solicitador de perfil</h1>
-        </p>
-    </sec:authorize>--%>
-
-    <%--<sec:authorize access="isAnonymous()">--%>
 
             <div class="container">
                 <div class="navbar">
@@ -97,7 +73,7 @@
 
 
         <footer class="footer" style="text-align: center;padding-top: 40px;padding-bottom: 20px;">© Quipucamayoc 2014</footer>
-    <%--</sec:authorize>--%>
+
 
 </body>
 </html>

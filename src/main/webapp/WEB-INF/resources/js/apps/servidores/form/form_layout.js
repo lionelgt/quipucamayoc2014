@@ -140,7 +140,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                                 codpaises[i] = $("ul#lista li:nth-child(" + (i + 1) + ")").attr("id");
                                 paises[i] = $("ul#lista li:nth-child(" + (i + 1) + ")").text();
 
-                                console.log("sin tomar:" + paises[i]);
+
                             }
                         }
 
@@ -157,14 +157,9 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
 
                             $("#autocom").keyup(function () {
 
-                                console.log($("#autocom").val().toUpperCase());
-
-                                //alert(paises[0]);
-                                // if ( event.which == 13 ) {
-                                //alert($("#autocomple").val());
                                 for (var i = 0; i < 272; i++) {
 
-                                    // if(paises[i]==$("#autocomple").val()){
+
 
                                     if ($("#autocom").val() == "PERÚ" || $("#autocom").val().toUpperCase() == "PERU") {
 
@@ -174,7 +169,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
 
                                         for (var i = 0; i < 272; i++) {
                                             if (paises[i] == $("#autocom").val()) {
-                                                console.log("Yaaaa!!!" + codpaises[i]);
+
                                                 $("#autocom").attr("data", codpaises[i]);
                                             }
                                         }
@@ -187,7 +182,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
 
                                         for (var i = 0; i < 272; i++) {
                                             if (paises[i] == $("#autocom").val()) {
-                                                console.log("Yaaaa!!!" + codpaises[i]);
+
                                                 $("#autocom").attr("data", codpaises[i]);
                                             }
                                         }
@@ -236,7 +231,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                                 }
                             );
 
-                            //render numero de sistema privado de pensiones
+
                             var temp_num_sis_pri_pen = $("#num_sis_pri_pen");
 
                             temp_num_sis_pri_pen.val(null);
@@ -250,18 +245,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                     this.entidadesAseguradoraView.initialize();
                     this.estadosAFP.initialize();
                     this.tipoPago.initialize(
-//                        function () {
-//
-//                            //render cuenta bancaria
-//                            var temp_cue_ban = $("#cta_ban");
-//
-//                            temp_cue_ban.val(null);
-//
-//                            if (self.tipoPago.collection.at(0).get("cod") == 1)
-//                                temp_cue_ban.parent().parent().show();
-//                            else
-//                                temp_cue_ban.parent().parent().hide();
-//                        }
+
                     );
                     this.CondicionPlanView.initialize();
                     this.tipoOcupacionView.initialize();
@@ -281,12 +265,12 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
 
                     var act_dep = $('#actdepartamento').val();
                     var act_pro = $('#serv_act_provincia').val();
-                    console.log("act_dep" + act_dep + " " + "act_pro" + act_pro);
+
 
                     self.distrActualView.fetchActDistritos(act_dep, act_pro, function () {
                         self.div_act_distr.show(self.distrActualView);
                         if (self.distrActualView.collection.length == 0) {
-                            // $("#div_distrito").parent().parent().hide();
+
                             $("#serv_act_distr").hide();
                         }
                         else {
@@ -506,16 +490,16 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
 
                     var act_dep = $('#nacdepartamento').val();
                     var act_pro = $('#serv_nac_provincia').val();
-                    console.log("act_dep" + act_dep + " " + "act_pro" + act_pro);
+
 
                     self.distrNacimientoView.fetchNacDistritos(act_dep, act_pro, function () {
                         self.div_nac_distr.show(self.distrNacimientoView);
                         if (self.distrNacimientoView.collection.length == 0) {
-                            // $("#div_distrito").parent().parent().hide();
+
                             $("#serv_nac_distr").hide();
                         }
                         else {
-                            // $("#div_distrito").parent().parent().show();
+
                             $("#serv_nac_distr").show();
                         }
                     });
@@ -529,7 +513,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                         self.div_act_prov.show(self.provActualView);
 
                         if (self.provActualView.collection.length == 0) {
-                            //$("#div_provincia").parent().parent().hide();
+
                             $("#serv_act_prov").hide();
                         }
                         else {
@@ -555,13 +539,11 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                     self.provNacimientoView.fetchNacProvincias(act_dep, function () {
                         self.div_nac_prov.show(self.provNacimientoView);
                         if (self.provNacimientoView.collection.length == 0) {
-                            //$("#div_provincia").parent().parent().hide();
+
                             $("#serv_nac_provinc").hide();
                         }
                         else {
-                            //$("#div_provincia").parent().parent().show();
 
-                            // alert("Final");
                             $("#serv_nac_provinc").show();
                             $('#serv_nac_provincia').trigger('change');
                         }
@@ -609,7 +591,6 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                             $("#div_est_afp").show();
                     });
 
-                    //render numero de sistema de pensiones
                     var temp_num_sis_pri_pen = $("#num_sis_pri_pen");
 
                     temp_num_sis_pri_pen.val(null);
@@ -622,7 +603,6 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                 },
                 fun_cue_ban: function (ev) {
 
-                    //render cuenta bancaria
                     var temp_cue_ban = $("#cta_ban");
 
                     temp_cue_ban.val(null);
@@ -679,9 +659,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                 ingresar_datos_laborales:function(){
                     var self=this;
                     var codigo = $("#codigo").val();
-                    var temp_serv_tel = $("#serv_tel");
-                    var temp_serv_cel = $('#serv_cel');
-                    var temp_car_fam = $("#serv_car_fam");
+
 
                     this.model.get("servidorlaboral").set({
                         "cod": codigo,
@@ -704,7 +682,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
 
                     self.model.get("servidorlaboral").url = "rest/cas/serv/servidorlaboral";
 
-                    //save model
+
                     var self_l = self.model.get("servidorlaboral").save({}, {wait: true});
 
                     self_l.done(function () {
@@ -714,7 +692,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                         temp_help_save_ok.show();
                         temp_help_save_ok.text("Datos registrados!");
 
-                        console.log("datos servidor laboral save ok!");
+
                     });
 
                     self_l.fail(function () {
@@ -724,7 +702,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                         temp_help_cod.show();
                         temp_help_cod.text("Error de registro laboral.!");
 
-                        console.log("datos servidor laboral save fail!");
+
                     });
                 },
                 save_serv_lab: function () {
@@ -738,7 +716,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                                       var fullDate = new Date();
                                       var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
                                       var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-                                      console.log(Date.parse($('#serv_nac').val()));
+
                                       if ($('#reg_lab').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_lab').val()) ) {
                                           if ($('#reg_pen').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_pen').val()) ) {
                                                 if($('#serv_tip_ocup').val()!="999"){
@@ -753,7 +731,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                                        var fullDate = new Date();
                                        var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
                                        var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-                                       console.log(Date.parse($('#serv_nac').val()));
+
                                        if ($('#reg_lab').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_lab').val()) ) {
                                            if ($('#reg_pen').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_pen').val()) ) {
                                                if($('#serv_tip_ocup').val()!="999"){
@@ -773,7 +751,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                                         var fullDate = new Date();
                                         var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
                                         var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-                                        console.log(Date.parse($('#serv_nac').val()));
+
                                         if ($('#reg_lab').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_lab').val()) ) {
                                             if ($('#reg_pen').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_pen').val()) ) {
                                                 if($('#serv_tip_ocup').val()!="999"){
@@ -788,7 +766,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                                         var fullDate = new Date();
                                         var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
                                         var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-                                        console.log(Date.parse($('#serv_nac').val()));
+
                                         if ($('#reg_lab').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_lab').val()) ) {
                                             if ($('#reg_pen').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_pen').val()) ) {
                                                 if($('#serv_tip_ocup').val()!="999"){
@@ -809,7 +787,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                                             var fullDate = new Date();
                                             var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
                                             var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-                                            console.log(Date.parse($('#serv_nac').val()));
+
                                             if ($('#reg_lab').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_lab').val()) ) {
                                                 if ($('#reg_pen').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_pen').val()) ) {
                                                     if($('#serv_tip_ocup').val()!="999"){
@@ -824,7 +802,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                                             var fullDate = new Date();
                                             var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
                                             var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-                                            console.log(Date.parse($('#serv_nac').val()));
+
                                             if ($('#reg_lab').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_lab').val()) ) {
                                                 if ($('#reg_pen').val() != "" & self.Comparar_Fecha(currentDate, $('#reg_pen').val()) ) {
                                                     if($('#serv_tip_ocup').val()!="999"){
@@ -857,7 +835,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
 
                     var self = this;
 
-                    //hide helps
+
                     $("[id^='help_']").hide();
 
                     function dateToDMY(date) {
@@ -875,26 +853,24 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                         $("#serv_nom").val(self.model.get("servidor").get("nombre"));
                         $("#serv_est_civ").val(self.model.get("servidor").get("estCiv"));
                         $("#serv_tip_docu").val(self.model.get("servidor").get("tipoDoc"));
-                        console.log(self.model.get("servidor").get("tipoDoc"));
-                        console.log(self.model.get("servidor").get("numDoc"));
+
                         $("#num_document").val(self.model.get("servidor").get("numDoc"));
                         $("#serv_sexo").val(self.model.get("servidor").get("sexo"));
 
                         $("#serv_nac").val(dateToDMY(new Date(self.model.get("servidor").get("nacimiento"))));
                         $("#autocomple").val(self.model.get("servidor").get("paisNac"));
-                        console.log(self.model.get("servidor").get("paisNac"));
+
                         $("#nacdepartamento").val(self.model.get("servidor").get("codNacdepart"));
-                        console.log(self.model.get("servidor").get("codNacdepart"));
+
 
 
                         $("#serv_nac_provincia").val(self.model.get("servidor").get("codNacprov"));
 
-                        console.log(self.model.get("servidor").get("codNacprov"));
                         $("#serv_nac_distrito").val(self.model.get("servidor").get("codNacditr"));
-                        console.log(self.model.get("servidor").get("codNacditr"));
+
 
                         $("#serv_act_pais").val(self.model.get("servidor").get("paisDomcilio"));
-                        // alert("codigo:"+self.model.get("servidor").get("codNacprov"));
+
 
 
                         prov_act = self.model.get("servidor").get("codProvincia");
@@ -909,19 +885,19 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
 
                         $("#serv_car_fam").val(self.model.get("servidor").get("hij"));
                         $("#serv_ruc").val(self.model.get("servidor").get("ruc"));
-                        console.log(self.model.get("servidor").get("ruc"));
+
                         $("#serv_disc").val(self.model.get("servidor").get("discapacidad"));
-                        console.log(self.model.get("servidor").get("discapacidad"));
+
                         $("#serv_ing_unmsm").val(dateToDMY(new Date(self.model.get("servidor").get("fechaInUnmsm"))));
-                        console.log(self.model.get("servidor").get("fechaInUnmsm"));
+
                         $("#serv_tit_ban").val(self.model.get("servidor").get("titCueBan"));
-                        console.log(self.model.get("servidor").get("titCueBan"));
+
                         $("#serv_tel").val(self.model.get("servidor").get("telefono"));
-                        console.log(self.model.get("servidor").get("telefono"));
+
                         $("#serv_cel").val(self.model.get("servidor").get("celular"));
-                        console.log(self.model.get("servidor").get("celular"));
+
                         $("#serv_correo").val(self.model.get("servidor").get("correo"));
-                        console.log(self.model.get("servidor").get("correo"));
+
                     });
 
                     fetch_s.fail(function () {
@@ -966,7 +942,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                             }
                         );
 
-                        //render numero sistema privado de pensiones
+
                         var temp_num_sis_pri_pen = $("#num_sis_pri_pen");
 
                         if (temp_reg_pen == 4)
@@ -974,7 +950,6 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                         else
                             temp_num_sis_pri_pen.parent().parent().parent().hide();
 
-                        //render cuenta bancaria
                         var temp_cue_ban = $("#cta_ban");
 
                         if (self.model.get("servidorlaboral").get("tipPag") == 1)

@@ -92,7 +92,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                 $('#table-perfiles_previous').addClass('previous');
                 $('#table-perfiles_next').addClass('next');
                 $('#table-perfiles').addClass('table-bordered');
-                //$('#serv-table-modal').modal();
+
 
 
             },
@@ -123,13 +123,10 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
 
 
                 $("#table-perfiles").dataTable();
-                //$('#serv-table-modal').addClass('container-modal');
+
                 $('#table-perfiles_wrapper').append("<div id='footer-table'></div>");
                 $('#table-perfiles_next').html("<i  class='icon-forward'></i>");
                 $('#table-perfiles_previous').html("<i class='icon-backward'></i>");
-                //$('.dataTables_filter input').addClass('buscador');
-                //$('.dataTables_filter input').attr('placeholder','Buscar..');
-                self.tablaEstilos('table-perfiles');
 
 
                 $('#msg').hide();
@@ -174,7 +171,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                     "descripcion": desc
                 })
 
-                //this.model.get("perfil").url = 'rest/cas/roles/profile/add/'+desc;
+
                 this.model.get("perfil").url = 'rest/cas/profile/add';
 
 
@@ -222,14 +219,14 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                         "profileId" : perfCode,
                         "rolId": rolsId[ii]
                     })
-                    //self.model.get("rolperfil").url = 'rest/cas/roles/rolperfil/add/'+rolsId[ii]+'/'+perfCode;
+
                     self.model.get("rolperfil").url = 'rest/cas/roles/rolperfil/add';
 
 
                     var self_rr = self.model.get("rolperfil").save({}, {wait: true});
 
                 }
-                console.log(val);
+
 
                 val = "";
                 console.log("length de rolsIdDelete "+rolsIdDelete.length);
@@ -239,20 +236,20 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                         "rolId": rolsIdDelete[ii]
                     })
 
-                    //self.model.get("rolperfil").url = 'rest/cas/roles/rolperfil/delete/'+rolsIdDelete[ii];
+
                     self.model.get("rolperfil").url = 'rest/cas/roles/rolperfil/delete';
 
                     var self_rr = self.model.get("rolperfil").save({}, {wait: true});
 
                 }
-                console.log("roles a eliminar: "+val);
+
 
 
             },
 
             select_perfiles:function(e){
 
-                var checkMade = $(e.currentTarget);
+
 
                 var self = this;
                 $('#input0').remove();
@@ -260,18 +257,18 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
 
                 self.idRolSelected = $('#select-perfiles').val();
                 perfCode = self.idRolSelected;
-                console.log("perfil = "+perfCode);
+
                 rolsId = new Array();
                 rolsIdDelete = new Array();
                 this.rolesView.fetchRoles(self.idRolSelected,function(){
-                        console.log("length: "+self.rolesView.collection.length);
+
 
                        for(var i=0; i<self.rolesView.collection.length; i++){
                            var active = self.rolesView.collection.at(i).get("active");
                            var id = self.rolesView.collection.at(i).get("id");
-                           console.log(id);
+
                            if(active == 1){
-                               console.log(i+" true");
+
                                $('#input'+id).attr('checked','checked');
                                rolsId.push(id);
 
@@ -283,7 +280,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                                }
 
                            }else{
-                               console.log(i+" false");
+
                                $('datar').attr('false');
                            }
                        }
@@ -304,7 +301,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                     aux.attr('datar','true');
                     aux.attr('value','true');
 
-                    console.log("push iid = "+iid);
+
                     rolsId.push(iid);
 
 
@@ -321,20 +318,16 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                             break;
                         }
                     }
-                    console.log("indice de "+iid+" es "+ia);
+
 
                     rolsIdDelete.push(iid);
-                    console.log("rolesdelete "+iid);
+
                     rolsId.splice(ia,1);
                 }
 
             },
 
-            updatePerfiles: function(){
-              var self = this;
-                //self.perfilesView.fetchPerfiles();
-                //self.initialFetch();
-            },
+
 
             delete_button: function(e){
 
@@ -343,7 +336,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
 
                 dni = clickedElement.attr('data');
                 perfilname = clickedElement.parent().parent().children(':nth-child(1)').text();
-                console.log(perfilname+"________________");
+
                 idPerfil = dni;
 
                 $('#modal_escribir').html('¿Esta seguro,desea eliminar el perfil '+'<b>'+perfilname+'</b>'+" ?");
@@ -363,7 +356,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                     "codigo": idPerfil
                 })
 
-                //this.model.get("perfil").url = 'rest/cas/roles/profile/add/'+desc;
+
                 self.model.get("perfil").url = 'rest/cas/profile/delete';
 
 
@@ -371,7 +364,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
 
 
 
-                //var url='/rest/cas/roles/profile/delete/'+idPerfil;
+
 
                 var url='rest/cas/profile/delete';
 
@@ -380,16 +373,14 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                     type: 'DELETE',
                     url: url,
                     success: function(){
-                        console.log("funciono BIEN");
+
                         self.perfilesView.fetchPerfiles();
                         self.listPerfiles.show(this.perfilesView);
 
 
                     },
                     error: function(){
-                        console.log("funciono MAL");
-                       console.log("dsds");
-                        //self.rolesPerfilView.fetchPerfiles();
+
 
                         self.perfilesView.fetchPerfiles();
                        self.listPerfiles.show(this.perfilesView);

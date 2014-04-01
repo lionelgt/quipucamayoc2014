@@ -5,10 +5,10 @@ define([ 'backbone', 'marionette','hbs!apps/legajos/form/templates/servidores-mo
             template: servidoresModalTemplate,
             collection: new Servidores(),
 
-            fetchServidores: function(){
+            fetchServidores: function(callback){
                 this.collection. setUrlTodosServi()
                 this.collection.on("sync", this.render, this);
-                this.collection.fetch().done();
+                this.collection.fetch().done(callback);
 
             }
 

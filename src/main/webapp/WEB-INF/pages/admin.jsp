@@ -7,52 +7,16 @@
     <link rel="stylesheet" href="resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="resources/css/docs.css"/>
     <link rel="stylesheet" href="resources/css/pygments-manni.css"/>
-    <link rel="stylesheet" href="resources/css/avgrund.css"/>
+
     <link rel="stylesheet" href="resources/css/vendor/quipucamayoc.css">
-    <link rel="stylesheet" href="resources/css/vendor/typeahead.css">
+
     <link rel="stylesheet" href="resources/css/bootstrap-datetimepicker.css">
-    <link rel="stylesheet" href="resources/css/validetta.css"/>
+
     <link rel="stylesheet" href="resources/css/vendor/datepicker.css" />
-    <script type="text/javascript" src="resources/js/lib/jquery.js"></script>
-    <script type="text/javascript" src="resources/js/lib/core/quipucamayoc.js"></script>
+    <link rel="stylesheet" href="resources/css/vendor/typeahead.css" />
+
 </head>
 <body>
-
-<%--<div class="container" style="display: none">--%>
-<%--<div class="row">--%>
-<%--<div class="col-md-3">--%>
-<%--<a href="#"><img src="resources/img/logo_small_morado.fw.png" ></a>--%>
-<%--</div>--%>
-<%--<div class="col-md-9">--%>
-<%--<ul class="nav navbar-nav headers">--%>
-<%--<li><a href="#">INICIO</a></li>--%>
-<%--<li><a href="#">ACERCA DE </a></li>--%>
-<%--<li><a href="#">MENSAJES</a></li>--%>
-<%--<li class="dropdown">--%>
-<%--<a href="#" class="dropdown-toggle" data-toggle="dropdown">MODULOS<b class="caret"></b></a>--%>
-<%--<ul class="dropdown-menu">--%>
-<%--<li><a href="#">Recursos Humanos</a></li>--%>
-<%--<li><a href="#">Contabilidad</a></li>--%>
-<%--<li><a href="#">Logistica</a></li>--%>
-<%--<li><a href="#">Planificacion</a></li>--%>
-<%--</ul>--%>
-<%--</li>--%>
-<%--</ul>--%>
-<%--<ul class="nav navbar-nav navbar-right headers">--%>
-<%--<li class="dropdown">--%>
-<%--<a href="#" class="dropdown-toggle" data-toggle="dropdown">${userDetails.username}<b class="caret"></b></a>--%>
-<%--<ul class="dropdown-menu">--%>
-<%--<li><a href="#">Ayuda</a></li>--%>
-<%--<li><a href="#">Configuracion</a></li>--%>
-<%--<sec:authorize access="hasAnyRole('${userAccess}1')"><li><a href="#solicitudes">Solicitudes pendientes</a></li></sec:authorize>--%>
-<%--<sec:authorize access="hasAnyRole('${userAccess}2')"><li><a href="#roles">Gestion de Roles</a></li></sec:authorize>--%>
-<%--<li><a href="j_spring_security_logout">Cerrar Sesion</a></li>--%>
-<%--</ul>--%>
-<%--</li>--%>
-<%--</ul>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
 
 <div class="container ">
     <div class="col-lg-12">
@@ -167,11 +131,7 @@
 
 </div>
 
-<script data-main="resources/js/require_main.js" src="resources/js/lib/require.js"></script>
-<%--<script language="JavaScript" src="resources/js/lib/typeahead.bundle.js"></script>--%>
-<%--<script language="JavaScript" src="resources/js/lib/bootstrap-2.0.3.js"></script>--%>
-<%--<script language="JavaScript" src="resources/js/lib/bootstrap-datetimepicker.min.js"></script>--%>
-<script language="JavaScript" src="resources/js/lib/shortcut.js"></script>
+
 
 <%--<script language="Javascript" type="text/javascript">
     document.oncontextmenu = function(){return false};
@@ -190,6 +150,11 @@
 </script>--%>
 
 <footer class="footer" style="text-align: center;padding-top: 40px;padding-bottom: 20px;">© Quipucamayoc 2014</footer>
+<script type="text/javascript" src="resources/js/lib/jquery.js"></script>
+<script type="text/javascript" src="resources/js/lib/core/quipucamayoc.js"></script>
+<script data-main="resources/js/require_main.js" src="resources/js/lib/require.js"></script>
+
+<script language="JavaScript" src="resources/js/lib/shortcut.js"></script>
 
 </body>
 </html>

@@ -57,29 +57,9 @@
 </div>
 
 
-
-<%--<div>Angular seed app: v<span app-version></span></div>--%>
-
-
-
-
 <footer class="footer" style="text-align: center;padding-top: 40px;padding-bottom: 20px;">© Quipucamayoc 2013</footer>
 
 
-<%--<sec:authorize access="isAuthenticated()">
-    <br>
-
-    <p>Hi, ${userDetails.username}! <a href="/j_spring_security_logout">Sign Out</a></p>
-</sec:authorize>
-
-<sec:authorize access="hasRole('admin')">
-    <p>
-        <a href="/admin">Admin page</a>
-        <a href="/planilla">Admin planilla</a>
-    </p>
-</sec:authorize>
-
-   <h1>solicitud de perfil</h1>--%>
 <script src="resourcesA/js/lib/jquery.js"></script>
 <script src="resourcesA/js/lib/angular.js"></script>
 <script src="resourcesA/js/app/app.js"></script>

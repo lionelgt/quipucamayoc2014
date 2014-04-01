@@ -100,7 +100,7 @@ define(["app", "hbs!apps/solicitudes/table/templates/solicitudesLayout","apps/so
 
                 if(profileState==0){
 
-                    /*Mapeo de insert*/
+
                     this.model.get("rechazados").set({
 
                         "dni": dni,
@@ -113,7 +113,7 @@ define(["app", "hbs!apps/solicitudes/table/templates/solicitudesLayout","apps/so
 
                     var self_s = this.model.get("rechazados").save({}, {wait: true});
 
-                    var self = this;
+
 
                     self_s.done(function () {
 
@@ -126,7 +126,7 @@ define(["app", "hbs!apps/solicitudes/table/templates/solicitudesLayout","apps/so
                         console.log("fail - datos enviados a la tabla rechazados");
                     });
 
-                    //delete
+
                     this.model.get("removehistorialperfilusuario").set({
 
                         "dni": dni,
@@ -218,11 +218,11 @@ define(["app", "hbs!apps/solicitudes/table/templates/solicitudesLayout","apps/so
                 });
 
                 self_s.done(function(model,resp,opt){
-                console.log("done");
+
                 });
 
                 self_s.fail(function(model,resp,opt){
-                console.log("fail");
+
                 });
             },
             changeObs:function(e){
@@ -249,8 +249,7 @@ define(["app", "hbs!apps/solicitudes/table/templates/solicitudesLayout","apps/so
 
             cambiaPerfil:function(ev){
 //
-                //var nroPerf=$(ev.currentTarget).parent().parent().attr('id');
-                //var nroPerf=clickedElement.parent().parent().attr('id');
+
                 var clickedElement=$(ev.currentTarget);
                 var nroPerf=clickedElement.parent().parent().attr('id');
 
@@ -262,9 +261,9 @@ define(["app", "hbs!apps/solicitudes/table/templates/solicitudesLayout","apps/so
                 $("#aceptar").prop('disabled', false);
 
                 this.updateView.fetchUpdate(this.IdDni,this.perfil);
-                console.log("Atrape a perfil :"+this.perfil);
 
-                // alert("Datos Actualizados");
+
+
 
                 var temp_help = $("#help_sin_cas");
 
@@ -277,18 +276,18 @@ define(["app", "hbs!apps/solicitudes/table/templates/solicitudesLayout","apps/so
 
             seleccion_asignar :function(ev){
 
-                //seccion donde se atrapa al dni (momento de clic en asignar)
+
                 var temp_help = $("#help_sin_cas");
                 temp_help.hide();
 
-                var self = this;
+
                 var element = $(ev.currentTarget);
                 var dni=element.parent().parent().attr('id');
-                console.log(dni);
+
 
                 this.IdDni=dni;
-                console.log(this.IdDni+" capturado");
-                //fin de seccion
+
+
                 $('#serv-table-modal').modal();
 
 
