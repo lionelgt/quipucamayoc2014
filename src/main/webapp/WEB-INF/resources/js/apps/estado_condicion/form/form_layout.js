@@ -213,29 +213,38 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
 
 
-                llamarModalListar: function(){
+                llamarModalListar: function(e){
 
                     var self=this;
+                    var clickedElement=$(e.currentTarget);
+
+                    clickedElement.button('loading');
+
+                    setTimeout(function () {
+                        clickedElement.button('reset');
+                        self.ListarReg.show(self.ListarServidorView) ;
+
+                            if(self.ListarServidorView.collection.length!=0){
+                                $("#tabla").dataTable();
+
+                                $('#tabla_wrapper').append("<div id='footer-table'></div>");
+                                $('#tabla_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                $('#tabla_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+
+                                $('.dataTables_filter input').attr('placeholder','Buscar..');
+                            }
+
+
+                        $("#estado_condicion-modal1").modal();
+
+                    },2000);
 
                     $("#advertencia").hide();
                     $("#correcto").hide();
-                    //$('#div_categ_prof').show();
 
-
-                    self.ListarReg.show(self.ListarServidorView) ;
-
-                    $("#tabla").dataTable();
-
-                    $('#tabla_wrapper').append("<div id='footer-table'></div>");
-                    $('#tabla_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                    $('#tabla_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-
-                    $('.dataTables_filter input').attr('placeholder','Buscar..');
-
-                    //Reseteando los combos
                     $('#tipo').val("1") ;
                     $('#cod_doc').val("0");
-                   // $('#div_docente').show();
+
                     $('#div_administrativo').hide();
                     $('#div_doc_mag').hide();
                     $('#div_adm_salud').hide();
@@ -250,7 +259,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                     $('#numctabanco').val("");
                     $('#obs').val("");
 
-                   $("#estado_condicion-modal1").modal();
+
 
                 },
 
