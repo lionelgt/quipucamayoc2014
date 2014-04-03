@@ -99,7 +99,7 @@ public interface ResolucionesMapper {
             "  Cod_Resol, " +
             "  Dni, " +
             "  Num_Ser_Estado, " +
-            "  NVL( Cod_Antiguo,'-') , " +
+            "  Cod_Antiguo , " +
             "  Ser_Ape_Pat, " +
             "  Ser_Ape_Mat, " +
             "  Ser_Nom , " +

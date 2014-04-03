@@ -291,17 +291,20 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                     var yMonth = fecha2.substring(3, 5);
                     var yDay = fecha2.substring(0, 2);
                     var yYear = fecha2.substring(6, 10);
-                    if (xYear > yYear) {
+                    console.log(xMonth+"-"+yMonth);
+                    console.log(xDay+"-"+yDay);
+                    console.log(xYear+"-"+yYear)
+                    if (parseInt(xYear) > parseInt(yYear)) {
                         return(true)
                     }
                     else {
-                        if (xYear == yYear) {
-                            if (xMonth > yMonth) {
+                        if (parseInt(xYear) == parseInt(yYear)) {
+                            if (parseInt(xMonth) > parseInt(yMonth)) {
                                 return(true)
                             }
                             else {
-                                if (xMonth == yMonth) {
-                                    if (xDay > yDay)
+                                if (parseInt(xMonth) == parseInt(yMonth)) {
+                                    if (parseInt(xDay) > parseInt(yDay))
                                         return(true);
                                     else
                                         return(false);
@@ -417,7 +420,9 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                     var self = this;
                     var fullDate = new Date();
                     var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
-                    var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+                    var twoDigitDay=((fullDate.getDate().length) === 1) ? (fullDate.getDate()) : '0' + (fullDate.getDate());
+                    var currentDate = twoDigitDay + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+                    console.log(currentDate);
 
                     if ($('#serv_ape_pat').val() != "" & $('#serv_ape_mat').val() != "" & $('#serv_nom').val() != "" &
                         $('#serv_est_civil').val() != "99" & $('#serv_tip_docu').val() != "99" & $('#num_document').val() != "" & $('#serv_sexo').val() != "99") {

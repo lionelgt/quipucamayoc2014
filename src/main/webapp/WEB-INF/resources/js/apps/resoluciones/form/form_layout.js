@@ -1061,7 +1061,45 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         }
                     }
                 },
+                Comparar_Fecha: function (fecha, fecha2) {
+                    console.log("valido fecha");
+                    var xMonth = fecha.substring(3, 5);
+                    var xDay = fecha.substring(0, 2);
+                    var xYear = fecha.substring(6, 10);
+                    var yMonth = fecha2.substring(3, 5);
+                    var yDay = fecha2.substring(0, 2);
+                    var yYear = fecha2.substring(6, 10);
+                    if (xYear > yYear) {
+                        return(true)
+                    }
+                    else {
+                        if (xYear == yYear) {
+                            if (xMonth > yMonth) {
+                                return(true)
+                            }
+                            else {
+                                if (xMonth == yMonth) {
+                                    if (xDay > yDay)
+                                        return(true);
+                                    else
+                                        return(false);
+                                }
+                                else
+                                    return(false);
+                            }
+                        }
+                        else
+                            return(false);
+                    }
+
+                },
                 fun_guardar:function(){
+                    var fullDate = new Date();
+                    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+                    var twoDigitDay=((fullDate.getDate().length) === 1) ? (fullDate.getDate()) : '0' + (fullDate.getDate());
+                    var currentDate = twoDigitDay + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+                    console.log(currentDate);
+
                     var temp_help = $("#advertencia");
                     var self=this;
                     this.anioR=$("#fechaR").val().substring(6,10);
@@ -1094,144 +1132,327 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                     temp_help.html("<strong>El número de resolución no debe tener caracteres</strong>");
                                 }else{
                                 if($("#motivi_est").val()=="MOTIVOS VARIOS"){
-                                    if($("#fechaR").val()=="" || $("#nro_resol").val()=="" ||  $("#resolucion_ver").val()=="4"){
+                                    if( self.Comparar_Fecha(currentDate, $('#fechaR').val())){
+                                        if($('#fechaIni').val()!="" & $('#fechaFin').val()!="") {
+                                            if (self.Comparar_Fecha($('#fechaFin').val(), $('#fechaIni').val())) {
+                                                if($("#fechaR").val()=="" || $("#nro_resol").val()=="" ||  $("#resolucion_ver").val()=="4" ){
 
+                                                    $("#advertencia").removeClass("alert-success");
+                                                    $("#advertencia").removeClass("alert-danger");
+                                                    $("#advertencia").addClass("alert-warning");
+                                                    temp_help.show();
+                                                    temp_help.html('<strong>Existen campos obligatorios vacios</strong>');
+
+                                                }
+
+                                                else{
+                                                    temp_help.hide();
+
+                                                    self.model.get("resolucion").set({
+                                                        "idResolucion":self.IdResolucion,
+                                                        "numero_resol": self.nroR+"-"+self.tipoDependencia+"-"+self.anioR,
+                                                        "cod_resol":self.tipoResolucion,
+                                                        "fecha_expedicion": $("#fechaR").val(),
+                                                        "motivo": self.idMotivo,
+                                                        "fecha_inicio": $("#fechaIni").val(),
+                                                        "fecha_fin": $("#fechaFin").val(),
+                                                        "obliga": self.descriObli,
+                                                        "adicional": self.descriOp
+
+                                                    });
+
+
+
+                                                    self.model.get("resolucion").url = "rest/resoluciones/addResolucion";
+                                                    self.numero_resol =self.nroR+"-"+self.tipoDependencia+"-"+self.anioR;
+
+                                                    self.nroResol=self.numero_resol;
+
+                                                    var self_s = self.model.get("resolucion").save({}, {wait: true});
+                                                    self_s.fail(function(){
+
+                                                        self.trabaView.fetchTrabajadores(self.numero_resol, function(){
+                                                            if(self.trabaView.collection.length!=0){
+
+                                                                $("#table-trabajador").dataTable();
+                                                                $('#table-trabajador').addClass('container-modal');
+                                                                $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
+                                                                $('#table-trabajador_next').html("<i  class='icon-forward'></i>");
+                                                                $('#table-trabajador_previous').html("<i class='icon-backward'></i>");
+                                                                $('.dataTables_filter input').addClass('buscador');
+                                                                $('.dataTables_filter input').attr('placeholder','Buscar...');
+
+                                                            }
+                                                            else{
+                                                                $("#tabla-serv-asociados").show();
+                                                                $('#desc-resolucion').text(self.numero_resol);
+                                                            }
+
+
+                                                        })
+
+                                                        self.tablaasociaciondirecta.show(self.trabaView);
+                                                    });
+
+                                                    $("#advertencia").removeClass("alert-danger");
+                                                    $("#advertencia").removeClass("alert-warning");
+                                                    $("#advertencia").addClass("alert-success");
+                                                    temp_help.show();
+                                                    temp_help.html("<strong>Se registró con éxito la resolución "+self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR+"</strong>")
+                                                    $('#mostrar_servi2').show();
+                                                    $('#nuevo').show();
+
+
+                                                }
+                                            }
+                                        }else{
+                                            if($("#fechaR").val()=="" || $("#nro_resol").val()=="" ||  $("#resolucion_ver").val()=="4" ){
+
+                                                $("#advertencia").removeClass("alert-success");
+                                                $("#advertencia").removeClass("alert-danger");
+                                                $("#advertencia").addClass("alert-warning");
+                                                temp_help.show();
+                                                temp_help.html('<strong>Existen campos obligatorios vacios</strong>');
+
+                                            }
+
+                                            else{
+                                                temp_help.hide();
+
+                                                self.model.get("resolucion").set({
+                                                    "idResolucion":self.IdResolucion,
+                                                    "numero_resol": self.nroR+"-"+self.tipoDependencia+"-"+self.anioR,
+                                                    "cod_resol":self.tipoResolucion,
+                                                    "fecha_expedicion": $("#fechaR").val(),
+                                                    "motivo": self.idMotivo,
+                                                    "fecha_inicio": $("#fechaIni").val(),
+                                                    "fecha_fin": $("#fechaFin").val(),
+                                                    "obliga": self.descriObli,
+                                                    "adicional": self.descriOp
+
+                                                });
+
+
+
+                                                self.model.get("resolucion").url = "rest/resoluciones/addResolucion";
+                                                self.numero_resol =self.nroR+"-"+self.tipoDependencia+"-"+self.anioR;
+
+                                                self.nroResol=self.numero_resol;
+
+                                                var self_s = self.model.get("resolucion").save({}, {wait: true});
+                                                self_s.fail(function(){
+
+                                                    self.trabaView.fetchTrabajadores(self.numero_resol, function(){
+                                                        if(self.trabaView.collection.length!=0){
+
+                                                            $("#table-trabajador").dataTable();
+                                                            $('#table-trabajador').addClass('container-modal');
+                                                            $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
+                                                            $('#table-trabajador_next').html("<i  class='icon-forward'></i>");
+                                                            $('#table-trabajador_previous').html("<i class='icon-backward'></i>");
+                                                            $('.dataTables_filter input').addClass('buscador');
+                                                            $('.dataTables_filter input').attr('placeholder','Buscar...');
+
+                                                        }
+                                                        else{
+                                                            $("#tabla-serv-asociados").show();
+                                                            $('#desc-resolucion').text(self.numero_resol);
+                                                        }
+
+
+                                                    })
+
+                                                    self.tablaasociaciondirecta.show(self.trabaView);
+                                                });
+
+                                                $("#advertencia").removeClass("alert-danger");
+                                                $("#advertencia").removeClass("alert-warning");
+                                                $("#advertencia").addClass("alert-success");
+                                                temp_help.show();
+                                                temp_help.html("<strong>Se registró con éxito la resolución "+self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR+"</strong>")
+                                                $('#mostrar_servi2').show();
+                                                $('#nuevo').show();
+
+
+                                            }
+                                        }
+
+                                    }else{
                                         $("#advertencia").removeClass("alert-success");
                                         $("#advertencia").removeClass("alert-danger");
                                         $("#advertencia").addClass("alert-warning");
                                         temp_help.show();
-
-                                        temp_help.html('<strong>Existen campos obligatorios vacíos</strong>');
+                                        temp_help.html('<strong>Fecha de Resolucion mal ingresada</strong>');
                                     }
-                                    else{
-                                        temp_help.hide();
-
-                                        self.model.get("resolucion").set({
-                                            "idResolucion":self.IdResolucion,
-                                            "numero_resol": self.nroR+"-"+self.tipoDependencia+"-"+self.anioR,
-                                            "cod_resol":self.tipoResolucion,
-                                            "fecha_expedicion": $("#fechaR").val(),
-                                            "motivo": self.idMotivo,
-                                            "fecha_inicio": $("#fechaIni").val(),
-                                            "fecha_fin": $("#fechaFin").val(),
-                                            "obliga": self.descriObli,
-                                            "adicional": self.descriOp
-
-                                        });
 
 
 
-                                        self.model.get("resolucion").url = "rest/resoluciones/addResolucion";
-                                        self.numero_resol =self.nroR+"-"+self.tipoDependencia+"-"+self.anioR;
+                                }
+                                else{
+                                    if($('#fechaIni').val()!="" & $('#fechaFin').val()!=""){
+                                        if(self.Comparar_Fecha($('#fechaFin').val(), $('#fechaIni').val())){
+                                            if( self.Comparar_Fecha(currentDate, $('#fechaR').val())){
+                                                if($('#descriOb').val()=="" || $("#fechaR").val()=="" || $("#nro_resol").val()=="" || $('#motivi_est').val()=="" ||  $("#resolucion_ver").val()=="4"){
 
-                                        self.nroResol=self.numero_resol;
+                                                    $("#advertencia").removeClass("alert-success");
+                                                    $("#advertencia").removeClass("alert-danger");
+                                                    $("#advertencia").addClass("alert-warning");
+                                                    temp_help.show();
 
-                                        var self_s = self.model.get("resolucion").save({}, {wait: true});
-                                        self_s.fail(function(){
-
-                                            self.trabaView.fetchTrabajadores(self.numero_resol, function(){
-                                                if(self.trabaView.collection.length!=0){
-
-                                                    $("#table-trabajador").dataTable();
-                                                    $('#table-trabajador').addClass('container-modal');
-                                                    $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
-                                                    $('#table-trabajador_next').html("<i  class='icon-forward'></i>");
-                                                    $('#table-trabajador_previous').html("<i class='icon-backward'></i>");
-                                                    $('.dataTables_filter input').addClass('buscador');
-                                                    $('.dataTables_filter input').attr('placeholder','Buscar...');
-
+                                                    temp_help.html("<strong>Existen campos obligatorios vacíos</strong>");
                                                 }
                                                 else{
-                                                    $("#tabla-serv-asociados").show();
-                                                    $('#desc-resolucion').text(self.numero_resol);
+                                                    temp_help.hide();
+
+                                                    self.model.get("resolucion").set({
+                                                        "idResolucion":self.IdResolucion,
+                                                        "numero_resol": self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR,
+                                                        "cod_resol":self.tipoResolucion,
+                                                        "fecha_expedicion": $("#fechaR").val(),
+                                                        "motivo": self.idMotivo,
+                                                        "fecha_inicio": $("#fechaIni").val(),
+                                                        "fecha_fin": $("#fechaFin").val(),
+                                                        "obliga": self.descriObli,
+                                                        "adicional": self.descriOp
+
+                                                    });
+
+
+                                                    self.model.get("resolucion").url = "rest/resoluciones/addResolucion";
+                                                    self.numero_resol =self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR;
+
+                                                    self.nroResol=self.numero_resol;
+
+                                                    var self_s = self.model.get("resolucion").save({}, {wait: true});
+                                                    self_s.fail(function(){
+
+                                                        self.trabaView.fetchTrabajadores(self.numero_resol, function(){
+                                                            if(self.trabaView.collection.length!=0){
+
+                                                                $("#table-trabajador").dataTable();
+                                                                $('#table-trabajador').addClass('container-modal');
+                                                                $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
+                                                                $('#table-trabajador_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                                                $('#table-trabajador_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                                                                $('.dataTables_filter input').addClass('buscador');
+                                                                $('.dataTables_filter input').attr('placeholder','Buscar...');
+
+                                                            }
+                                                            else{
+                                                                $("#tabla-serv-asociados").show();
+                                                                $('#desc-resolucion').text(self.numero_resol);
+                                                            }
+
+
+                                                        })
+
+                                                        self.tablaasociaciondirecta.show(self.trabaView);
+                                                    });
+
+                                                    $("#advertencia").removeClass("alert-danger");
+                                                    $("#advertencia").removeClass("alert-warning");
+                                                    $("#advertencia").addClass("alert-success");
+                                                    temp_help.show();
+                                                    temp_help.html("<strong>Se registró con éxito la resolución "+self.nroR+"-"+self.tipoDependencia+"-"+self.anioR+"</strong>")
+                                                    $('#mostrar_servi2').show();
+                                                    $('#nuevo').show();
+
+
                                                 }
+                                            }else{
+                                                $("#advertencia").removeClass("alert-success");
+                                                $("#advertencia").removeClass("alert-danger");
+                                                $("#advertencia").addClass("alert-warning");
+                                                temp_help.show();
+                                                temp_help.html('<strong>Fecha de Resolucion mal ingresada</strong>');
+                                            }
+                                        }else{
+                                            $("#advertencia").removeClass("alert-success");
+                                            $("#advertencia").removeClass("alert-danger");
+                                            $("#advertencia").addClass("alert-warning");
+                                            temp_help.show();
+                                            temp_help.html('<strong>Fechas de los Resolutivos mal ingresadas</strong>');
+                                        }
+                                    }else{
+                                        if( self.Comparar_Fecha(currentDate, $('#fechaR').val())){
+                                            if($('#descriOb').val()=="" || $("#fechaR").val()=="" || $("#nro_resol").val()=="" || $('#motivi_est').val()=="" ||  $("#resolucion_ver").val()=="4"){
 
+                                                $("#advertencia").removeClass("alert-success");
+                                                $("#advertencia").removeClass("alert-danger");
+                                                $("#advertencia").addClass("alert-warning");
+                                                temp_help.show();
 
-                                            })
-
-                                            self.tablaasociaciondirecta.show(self.trabaView);
-                                        });
-
-                                        $("#advertencia").removeClass("alert-danger");
-                                        $("#advertencia").removeClass("alert-warning");
-                                        $("#advertencia").addClass("alert-success");
-                                        temp_help.show();
-                                        temp_help.html("<strong>Se registró con éxito la resolución "+self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR+"</strong>")
-                                        $('#mostrar_servi2').show();
-                                        $('#nuevo').show();
-
-
-                                    }
-
-                                }
-                                else{
-                                if($('#descriOb').val()=="" || $("#fechaR").val()=="" || $("#nro_resol").val()=="" || $('#motivi_est').val()=="" ||  $("#resolucion_ver").val()=="4"){
-
-                                    $("#advertencia").removeClass("alert-success");
-                                    $("#advertencia").removeClass("alert-danger");
-                                    $("#advertencia").addClass("alert-warning");
-                                    temp_help.show();
-
-                                    temp_help.html("<strong>Existen campos obligatorios vacíos</strong>");
-                                }
-                                else{
-                                    temp_help.hide();
-
-                                    self.model.get("resolucion").set({
-                                        "idResolucion":self.IdResolucion,
-                                        "numero_resol": self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR,
-                                        "cod_resol":self.tipoResolucion,
-                                        "fecha_expedicion": $("#fechaR").val(),
-                                        "motivo": self.idMotivo,
-                                        "fecha_inicio": $("#fechaIni").val(),
-                                        "fecha_fin": $("#fechaFin").val(),
-                                        "obliga": self.descriObli,
-                                        "adicional": self.descriOp
-
-                                    });
-
-
-                                    self.model.get("resolucion").url = "rest/resoluciones/addResolucion";
-                                      self.numero_resol =self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR;
-
-                                    self.nroResol=self.numero_resol;
-
-                                    var self_s = self.model.get("resolucion").save({}, {wait: true});
-                                    self_s.fail(function(){
-
-                                        self.trabaView.fetchTrabajadores(self.numero_resol, function(){
-                                            if(self.trabaView.collection.length!=0){
-
-                                                $("#table-trabajador").dataTable();
-                                                $('#table-trabajador').addClass('container-modal');
-                                                $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
-                                                $('#table-trabajador_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                                                $('#table-trabajador_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-                                                $('.dataTables_filter input').addClass('buscador');
-                                                $('.dataTables_filter input').attr('placeholder','Buscar...');
-
+                                                temp_help.html("<strong>Existen campos obligatorios vacíos</strong>");
                                             }
                                             else{
-                                                $("#tabla-serv-asociados").show();
-                                                $('#desc-resolucion').text(self.numero_resol);
+                                                temp_help.hide();
+
+                                                self.model.get("resolucion").set({
+                                                    "idResolucion":self.IdResolucion,
+                                                    "numero_resol": self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR,
+                                                    "cod_resol":self.tipoResolucion,
+                                                    "fecha_expedicion": $("#fechaR").val(),
+                                                    "motivo": self.idMotivo,
+                                                    "fecha_inicio": $("#fechaIni").val(),
+                                                    "fecha_fin": $("#fechaFin").val(),
+                                                    "obliga": self.descriObli,
+                                                    "adicional": self.descriOp
+
+                                                });
+
+
+                                                self.model.get("resolucion").url = "rest/resoluciones/addResolucion";
+                                                self.numero_resol =self.nroR.trim()+"-"+self.tipoDependencia+"-"+self.anioR;
+
+                                                self.nroResol=self.numero_resol;
+
+                                                var self_s = self.model.get("resolucion").save({}, {wait: true});
+                                                self_s.fail(function(){
+
+                                                    self.trabaView.fetchTrabajadores(self.numero_resol, function(){
+                                                        if(self.trabaView.collection.length!=0){
+
+                                                            $("#table-trabajador").dataTable();
+                                                            $('#table-trabajador').addClass('container-modal');
+                                                            $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
+                                                            $('#table-trabajador_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                                            $('#table-trabajador_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                                                            $('.dataTables_filter input').addClass('buscador');
+                                                            $('.dataTables_filter input').attr('placeholder','Buscar...');
+
+                                                        }
+                                                        else{
+                                                            $("#tabla-serv-asociados").show();
+                                                            $('#desc-resolucion').text(self.numero_resol);
+                                                        }
+
+
+                                                    })
+
+                                                    self.tablaasociaciondirecta.show(self.trabaView);
+                                                });
+
+                                                $("#advertencia").removeClass("alert-danger");
+                                                $("#advertencia").removeClass("alert-warning");
+                                                $("#advertencia").addClass("alert-success");
+                                                temp_help.show();
+                                                temp_help.html("<strong>Se registró con éxito la resolución "+self.nroR+"-"+self.tipoDependencia+"-"+self.anioR+"</strong>")
+                                                $('#mostrar_servi2').show();
+                                                $('#nuevo').show();
+
+
                                             }
+                                        }else{
+                                            $("#advertencia").removeClass("alert-success");
+                                            $("#advertencia").removeClass("alert-danger");
+                                            $("#advertencia").addClass("alert-warning");
+                                            temp_help.show();
+                                            temp_help.html('<strong>Fecha de Resolucion mal ingresada</strong>');
+                                        }
+                                    }
 
 
-                                        })
 
-                                        self.tablaasociaciondirecta.show(self.trabaView);
-                                    });
-
-                                    $("#advertencia").removeClass("alert-danger");
-                                    $("#advertencia").removeClass("alert-warning");
-                                    $("#advertencia").addClass("alert-success");
-                                    temp_help.show();
-                                    temp_help.html("<strong>Se registró con éxito la resolución "+self.nroR+"-"+self.tipoDependencia+"-"+self.anioR+"</strong>")
-                                    $('#mostrar_servi2').show();
-                                    $('#nuevo').show();
-
-
-                                }
                                 }
                             }
                             }
@@ -1410,64 +1631,122 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                         this.fechaIni=fechaAux
                         this.fechaFin=fechaAux2
 
+                        if($('#fec_ini_mot').val()!="" & $('#fec_fin_mot').val()!=""){
+                            if (self.Comparar_Fecha($('#fec_fin_mot').val(), $('#fec_ini_mot').val())){
+                                self.model.get("addMotivoTraba").set({
+                                    "idMotivoTraba":"0",
+                                    "resolucion":this.nroResol,
+                                    "codTraba": this.dniTable,
+                                    "serviEstado": this.estadoTraba,
+                                    "nroMotivo": idMoti,
+                                    "fechaIni": $('#fec_ini_mot').val(),
+                                    "fechaFin":$('#fec_fin_mot').val(),
+                                    "descrip": $('#descriOb_motivo').val()
+
+                                });
+
+                                this.model.get("addMotivoTraba").url = "rest/resoluciones/addMotivoTrabajador";
 
 
-                        self.model.get("addMotivoTraba").set({
-                            "idMotivoTraba":"0",
-                            "resolucion":this.nroResol,
-                            "codTraba": this.dniTable,
-                            "serviEstado": this.estadoTraba,
-                            "nroMotivo": idMoti,
-                            "fechaIni": $('#fec_ini_mot').val(),
-                            "fechaFin":$('#fec_fin_mot').val(),
-                            "descrip": $('#descriOb_motivo').val()
+                                var self_s = this.model.get("addMotivoTraba").save({}, {wait: true});
+                                self_s.done(function(){
 
-                        });
+                                    self.trabaView.fetchTrabajadores(self.nroResol, function(){
+                                        if(self.trabaView.collection.length!=0){
+                                            $("#table-trabajador").dataTable();
+                                            $('#table-trabajador').addClass('container-modal');
+                                            $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
+                                            $('#table-trabajador_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                            $('#table-trabajador_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                                            $('.dataTables_filter input').addClass('buscador');
+                                            $('.dataTables_filter input').attr('placeholder','Buscar...');
+                                        }
+
+                                        $('#desc-resolucion').text();
+
+                                    })
+                                });
+                                self_s.fail(function(){
+
+                                    self.trabaView.fetchTrabajadores(self.nroResol, function(){
+                                        if(self.trabaView.collection.length!=0){
+                                            $("#table-trabajador").dataTable();
+                                            $('#table-trabajador').addClass('container-modal');
+                                            $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
+                                            $('#table-trabajador_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                            $('#table-trabajador_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                                            $('.dataTables_filter input').addClass('buscador');
+                                            $('.dataTables_filter input').attr('placeholder','Buscar...');
+                                        }
+
+                                        $('#desc-resolucion').text(self.nroResol);
+
+                                    })
+
+                                });
+
+                                $('#serv-table-modal5').modal("hide")
+                            }else{
+                                $('#advertencia_motivo').html("<strong>Fechas Mal ingresadas</strong>");
+                                $('#advertencia_motivo').show();
+                            }
+                        }else{
+                            self.model.get("addMotivoTraba").set({
+                                "idMotivoTraba":"0",
+                                "resolucion":this.nroResol,
+                                "codTraba": this.dniTable,
+                                "serviEstado": this.estadoTraba,
+                                "nroMotivo": idMoti,
+                                "fechaIni": $('#fec_ini_mot').val(),
+                                "fechaFin":$('#fec_fin_mot').val(),
+                                "descrip": $('#descriOb_motivo').val()
+
+                            });
+
+                            this.model.get("addMotivoTraba").url = "rest/resoluciones/addMotivoTrabajador";
 
 
+                            var self_s = this.model.get("addMotivoTraba").save({}, {wait: true});
+                            self_s.done(function(){
+
+                                self.trabaView.fetchTrabajadores(self.nroResol, function(){
+                                    if(self.trabaView.collection.length!=0){
+                                        $("#table-trabajador").dataTable();
+                                        $('#table-trabajador').addClass('container-modal');
+                                        $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
+                                        $('#table-trabajador_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                        $('#table-trabajador_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                                        $('.dataTables_filter input').addClass('buscador');
+                                        $('.dataTables_filter input').attr('placeholder','Buscar...');
+                                    }
+
+                                    $('#desc-resolucion').text();
+
+                                })
+                            });
+                            self_s.fail(function(){
+
+                                self.trabaView.fetchTrabajadores(self.nroResol, function(){
+                                    if(self.trabaView.collection.length!=0){
+                                        $("#table-trabajador").dataTable();
+                                        $('#table-trabajador').addClass('container-modal');
+                                        $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
+                                        $('#table-trabajador_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                        $('#table-trabajador_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                                        $('.dataTables_filter input').addClass('buscador');
+                                        $('.dataTables_filter input').attr('placeholder','Buscar...');
+                                    }
+
+                                    $('#desc-resolucion').text(self.nroResol);
+
+                                })
+
+                            });
+
+                            $('#serv-table-modal5').modal("hide")
+                        }
 
 
-                        this.model.get("addMotivoTraba").url = "rest/resoluciones/addMotivoTrabajador";
-
-
-                        var self_s = this.model.get("addMotivoTraba").save({}, {wait: true});
-                        self_s.done(function(){
-
-                            self.trabaView.fetchTrabajadores(self.nroResol, function(){
-                                if(self.trabaView.collection.length!=0){
-                                    $("#table-trabajador").dataTable();
-                                    $('#table-trabajador').addClass('container-modal');
-                                    $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
-                                    $('#table-trabajador_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                                    $('#table-trabajador_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-                                    $('.dataTables_filter input').addClass('buscador');
-                                    $('.dataTables_filter input').attr('placeholder','Buscar...');
-                                }
-
-                                $('#desc-resolucion').text();
-
-                            })
-                        });
-                        self_s.fail(function(){
-
-                            self.trabaView.fetchTrabajadores(self.nroResol, function(){
-                                if(self.trabaView.collection.length!=0){
-                                    $("#table-trabajador").dataTable();
-                                    $('#table-trabajador').addClass('container-modal');
-                                    $('#table-trabajador_wrapper').append("<div id='footer-table'></div>");
-                                    $('#table-trabajador_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                                    $('#table-trabajador_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-                                    $('.dataTables_filter input').addClass('buscador');
-                                    $('.dataTables_filter input').attr('placeholder','Buscar...');
-                                }
-
-                                $('#desc-resolucion').text(self.nroResol);
-
-                            })
-
-                        });
-
-                        $('#serv-table-modal5').modal("hide")
                     }};
                     if(this.numero_click==1){
                         $('#motivi_est').val(desMoti)
