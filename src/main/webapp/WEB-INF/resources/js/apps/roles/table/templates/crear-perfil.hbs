@@ -1,6 +1,5 @@
-<br />
-<br />
-<table id="table-perfiles" class="table table-bordered " style="font-size: 14px;">
+
+<table id="table-perfiles" class="table table-bordered table-hover" style="font-size: 14px;">
     <thead class="header" style="color: #040404;background-color:#f5f5f5">
     <tr>
         <th style="align:center;">Descripci&#243;n de Perfil</th>
@@ -12,7 +11,8 @@
         <tr id="{{codigo}}" class="" >
             <td >{{descripcion}}</td>
             <td style="text-align:center;">
-                <a id="delete-button" data="{{codigo}}"href="#" class="btn btn-primary"><i class="icon-white icon-trash" ></i></a>
+
+                <button type="button" data="{{codigo}}" class="btn btn-danger btn-xs" data-dismiss="modal" data-toggle="modal" data-target="#modal-div" id="delete-button"><span class="glyphicon glyphicon-trash"></span></button>
             </td>
         </tr>
     {{else}}
@@ -20,61 +20,48 @@
     {{/each}}
     </tbody>
 </table>
-<!--<ul class="pager">
-    <li>
-        <a href="#">Anterior</a>
-    </li>
-    <li>
-        <a href="#">Siguiente</a>
-    </li>
-</ul>-->
+
 
 <style type="text/css">
-    .body-table>tr{
+    #table-perfiles_length{
+        display:none;
+    }
+
+    #table-perfiles_paginate{
+        position: absolute;
+        margin-top: -16px;
+        left: 52%;
+    }
+    #table-perfiles_info{
+        float: left;
+        margin-top: -12px;
+        margin-left: 18px;
+        font-size: 10px;
+        color: rgb(2, 2, 2);
+    }
+    #table-perfiles tr{
         cursor: pointer;
     }
-    .body-table tr:hover{
-        background-color:#f5f5f5;
-    }
-    #header-x{
-        position: absolute;
-        left: 95%;
-        top: 1%;
-    }
-    #table-servidores2_info{
-        float:left;
 
-    }
 
-    .previous{
-        cursor:pointer;
-        display:inline-block;
-        padding:5px 14px;
-        background-color:#fff;
-        border:1px solid #ddd;
-        -webkit-border-radius:15px;
-        border-radius:15px;
+
+    #table-perfiles_previous{
+        cursor: pointer;
+        display: inline-block;
+        padding: 3px 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        -webkit-border-radius: 15px;
+        border-radius: 5px;
     }
-    .next{
-        margin-left:6px;
-        cursor:pointer;
-        display:inline-block;
-        padding:5px 14px;
-        background-color:#fff;
-        border:1px solid #ddd;
-        -webkit-border-radius:15px;
-        border-radius:15px;
-    }
-    .table-footer{
-        margin-left:386px;
-        margin-top:-8px;
-        padding-bottom:11px;
-    }
-    .container-modal{
-        width:597px;
-    }
-    .table-position{
-        padding-left:9px;
-        padding-right:9px;
+    #table-perfiles_next{
+        cursor: pointer;
+        margin-left: 19px;
+        display: inline-block;
+        padding: 3px 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        -webkit-border-radius: 15px;
+        border-radius: 5px;
     }
 </style>

@@ -273,7 +273,7 @@ define(["app", "hbs!apps/contratos/adendas/templates/plazas-layout","apps/contra
 
                 fetch_s.done(function () {
 
-                    console.log('servidor ok');
+
 
                     $("#codigo").val(self.model.get("servidor").get("codigo"));
 
@@ -284,7 +284,7 @@ define(["app", "hbs!apps/contratos/adendas/templates/plazas-layout","apps/contra
 
                 fetch_s.fail(function () {
 
-                    console.log('servidor fail');
+
 
                     var temp_help = $("#help_codigo");
 
@@ -294,7 +294,6 @@ define(["app", "hbs!apps/contratos/adendas/templates/plazas-layout","apps/contra
 
                 fetch_l.done(function () {
 
-                    console.log('laboral ok');
 
                     //render result
                     var temp_help = $("#help_sin_cas");
@@ -347,12 +346,12 @@ define(["app", "hbs!apps/contratos/adendas/templates/plazas-layout","apps/contra
 
                 //funciones de estados de restpuesta
                 fetch_c.done(function () {
-                    console.log('plaza ok!');
+
                     self.fun_select_unidad();
                 });
 
                 fetch_c.fail(function () {
-                    console.log('no funko');
+
                 });
 
                 $('#div_add_plaza').modal('hide');

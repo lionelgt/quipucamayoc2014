@@ -114,7 +114,7 @@
                 <li id="contrat"><a href="#contratos"><strong>CONTRATOS</strong></a></li>
                 </sec:authorize>
                 <li id="capacitacion"> <a class="" href="#"><strong>CAPACITACIÓN</strong></a></li>
-                <li id="beneficio"><a class="" href="#"><strong>BENEFICIO</strong></a></li>
+                <li id="tit_beneficio"><a class="" href="#"><strong>BENEFICIO</strong></a></li>
 
             </ul>
         </div>

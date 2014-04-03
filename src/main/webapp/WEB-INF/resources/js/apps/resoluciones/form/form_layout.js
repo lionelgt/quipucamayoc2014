@@ -861,17 +861,27 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                 fun_buscar_anio_resol_modal:function(ev){
 
+                    var self=this;
                     this.tablaActuaResol.fetchTablaResolucionesAnio(this.anioModal.substring(2,4),function () {
-                        $('#table-resol-modal').show();
-                        $("#table-resol-modal").dataTable();
-                        $('#table-resol-modal').addClass('container-modal');
-                        $('#table-resol-modal_wrapper').addClass('table-position');
-                        $('#table-resol-modal_wrapper').append("<div id='footer-table'></div>");
-                        $('#table-resol-modal_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                        $('#table-resol-modal_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-                        $('.dataTables_filter input').addClass('buscador');
 
-                        $('.dataTables_filter input').attr('placeholder','Buscar..');
+                        if(self.tablaActuaResol.collection.length!=0){
+                            $("#mensaje_resol").hide();
+                            $('#table-resol-modal').show();
+                            $("#table-resol-modal").dataTable();
+
+
+                            $('#table-resol-modal_wrapper').append("<div id='footer-table'></div>");
+                            $('#table-resol-modal_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                            $('#table-resol-modal_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                            $('.dataTables_filter input').addClass('buscador');
+
+                            $('.dataTables_filter input').attr('placeholder','Buscar..');
+                        }
+                        else{
+
+                            $("#mensaje_resol").show();
+                        }
+
                     })
                     this.tableUpdateReso.show(this.tablaActuaResol)
 
@@ -1062,7 +1072,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     }
                 },
                 Comparar_Fecha: function (fecha, fecha2) {
-                    console.log("valido fecha");
+
                     var xMonth = fecha.substring(3, 5);
                     var xDay = fecha.substring(0, 2);
                     var xYear = fecha.substring(6, 10);
@@ -1098,7 +1108,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
                     var twoDigitDay=((fullDate.getDate().length) === 1) ? (fullDate.getDate()) : '0' + (fullDate.getDate());
                     var currentDate = twoDigitDay + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-                    console.log(currentDate);
+
 
                     var temp_help = $("#advertencia");
                     var self=this;

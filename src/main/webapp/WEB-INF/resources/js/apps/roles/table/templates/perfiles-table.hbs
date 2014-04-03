@@ -1,8 +1,11 @@
-<label style="font-size:18px;">Lista de Perfiles</label>
-<select id="select-perfiles" style="width:375px;">
-    <option id="input0" value="0" selected></option>
-    {{#each items}}
-        <option value="{{codigo}}">{{descripcion}}</option>
-    {{/each}}
-</select>
+<label class="col-md-2 control-label" style="margin-left: -4.4%;">Lista de Perfiles</label>
+<div class="col-md-4">
+    <select id="select-perfiles" class="form-control">
+        <option id="input0" value="0" selected>Seleccione un Perfil</option>
+        {{#each items}}
+            <option value="{{codigo}}">{{descripcion}}</option>
+        {{/each}}
+    </select>
+</div>
+
 

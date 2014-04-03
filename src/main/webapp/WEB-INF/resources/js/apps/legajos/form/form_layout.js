@@ -1396,7 +1396,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                    self.duracion=$('#anio').val()+"-"+$('#mes').val()+"-"+$('#dia').val();
                                                };
 
-                                               var tipoyxhoras=$("#leg_tip").val();
+
 
 
 
@@ -1517,7 +1517,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                self.duracion=$('#anio').val()+"-"+$('#mes').val()+"-"+$('#dia').val();
                                            };
 
-                                           var tipoyxhoras=$("#leg_tip").val();
+
 
 
                                            self.espec="-";
@@ -1627,7 +1627,6 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                 self.duracion=$('#anio').val()+"-"+$('#mes').val()+"-"+$('#dia').val();
                                             };
 
-                                            var tipoyxhoras=$("#leg_tip").val();
 
 
 
@@ -1910,7 +1909,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                             if(fechaFin>fechaInicio){
                                                 this.cargar=0;
                                                 var tipoyxhoras=$("#leg_tip").val();
-                                                var tipo=tipoyxhoras.substr(0,3);
+
 
                                                 if(this.xfecha_xduracion==0){
                                                     this.duracion="-";
@@ -2019,7 +2018,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                             } else{
                                                 this.cargar=0;
                                                 var tipoyxhoras=$("#leg_tip").val();
-                                                var tipo=tipoyxhoras.substr(0,3);
+
 
                                                 if(this.xfecha_xduracion==0){
                                                     this.duracion="-";
@@ -2038,7 +2037,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                                 self.nro_coleg=$("#nro_coleg").val();
                                                 self.nvl_alcanz=$("#niv_est").val();
                                                 self.horas=0;
-                                                self.validarcampos();
+
 
                                                 this.model.get("updateestudio").set({
                                                     "id":this.id,
@@ -2156,7 +2155,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                             if(fechaFin>fechaInicio){
                                                 this.cargar=0;
                                                 var tipoyxhoras=$("#leg_tip").val();
-                                                var tipo=tipoyxhoras.substr(0,3);
+
 
 
                                                 if(this.xfecha_xduracion==0){
@@ -2264,7 +2263,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                             else{
                                                 this.cargar=0;
                                                 var tipoyxhoras=$("#leg_tip").val();
-                                                var tipo=tipoyxhoras.substr(0,3);
+
 
 
                                                 if(this.xfecha_xduracion==0){
@@ -2802,7 +2801,8 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                 var self=this;
                 var fullDate = new Date();
                 var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
-                var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+                var twoDigitDay=((fullDate.getDate().length) === 1) ? (fullDate.getDate()) : '0' + (fullDate.getDate());
+                var currentDate = twoDigitDay + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
 
                 if($("#tipo_ts").val()!="0" || $("#tipo_rec").val()!="0"){
                     if($("#option_ts").is(':checked')){
@@ -2845,9 +2845,9 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
 
                                   });
-                                  $("#fam-advertencia").removeClass("alert-success");
+                                  $("#fam-advertencia").removeClass("alert-warning");
                                   $("#fam-advertencia").removeClass("alert-danger");
-                                  $("#fam-advertencia").addClass("alert-warning");
+                                  $("#fam-advertencia").addClass("alert-success");
                                   $("#fam-advertencia").html("<strong>Se registro con éxito el Tiempo de Servicio</strong>");
                                   $("#fam-advertencia").show();
                               }else{
@@ -3248,7 +3248,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
                 if("1"==$("#lega_tip_pago").val()){
 
-                    //$('#numcuenta').attr("data-validetta","required");
+
                     $('#num_cuenta').val("");
 
                     $('#num_cuenta').show();
@@ -3265,7 +3265,10 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
             fun_save_fam:function(){
                 var self=this;
-
+                var fullDate = new Date();
+                var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+                var twoDigitDay=((fullDate.getDate().length) === 1) ? (fullDate.getDate()) : '0' + (fullDate.getDate());
+                var currentDate = twoDigitDay + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
 
                     if($("#legaj_nom_ape").val()!="" && $("#legaj_domici").val()!="" && $("#serv_ape_pat").val()!=""
                         && $("#lega_tel").val()!="" && $("#lega_seguro").val()!="" && $("#legaj_naci").val()!=""
@@ -3295,364 +3298,374 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                                     $("#fam-advertencia").show();
                                 }
                                 else{
-                                    this.validarExistenteDocument.fetchdocumento($("#serv_ape_pat").val(),function(){
-                                         if(self.validarExistenteDocument.collection.length!=0){
-                                             $("#fam-advertencia").removeClass("alert-success");
-                                             $("#fam-advertencia").removeClass("alert-warning");
-
-                                             $("#fam-advertencia").addClass("alert-danger");
-                                             $("#fam-advertencia").html("<strong>El Numero de Documento ya existe</strong>");
-                                             $("#fam-advertencia").show();
-
-                                         }
-                                          else{
-                                             if($("#beneficio").val()=="0"){
-
-                                                 nom=$('#legaj_nom_ape').val();
-                                                 paren=$('#leg_tip_parent').val();
-                                                 domic=$('#legaj_domici').val();
-                                                 tipdoc=$('#leg_tip_document').val();
-                                                 numdoc= $('#serv_ape_pat').val();
-                                                 sexo=$('#sexo').val();
-                                                 fechnac=$('#legaj_naci').val();
-                                                 telef=$('#lega_tel').val();
-                                                 estcivil=$('#leg_est_civil').val();
-                                                 beneficio=$('#beneficio').val();
-                                                 numseg=$('#lega_seguro').val();
-                                                 dependiente=$('#depen').val();
-                                                 self.dni=$('#id-servidor').text();
-
-                                                 self.model.get("datosfamiliares").set({
-                                                     "cargfamnom": $("#legaj_nom_ape").val(),
-                                                     "cargfampar": $("#leg_tip_parent").val(),
-                                                     "cargfamdir": $("#legaj_domici").val(),
-                                                     "cargfamdoc": $("#leg_tip_document").val(),
-                                                     "cargfamnumdoc": $("#serv_ape_pat").val(),
-                                                     "cargfamsex": $("#sexo").val(),
-                                                     "cargfamfechnac": $("#legaj_naci").val(),
-                                                     "cargfamtel": $("#lega_tel").val(),
-                                                     "cargfamrestciv": $("#leg_est_civil").val(),
-                                                     "cargfamben": $("#beneficio").val(),
-                                                     "cargfamnumessal": $("#lega_seguro").val(),
-                                                     "cargfamdep": $("#depen").val(),
-                                                     "cargfamcodser": self.codigo
-                                                 });
-
-                                                 self.model.get("datosfamiliares").url = "api/legajos/addDatosFamiliares";
-                                                 var self_s = self.model.get("datosfamiliares").save({}, { wait: true});
-
-                                                 self_s.done(function(){
-
-                                                     self.tableFamiliarView.fetchFamiliares(self.codigo,
-                                                         function () {
-                                                             $("#table-familiare-servidor").dataTable();
-                                                             $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
-                                                             $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                                                             $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-
-                                                             $('.dataTables_filter input').attr('placeholder','Buscar..');
-                                                         });
-                                                     self.tablefamily.show(self.tableFamiliarView);
-
-                                                 });
-                                                 self_s.fail(function(){
-                                                     self.tableFamiliarView.fetchFamiliares(self.codigo,
-                                                         function () {
-                                                             $("#table-familiare-servidor").dataTable();
-                                                             $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
-                                                             $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                                                             $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-
-                                                             $('.dataTables_filter input').attr('placeholder','Buscar..');
-
-                                                             $("#legaj_nom_ape").val("");
-                                                             $("#legaj_domici").val("");
-                                                             $("#serv_ape_pat").val("");
-                                                             $("#lega_tel").val("");
-                                                             $("#legaj_naci").val("");
-                                                             $("#lega_seguro").val("");
-                                                             $("#leg_tip_parent").val("0").trigger('change');
-                                                             $("#leg_est_civil").val("0").trigger('change');
-                                                             $("#leg_tip_document").val("0").trigger('change');
-                                                             $("#depen").val("000").trigger('change');
-                                                             $("#sexo").val("0").trigger('change');
-                                                             $("#beneficio").val("000").trigger('change');
-                                                         });
-
-
-                                                     self.tablefamily.show(self.tableFamiliarView);
-
-                                                 });
-                                                 $("#fam-advertencia").removeClass("alert-warning");
-                                                 $("#fam-advertencia").removeClass("alert-danger");
-                                                 $("#fam-advertencia").addClass("alert-success");
-                                                 $("#fam-advertencia").html("<strong>Se registro con éxito los Datos Familiares</strong>");
-                                                 $("#fam-advertencia").show();
-
-
-
-
-                                             }
-                                             else{
-
-                                                 if($("#fam-resolucion").val()!=""){
-
-                                                     if($("#lega_tip_pago").val()=="1"){
-
-                                                         if($("#numcuenta").val()!=""){
-
-                                                             if(isNaN($("#numcuenta").val())){
-                                                                 $("#fam-advertencia").removeClass("alert-success");
-                                                                 $("#fam-advertencia").removeClass("alert-danger");
-                                                                 $("#fam-advertencia").addClass("alert-warning");
-                                                                 $("#fam-advertencia").html("<strong>El N° de Cuenta no debe tener caracteres</strong>");
-                                                                 $("#fam-advertencia").show();
-
-                                                             }else{
-                                                                 nom=$('#legaj_nom_ape').val();
-                                                                 paren=$('#leg_tip_parent').val();
-                                                                 domic=$('#legaj_domici').val();
-                                                                 tipdoc=$('#leg_tip_document').val();
-                                                                 numdoc= $('#serv_ape_pat').val();
-                                                                 sexo=$('#sexo').val();
-                                                                 fechnac=$('#legaj_naci').val();
-                                                                 telef=$('#lega_tel').val();
-                                                                 estcivil=$('#leg_est_civil').val();
-                                                                 beneficio=$('#beneficio').val();
-                                                                 numseg=$('#lega_seguro').val();
-                                                                 dependiente=$('#depen').val();
-                                                                 self.dni=$('#id-servidor').text();
-
-                                                                 self.model.get("datosfamiliares").set({
-                                                                     "cargfamnom": $("#legaj_nom_ape").val(),
-                                                                     "cargfampar": $("#leg_tip_parent").val(),
-                                                                     "cargfamdir": $("#legaj_domici").val(),
-                                                                     "cargfamdoc": $("#leg_tip_document").val(),
-                                                                     "cargfamnumdoc": $("#serv_ape_pat").val(),
-                                                                     "cargfamsex": $("#sexo").val(),
-                                                                     "cargfamfechnac": $("#legaj_naci").val(),
-                                                                     "cargfamtel": $("#lega_tel").val(),
-                                                                     "cargfamrestciv": $("#leg_est_civil").val(),
-                                                                     "cargfamben": $("#beneficio").val(),
-                                                                     "cargfamnumessal": $("#lega_seguro").val(),
-                                                                     "cargfamdep": $("#depen").val(),
-                                                                     "cargfamcodser": self.codigo
-                                                                 });
-
-                                                                 self.model.get("datosfamiliares").url = "api/legajos/addDatosFamiliares";
-                                                                 var self_s = self.model.get("datosfamiliares").save({}, { wait: true});
-
-                                                                 self_s.done(function(){
-
-                                                                     self.tableFamiliarView.fetchFamiliares(self.codigo,
-                                                                         function () {
-                                                                             $("#table-familiare-servidor").dataTable();
-                                                                             $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
-                                                                             $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                                                                             $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-
-                                                                             $('.dataTables_filter input').attr('placeholder','Buscar..');
-                                                                         });
-                                                                     self.tablefamily.show(self.tableFamiliarView);
-
-                                                                 });
-                                                                 self_s.fail(function(){
-                                                                     tipopago=$('#lega_tip_pago').val();
-                                                                     numcuenta=$('#numcuenta').val();
-                                                                     titularcuenta=$('#titularcuenta').val();
-
-
-
-                                                                     self.model.get("beneficiarios").set({
-                                                                         "tipopago": $("#lega_tip_pago").val(),
-                                                                         "tipbeneficio":$("#tip_benef_fam").val(),
-                                                                         "codresol":$("#fam-resolucion").val(),
-                                                                         "numcuenta": $("#numcuenta").val(),
-                                                                         "titularcuenta": $("#titularcuenta").val(),
-                                                                         "cargfamnumdoc":$("#serv_ape_pat").val(),
-                                                                         "cargfamcodser": self.codigo
-
-                                                                     });
-                                                                     self.model.get("beneficiarios").url = "api/legajos/addBeneficiarios";
-
-                                                                     var self_p=self.model.get("beneficiarios").save({}, { wait: true});
-
-                                                                     self_p.done(function(){
-
-                                                                     });
-                                                                     self_p.fail(function(){
-                                                                         self.tableFamiliarView.fetchFamiliares(self.codigo,
-                                                                             function () {
-                                                                                 $("#table-familiare-servidor").dataTable();
-                                                                                 $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
-                                                                                 $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                                                                                 $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-
-                                                                                 $('.dataTables_filter input').attr('placeholder','Buscar..');
-
-
-                                                                                 $("#legaj_nom_ape").val("");
-                                                                                 $("#legaj_domici").val("");
-                                                                                 $("#serv_ape_pat").val("");
-                                                                                 $("#lega_tel").val("");
-                                                                                 $("#legaj_naci").val("");
-                                                                                 $("#lega_seguro").val("");
-                                                                                 $("#leg_tip_parent").val("0").trigger('change');
-                                                                                 $("#leg_est_civil").val("0").trigger('change');
-                                                                                 $("#leg_tip_document").val("0").trigger('change');
-                                                                                 $("#depen").val("000").trigger('change');
-                                                                                 $("#sexo").val("0").trigger('change');
-                                                                                 $("#beneficio").val("000").trigger('change');
-                                                                             });
-
-
-                                                                         self.tablefamily.show(self.tableFamiliarView);
-
-
-                                                                     });
-
-                                                                 });
-                                                                 $("#fam-advertencia").removeClass("alert-warning");
-                                                                 $("#fam-advertencia").removeClass("alert-danger");
-                                                                 $("#fam-advertencia").addClass("alert-success");
-                                                                 $("#fam-advertencia").html("<strong>Se registro con éxito los Datos Familiares</strong>");
-                                                                 $("#fam-advertencia").show();
-                                                             }
-
-
-
-                                                         }else{
-
-                                                             $("#fam-advertencia").removeClass("alert-success");
-                                                             $("#fam-advertencia").removeClass("alert-danger");
-                                                             $("#fam-advertencia").addClass("alert-warning");
-                                                             $("#fam-advertencia").html("<strong>Ingrese Numero de Cuenta</strong>");
-                                                             $("#fam-advertencia").show();
-                                                         }
-
-                                                     }
-                                                     else{
-                                                         nom=$('#legaj_nom_ape').val();
-                                                         paren=$('#leg_tip_parent').val();
-                                                         domic=$('#legaj_domici').val();
-                                                         tipdoc=$('#leg_tip_document').val();
-                                                         numdoc= $('#serv_ape_pat').val();
-                                                         sexo=$('#sexo').val();
-                                                         fechnac=$('#legaj_naci').val();
-                                                         telef=$('#lega_tel').val();
-                                                         estcivil=$('#leg_est_civil').val();
-                                                         beneficio=$('#beneficio').val();
-                                                         numseg=$('#lega_seguro').val();
-                                                         dependiente=$('#depen').val();
-                                                         self.dni=$('#id-servidor').text();
-
-                                                         self.model.get("datosfamiliares").set({
-                                                             "cargfamnom": $("#legaj_nom_ape").val(),
-                                                             "cargfampar": $("#leg_tip_parent").val(),
-                                                             "cargfamdir": $("#legaj_domici").val(),
-                                                             "cargfamdoc": $("#leg_tip_document").val(),
-                                                             "cargfamnumdoc": $("#serv_ape_pat").val(),
-                                                             "cargfamsex": $("#sexo").val(),
-                                                             "cargfamfechnac": $("#legaj_naci").val(),
-                                                             "cargfamtel": $("#lega_tel").val(),
-                                                             "cargfamrestciv": $("#leg_est_civil").val(),
-                                                             "cargfamben": $("#beneficio").val(),
-                                                             "cargfamnumessal": $("#lega_seguro").val(),
-                                                             "cargfamdep": $("#depen").val(),
-                                                             "cargfamcodser": self.codigo
-                                                         });
-
-                                                         self.model.get("datosfamiliares").url = "api/legajos/addDatosFamiliares";
-                                                         var self_s = self.model.get("datosfamiliares").save({}, { wait: true});
-
-                                                         self_s.done(function(){
-
-                                                             self.tableFamiliarView.fetchFamiliares(self.codigo,
-                                                                 function () {
-                                                                     $("#table-familiare-servidor").dataTable();
-                                                                     $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
-                                                                     $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                                                                     $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-
-                                                                     $('.dataTables_filter input').attr('placeholder','Buscar..');
-                                                                 });
-                                                             self.tablefamily.show(self.tableFamiliarView);
-
-                                                         });
-                                                         self_s.fail(function(){
-                                                             tipopago=$('#lega_tip_pago').val();
-                                                             numcuenta=$('#numcuenta').val();
-                                                             titularcuenta=$('#titularcuenta').val();
-
-
-                                                             // alert("tipo pago:"+tipopago+" numcuenta:"+numcuenta+" titularcuenta:"+titularcuenta+"dnipero"+numdoc);
-                                                             self.model.get("beneficiarios").set({
-                                                                 "tipopago": $("#lega_tip_pago").val(),
-                                                                 "tipbeneficio":$("#tip_benef_fam").val(),
-                                                                 "codresol":$("#fam-resolucion").val(),
-                                                                 "numcuenta": $("#numcuenta").val(),
-                                                                 "titularcuenta": $("#titularcuenta").val(),
-                                                                 "cargfamnumdoc":$("#serv_ape_pat").val(),
-                                                                 "cargfamcodser": self.codigo
-
-                                                             });
-                                                             self.model.get("beneficiarios").url = "api/legajos/addBeneficiarios";
-
-                                                             var self_p=self.model.get("beneficiarios").save({}, { wait: true});
-
-                                                             self_p.done(function(){
-
-                                                             });
-                                                             self_p.fail(function(){
-                                                                 self.tableFamiliarView.fetchFamiliares(self.codigo,
-                                                                     function () {
-                                                                         $("#table-familiare-servidor").dataTable();
-                                                                         $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
-                                                                         $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                                                                         $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-
-                                                                          $('.dataTables_filter input').attr('placeholder','Buscar..');
-
-                                                                         $("#legaj_nom_ape").val("");
-                                                                         $("#legaj_domici").val("");
-                                                                         $("#serv_ape_pat").val("");
-                                                                         $("#lega_tel").val("");
-                                                                         $("#legaj_naci").val("");
-                                                                         $("#lega_seguro").val("");
-                                                                         $("#leg_tip_parent").val("0").trigger('change');
-                                                                         $("#leg_est_civil").val("0").trigger('change');
-                                                                         $("#leg_tip_document").val("0").trigger('change');
-                                                                         $("#depen").val("000").trigger('change');
-                                                                         $("#sexo").val("0").trigger('change');
-                                                                         $("#beneficio").val("000").trigger('change');
-                                                                     });
-
-
-                                                                 self.tablefamily.show(self.tableFamiliarView);
-                                                             });
-
-                                                         });
-                                                         $("#fam-advertencia").removeClass("alert-warning");
-                                                         $("#fam-advertencia").removeClass("alert-danger");
-                                                         $("#fam-advertencia").addClass("alert-success");
-                                                         $("#fam-advertencia").html("<strong>Se registro con éxito los Datos Familiares</strong>");
-                                                         $("#fam-advertencia").show();
-
-
-                                                     }
-
-                                                 }
-                                                 else{
-
-                                                     $("#fam-advertencia").removeClass("alert-success");
-                                                     $("#fam-advertencia").removeClass("alert-danger");
-                                                     $("#fam-advertencia").addClass("alert-warning");
-                                                     $("#fam-advertencia").html("<strong>Ingrese Número de Resolución</strong>");
-                                                     $("#fam-advertencia").show();
-                                                 }
-                                             }
-                                         }
-                                    });
+                                    if(this.Comparar_Fecha(currentDate,$("#legaj_naci").val())){
+                                        this.validarExistenteDocument.fetchdocumento($("#serv_ape_pat").val(),function(){
+                                            if(self.validarExistenteDocument.collection.length!=0){
+                                                $("#fam-advertencia").removeClass("alert-success");
+                                                $("#fam-advertencia").removeClass("alert-warning");
+
+                                                $("#fam-advertencia").addClass("alert-danger");
+                                                $("#fam-advertencia").html("<strong>El Numero de Documento ya existe</strong>");
+                                                $("#fam-advertencia").show();
+
+                                            }
+                                            else{
+                                                if($("#beneficio").val()=="0"){
+
+                                                    nom=$('#legaj_nom_ape').val();
+                                                    paren=$('#leg_tip_parent').val();
+                                                    domic=$('#legaj_domici').val();
+                                                    tipdoc=$('#leg_tip_document').val();
+                                                    numdoc= $('#serv_ape_pat').val();
+                                                    sexo=$('#sexo').val();
+                                                    fechnac=$('#legaj_naci').val();
+                                                    telef=$('#lega_tel').val();
+                                                    estcivil=$('#leg_est_civil').val();
+                                                    beneficio=$('#beneficio').val();
+                                                    numseg=$('#lega_seguro').val();
+                                                    dependiente=$('#depen').val();
+                                                    self.dni=$('#id-servidor').text();
+
+                                                    self.model.get("datosfamiliares").set({
+                                                        "cargfamnom": $("#legaj_nom_ape").val(),
+                                                        "cargfampar": $("#leg_tip_parent").val(),
+                                                        "cargfamdir": $("#legaj_domici").val(),
+                                                        "cargfamdoc": $("#leg_tip_document").val(),
+                                                        "cargfamnumdoc": $("#serv_ape_pat").val(),
+                                                        "cargfamsex": $("#sexo").val(),
+                                                        "cargfamfechnac": $("#legaj_naci").val(),
+                                                        "cargfamtel": $("#lega_tel").val(),
+                                                        "cargfamrestciv": $("#leg_est_civil").val(),
+                                                        "cargfamben": $("#beneficio").val(),
+                                                        "cargfamnumessal": $("#lega_seguro").val(),
+                                                        "cargfamdep": $("#depen").val(),
+                                                        "cargfamcodser": self.codigo
+                                                    });
+
+                                                    self.model.get("datosfamiliares").url = "api/legajos/addDatosFamiliares";
+                                                    var self_s = self.model.get("datosfamiliares").save({}, { wait: true});
+
+                                                    self_s.done(function(){
+
+                                                        self.tableFamiliarView.fetchFamiliares(self.codigo,
+                                                            function () {
+                                                                $("#table-familiare-servidor").dataTable();
+                                                                $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
+                                                                $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                                                $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+
+                                                                $('.dataTables_filter input').attr('placeholder','Buscar..');
+                                                            });
+                                                        self.tablefamily.show(self.tableFamiliarView);
+
+                                                    });
+                                                    self_s.fail(function(){
+                                                        self.tableFamiliarView.fetchFamiliares(self.codigo,
+                                                            function () {
+                                                                $("#table-familiare-servidor").dataTable();
+                                                                $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
+                                                                $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                                                $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+
+                                                                $('.dataTables_filter input').attr('placeholder','Buscar..');
+
+                                                                $("#legaj_nom_ape").val("");
+                                                                $("#legaj_domici").val("");
+                                                                $("#serv_ape_pat").val("");
+                                                                $("#lega_tel").val("");
+                                                                $("#legaj_naci").val("");
+                                                                $("#lega_seguro").val("");
+                                                                $("#leg_tip_parent").val("0").trigger('change');
+                                                                $("#leg_est_civil").val("0").trigger('change');
+                                                                $("#leg_tip_document").val("0").trigger('change');
+                                                                $("#depen").val("000").trigger('change');
+                                                                $("#sexo").val("0").trigger('change');
+                                                                $("#beneficio").val("000").trigger('change');
+                                                            });
+
+
+                                                        self.tablefamily.show(self.tableFamiliarView);
+
+                                                    });
+                                                    $("#fam-advertencia").removeClass("alert-warning");
+                                                    $("#fam-advertencia").removeClass("alert-danger");
+                                                    $("#fam-advertencia").addClass("alert-success");
+                                                    $("#fam-advertencia").html("<strong>Se registro con éxito los Datos Familiares</strong>");
+                                                    $("#fam-advertencia").show();
+
+
+
+
+                                                }
+                                                else{
+
+                                                    if($("#fam-resolucion").val()!=""){
+
+                                                        if($("#lega_tip_pago").val()=="1"){
+
+                                                            if($("#numcuenta").val()!=""){
+
+                                                                if(isNaN($("#numcuenta").val())){
+                                                                    $("#fam-advertencia").removeClass("alert-success");
+                                                                    $("#fam-advertencia").removeClass("alert-danger");
+                                                                    $("#fam-advertencia").addClass("alert-warning");
+                                                                    $("#fam-advertencia").html("<strong>El N° de Cuenta no debe tener caracteres</strong>");
+                                                                    $("#fam-advertencia").show();
+
+                                                                }else{
+                                                                    nom=$('#legaj_nom_ape').val();
+                                                                    paren=$('#leg_tip_parent').val();
+                                                                    domic=$('#legaj_domici').val();
+                                                                    tipdoc=$('#leg_tip_document').val();
+                                                                    numdoc= $('#serv_ape_pat').val();
+                                                                    sexo=$('#sexo').val();
+                                                                    fechnac=$('#legaj_naci').val();
+                                                                    telef=$('#lega_tel').val();
+                                                                    estcivil=$('#leg_est_civil').val();
+                                                                    beneficio=$('#beneficio').val();
+                                                                    numseg=$('#lega_seguro').val();
+                                                                    dependiente=$('#depen').val();
+                                                                    self.dni=$('#id-servidor').text();
+
+                                                                    self.model.get("datosfamiliares").set({
+                                                                        "cargfamnom": $("#legaj_nom_ape").val(),
+                                                                        "cargfampar": $("#leg_tip_parent").val(),
+                                                                        "cargfamdir": $("#legaj_domici").val(),
+                                                                        "cargfamdoc": $("#leg_tip_document").val(),
+                                                                        "cargfamnumdoc": $("#serv_ape_pat").val(),
+                                                                        "cargfamsex": $("#sexo").val(),
+                                                                        "cargfamfechnac": $("#legaj_naci").val(),
+                                                                        "cargfamtel": $("#lega_tel").val(),
+                                                                        "cargfamrestciv": $("#leg_est_civil").val(),
+                                                                        "cargfamben": $("#beneficio").val(),
+                                                                        "cargfamnumessal": $("#lega_seguro").val(),
+                                                                        "cargfamdep": $("#depen").val(),
+                                                                        "cargfamcodser": self.codigo
+                                                                    });
+
+                                                                    self.model.get("datosfamiliares").url = "api/legajos/addDatosFamiliares";
+                                                                    var self_s = self.model.get("datosfamiliares").save({}, { wait: true});
+
+                                                                    self_s.done(function(){
+
+                                                                        self.tableFamiliarView.fetchFamiliares(self.codigo,
+                                                                            function () {
+                                                                                $("#table-familiare-servidor").dataTable();
+                                                                                $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
+                                                                                $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                                                                $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+
+                                                                                $('.dataTables_filter input').attr('placeholder','Buscar..');
+                                                                            });
+                                                                        self.tablefamily.show(self.tableFamiliarView);
+
+                                                                    });
+                                                                    self_s.fail(function(){
+                                                                        tipopago=$('#lega_tip_pago').val();
+                                                                        numcuenta=$('#numcuenta').val();
+                                                                        titularcuenta=$('#titularcuenta').val();
+
+
+
+                                                                        self.model.get("beneficiarios").set({
+                                                                            "tipopago": $("#lega_tip_pago").val(),
+                                                                            "tipbeneficio":$("#tip_benef_fam").val(),
+                                                                            "codresol":$("#fam-resolucion").val(),
+                                                                            "numcuenta": $("#numcuenta").val(),
+                                                                            "titularcuenta": $("#titularcuenta").val(),
+                                                                            "cargfamnumdoc":$("#serv_ape_pat").val(),
+                                                                            "cargfamcodser": self.codigo
+
+                                                                        });
+                                                                        self.model.get("beneficiarios").url = "api/legajos/addBeneficiarios";
+
+                                                                        var self_p=self.model.get("beneficiarios").save({}, { wait: true});
+
+                                                                        self_p.done(function(){
+
+                                                                        });
+                                                                        self_p.fail(function(){
+                                                                            self.tableFamiliarView.fetchFamiliares(self.codigo,
+                                                                                function () {
+                                                                                    $("#table-familiare-servidor").dataTable();
+                                                                                    $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
+                                                                                    $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                                                                    $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+
+                                                                                    $('.dataTables_filter input').attr('placeholder','Buscar..');
+
+
+                                                                                    $("#legaj_nom_ape").val("");
+                                                                                    $("#legaj_domici").val("");
+                                                                                    $("#serv_ape_pat").val("");
+                                                                                    $("#lega_tel").val("");
+                                                                                    $("#legaj_naci").val("");
+                                                                                    $("#lega_seguro").val("");
+                                                                                    $("#leg_tip_parent").val("0").trigger('change');
+                                                                                    $("#leg_est_civil").val("0").trigger('change');
+                                                                                    $("#leg_tip_document").val("0").trigger('change');
+                                                                                    $("#depen").val("000").trigger('change');
+                                                                                    $("#sexo").val("0").trigger('change');
+                                                                                    $("#beneficio").val("000").trigger('change');
+                                                                                });
+
+
+                                                                            self.tablefamily.show(self.tableFamiliarView);
+
+
+                                                                        });
+
+                                                                    });
+                                                                    $("#fam-advertencia").removeClass("alert-warning");
+                                                                    $("#fam-advertencia").removeClass("alert-danger");
+                                                                    $("#fam-advertencia").addClass("alert-success");
+                                                                    $("#fam-advertencia").html("<strong>Se registro con éxito los Datos Familiares</strong>");
+                                                                    $("#fam-advertencia").show();
+                                                                }
+
+
+
+                                                            }else{
+
+                                                                $("#fam-advertencia").removeClass("alert-success");
+                                                                $("#fam-advertencia").removeClass("alert-danger");
+                                                                $("#fam-advertencia").addClass("alert-warning");
+                                                                $("#fam-advertencia").html("<strong>Ingrese Numero de Cuenta</strong>");
+                                                                $("#fam-advertencia").show();
+                                                            }
+
+                                                        }
+                                                        else{
+                                                            nom=$('#legaj_nom_ape').val();
+                                                            paren=$('#leg_tip_parent').val();
+                                                            domic=$('#legaj_domici').val();
+                                                            tipdoc=$('#leg_tip_document').val();
+                                                            numdoc= $('#serv_ape_pat').val();
+                                                            sexo=$('#sexo').val();
+                                                            fechnac=$('#legaj_naci').val();
+                                                            telef=$('#lega_tel').val();
+                                                            estcivil=$('#leg_est_civil').val();
+                                                            beneficio=$('#beneficio').val();
+                                                            numseg=$('#lega_seguro').val();
+                                                            dependiente=$('#depen').val();
+                                                            self.dni=$('#id-servidor').text();
+
+                                                            self.model.get("datosfamiliares").set({
+                                                                "cargfamnom": $("#legaj_nom_ape").val(),
+                                                                "cargfampar": $("#leg_tip_parent").val(),
+                                                                "cargfamdir": $("#legaj_domici").val(),
+                                                                "cargfamdoc": $("#leg_tip_document").val(),
+                                                                "cargfamnumdoc": $("#serv_ape_pat").val(),
+                                                                "cargfamsex": $("#sexo").val(),
+                                                                "cargfamfechnac": $("#legaj_naci").val(),
+                                                                "cargfamtel": $("#lega_tel").val(),
+                                                                "cargfamrestciv": $("#leg_est_civil").val(),
+                                                                "cargfamben": $("#beneficio").val(),
+                                                                "cargfamnumessal": $("#lega_seguro").val(),
+                                                                "cargfamdep": $("#depen").val(),
+                                                                "cargfamcodser": self.codigo
+                                                            });
+
+                                                            self.model.get("datosfamiliares").url = "api/legajos/addDatosFamiliares";
+                                                            var self_s = self.model.get("datosfamiliares").save({}, { wait: true});
+
+                                                            self_s.done(function(){
+
+                                                                self.tableFamiliarView.fetchFamiliares(self.codigo,
+                                                                    function () {
+                                                                        $("#table-familiare-servidor").dataTable();
+                                                                        $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
+                                                                        $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                                                        $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+
+                                                                        $('.dataTables_filter input').attr('placeholder','Buscar..');
+                                                                    });
+                                                                self.tablefamily.show(self.tableFamiliarView);
+
+                                                            });
+                                                            self_s.fail(function(){
+                                                                tipopago=$('#lega_tip_pago').val();
+                                                                numcuenta=$('#numcuenta').val();
+                                                                titularcuenta=$('#titularcuenta').val();
+
+
+
+                                                                self.model.get("beneficiarios").set({
+                                                                    "tipopago": $("#lega_tip_pago").val(),
+                                                                    "tipbeneficio":$("#tip_benef_fam").val(),
+                                                                    "codresol":$("#fam-resolucion").val(),
+                                                                    "numcuenta": $("#numcuenta").val(),
+                                                                    "titularcuenta": $("#titularcuenta").val(),
+                                                                    "cargfamnumdoc":$("#serv_ape_pat").val(),
+                                                                    "cargfamcodser": self.codigo
+
+                                                                });
+                                                                self.model.get("beneficiarios").url = "api/legajos/addBeneficiarios";
+
+                                                                var self_p=self.model.get("beneficiarios").save({}, { wait: true});
+
+                                                                self_p.done(function(){
+
+                                                                });
+                                                                self_p.fail(function(){
+                                                                    self.tableFamiliarView.fetchFamiliares(self.codigo,
+                                                                        function () {
+                                                                            $("#table-familiare-servidor").dataTable();
+                                                                            $('#table-familiare-servidor_wrapper').append("<div id='footer-table'></div>");
+                                                                            $('#table-familiare-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                                                            $('#table-familiare-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+
+                                                                            $('.dataTables_filter input').attr('placeholder','Buscar..');
+
+                                                                            $("#legaj_nom_ape").val("");
+                                                                            $("#legaj_domici").val("");
+                                                                            $("#serv_ape_pat").val("");
+                                                                            $("#lega_tel").val("");
+                                                                            $("#legaj_naci").val("");
+                                                                            $("#lega_seguro").val("");
+                                                                            $("#leg_tip_parent").val("0").trigger('change');
+                                                                            $("#leg_est_civil").val("0").trigger('change');
+                                                                            $("#leg_tip_document").val("0").trigger('change');
+                                                                            $("#depen").val("000").trigger('change');
+                                                                            $("#sexo").val("0").trigger('change');
+                                                                            $("#beneficio").val("000").trigger('change');
+                                                                        });
+
+
+                                                                    self.tablefamily.show(self.tableFamiliarView);
+                                                                });
+
+                                                            });
+                                                            $("#fam-advertencia").removeClass("alert-warning");
+                                                            $("#fam-advertencia").removeClass("alert-danger");
+                                                            $("#fam-advertencia").addClass("alert-success");
+                                                            $("#fam-advertencia").html("<strong>Se registro con éxito los Datos Familiares</strong>");
+                                                            $("#fam-advertencia").show();
+
+
+                                                        }
+
+                                                    }
+                                                    else{
+
+                                                        $("#fam-advertencia").removeClass("alert-success");
+                                                        $("#fam-advertencia").removeClass("alert-danger");
+                                                        $("#fam-advertencia").addClass("alert-warning");
+                                                        $("#fam-advertencia").html("<strong>Ingrese Número de Resolución</strong>");
+                                                        $("#fam-advertencia").show();
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                     else{
+                                        $("#fam-advertencia").removeClass("alert-success");
+                                        $("#fam-advertencia").removeClass("alert-danger");
+                                        $("#fam-advertencia").addClass("alert-warning");
+                                        $("#fam-advertencia").html("<strong>El Fecha de Nacimiento debe ser menor a la Fecha Actual</strong>");
+                                        $("#fam-advertencia").show();
+                                    }
+
 
 
 
@@ -3700,8 +3713,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                 $('#idfamiliar').text(idfamiliar);
                 $('#form_save_rts').hide();
                 $('#form_edit_rts').show();
-                /*$('#btn-fam').hide();
-                 $('#edit-fam-button').show();     */
+
 
                 parent.trim();
                 $('#legaj_nom_ape').val(nom_ape);

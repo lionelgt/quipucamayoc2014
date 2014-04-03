@@ -2,11 +2,15 @@
 
 $(function(){
 
+    $(document).ready(function(){
+
+        $(location).attr('href','http://localhost:9000/admin#inicio');
+    });
     $("#inic").click(function(){
        $("#planilla").removeClass("active");
         $("#contrat").removeClass("active");
         $("#capacitacion").removeClass("active");
-        $("#beneficio").removeClass("active");
+        $("#tit_beneficio").removeClass("active");
         $("#gest_pers").removeClass("active");
         $("#gest_timp_pers").removeClass("active");
         //$(".active").remove();
@@ -16,7 +20,7 @@ $(function(){
                  $("#inic").removeClass("active");
                   $("#contrat").removeClass("active");
                   $("#capacitacion").removeClass("active");
-                  $("#beneficio").removeClass("active");
+                  $("#tit_beneficio").removeClass("active");
                   $("#gest_pers").removeClass("active");
                   $("#gest_timp_pers").removeClass("active");
                  // $(".active").remove();
@@ -26,7 +30,7 @@ $(function(){
       $("#inic").removeClass("active");
         $("#planilla").removeClass("active");
         $("#capacitacion").removeClass("active");
-        $("#beneficio").removeClass("active");
+        $("#tit_beneficio").removeClass("active");
         $("#gest_pers").removeClass("active");
         $("#gest_timp_pers").removeClass("active");
         $(this).addClass("active");
@@ -35,12 +39,12 @@ $(function(){
       $("#inic").removeClass("active");
         $("#planilla").removeClass("active");
         $("#contrat").removeClass("active");
-        $("#beneficio").removeClass("active");
+        $("#tit_beneficio").removeClass("active");
         $("#gest_pers").removeClass("active");
         $("#gest_timp_pers").removeClass("active");
         $(this).addClass("active");
     });
-    $("#beneficio").click(function(){
+    $("#tit_beneficio").click(function(){
         $("#inic").removeClass("active");
         $("#planilla").removeClass("active");
         $("#contrat").removeClass("active");
@@ -55,7 +59,7 @@ $(function(){
         $("#planilla").removeClass("active");
         $("#contrat").removeClass("active");
         $("#capacitacion").removeClass("active");
-        $("#beneficio").removeClass("active");
+        $("#tit_beneficio").removeClass("active");
         $("#gest_pers").addClass("active");
        $("#gest_timp_pers").removeClass("active");
 
@@ -65,7 +69,7 @@ $(function(){
         $("#planilla").removeClass("active");
         $("#contrat").removeClass("active");
         $("#capacitacion").removeClass("active");
-        $("#beneficio").removeClass("active");
+        $("#tit_beneficio").removeClass("active");
         $("#gest_pers").removeClass("active");
         $("#gest_timp_pers").addClass("active");
 

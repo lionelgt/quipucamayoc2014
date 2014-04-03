@@ -26,7 +26,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
 
             regions:{
                 listPerfiles: "#list-perfiles",   //perfiles-table.hbs
-                listRoles: "#list-roles",         //roles-table.hbs
+                listaRoles: "#list-roles",         //roles-table.hbs
                 perfiles:"#perfiles",              //crear-perfil.hbs
                 crearPerfilModal:"#crear-perfil-modal"
 
@@ -43,7 +43,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                 "click #cancel-dperfil":"cancel_dperfil" ,
                 "change .checks":"clickOnCheck",
                 "click #lb": "lb_asign_roles"
-                //"change #table-perfiles":"updatePerfiles"
+
 
             },
             initialize: function () {
@@ -70,63 +70,31 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
             onRender: function(){
                 this.initialFetch();
                 this.listPerfiles.show(this.perfilesView);
-                this.listRoles.show(this.rolesView);
+                this.listaRoles.show(this.rolesView);
                 this.perfiles.show(this.crearPerfilView);
 
 
-
-                $("#table-perfiles").dataTable();
-                $('#serv-table-modal').addClass('container-modal');
-                $('#table-perfiles_wrapper').addClass('table-position');
-                $('#table-perfiles_paginate').addClass('table-footer');
-
-                $('#table-perfiles_previous').click(function(){
-
-                    $(this).addClass('previous');
-                    $('#table-servidores2_next').addClass('next');
-                });
-                $('#table-perfiles_next').click(function(){
-                    $(this).addClass('next');
-                    $('#table-servidores2_previous').addClass('previous');
-                });
-                $('#table-perfiles_previous').addClass('previous');
-                $('#table-perfiles_next').addClass('next');
-                $('#table-perfiles').addClass('table-bordered');
 
 
 
             },
 
             initialFetch: function(){
-                var self = this;
+
                 this.perfilesView.fetchPerfiles();
                 this.crearPerfilView.fetchPerfiles(function(){
+                    $('#table-perfiles').show();
                     $("#table-perfiles").dataTable();
-                    $('#table-perfiles_length').hide();
-                    $('#table-perfiles_filter').hide();
-                    $('div#table-perfiles_info').hide();
 
-                    $('a#table-perfiles_next').html('<b>&#160;&#160;&#160;&#160;</b><b>Siguiente ></b>');
-                    $('a#table-perfiles_next').css({
-                        "cursor":"pointer"
-                    });
-                    $('a#table-perfiles_previous').html('<b>< Anterior</b>&#160;&#160;&#160;&#160;<b></b>');
-                    $('a#table-perfiles_previous').css({
-                        "cursor":"pointer"
-                    });
-                    $('#table-perfiles_paginate').css({
-                        "text-align": "center",
-                        "font-size":"16px"
-                    });
+
+                    $('#table-perfiles_wrapper').append("<div id='footer-table'></div>");
+                    $('#table-perfiles_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                    $('#table-perfiles_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                    $('.dataTables_filter input').addClass('buscador');
+
+                    $('.dataTables_filter input').attr('placeholder','Buscar..');
 
                 });
-
-
-                $("#table-perfiles").dataTable();
-
-                $('#table-perfiles_wrapper').append("<div id='footer-table'></div>");
-                $('#table-perfiles_next').html("<i  class='icon-forward'></i>");
-                $('#table-perfiles_previous').html("<i class='icon-backward'></i>");
 
 
                 $('#msg').hide();
@@ -137,25 +105,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                 $('#select-perfiles').attr("selectedIndex", -1);
             },
 
-            tablaEstilos: function(id){
-                $("#"+id+"_wrapper").addClass('table-position');
-                $('#'+id+'_paginate').addClass('table-footer');
-                $('#'+id+'_filter input').on('keyup',function(){
-                    $('#'+id+'_previous').addClass('previous');
-                    $('#'+id+'_next').addClass('next');
-                })  ;
-                $('#'+id+'_previous').click(function(){
-                    $(this).addClass('previous');
-                    $('#'+id+'_next').addClass('next');
-                });
-                $('#'+id+'_next').click(function(){
-                    $(this).addClass('next');
-                    $('#'+id+'_previous').addClass('previous');
-                });
-                $('#'+id+'_previous').addClass('previous');
-                $('#'+id+'_next').addClass('next');
-                $('#'+id).addClass('table-bordered');
-            },
+
             invoke_modal:function(){
                 $('#msg').hide();
                 $('#crear-perfil-modal').modal();
@@ -178,12 +128,23 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                 var self_s = this.model.get("perfil").save({}, {wait: true});
 
                 self_s.error(function(){
-                    self.perfilesView.fetchPerfiles(function(){
 
+                    self.perfilesView.fetchPerfiles();
+                    self.crearPerfilView.fetchPerfiles(function(){
+                        $('#table-perfiles').show();
                         $("#table-perfiles").dataTable();
-                        $('#table-perfiles_length').hide();
-                        $('#table-perfiles_filter').hide();
+
+
+                        $('#table-perfiles_wrapper').append("<div id='footer-table'></div>");
+                        $('#table-perfiles_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                        $('#table-perfiles_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                        $('.dataTables_filter input').addClass('buscador');
+
+                        $('.dataTables_filter input').attr('placeholder','Buscar..');
+
                     });
+
+                    self.perfiles.show(self.crearPerfilView);
 
                 });
 
@@ -191,8 +152,8 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
 
                 })  ;
 
-                $('#msg').show();
-                self_s.perfilesView.fetchPerfiles();
+                //$('#msg').show();
+
 
             },
             cancel_perfil: function(){
@@ -212,7 +173,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                 var self = this;
 
                 var val = "";
-                console.log("percode : "+perfCode);
+
                 for(var ii=0; ii<rolsId.length; ii++){
                     val += rolsId[ii]+" ";
                     self.model.get("rolperfil").set({
@@ -229,7 +190,7 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
 
 
                 val = "";
-                console.log("length de rolsIdDelete "+rolsIdDelete.length);
+
                 for(var ii=0; ii<rolsIdDelete.length; ii++){
                     val += rolsIdDelete[ii]+" ";
                     self.model.get("rolperfil").set({
@@ -284,7 +245,16 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                                $('datar').attr('false');
                            }
                        }
+                        $('#table-roles-1').show();
+                        $("#table-roles-1").dataTable();
 
+
+                        $('#table-roles-1_wrapper').append("<div id='footer-table'></div>");
+                        $('#table-roles-1_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                        $('#table-roles-1_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                        $('.dataTables_filter input').addClass('buscador');
+
+                        $('.dataTables_filter input').attr('placeholder','Buscar..');
 
                     }
                 );
@@ -360,33 +330,28 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
                 self.model.get("perfil").url = 'rest/cas/profile/delete';
 
 
-                var self_ss = self.model.get("perfil").save({}, {wait: true});
+                var self_s = self.model.get("perfil").save({}, {wait: true});
+
+                 self_s.fail(function(){
+                     self.crearPerfilView.fetchPerfiles(function(){
+                         $('#table-perfiles').show();
+                         $("#table-perfiles").dataTable();
+
+
+                         $('#table-perfiles_wrapper').append("<div id='footer-table'></div>");
+                         $('#table-perfiles_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                         $('#table-perfiles_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                         $('.dataTables_filter input').addClass('buscador');
+
+                         $('.dataTables_filter input').attr('placeholder','Buscar..');
+
+                     });
+
+                     self.perfiles.show(self.crearPerfilView);
+                 });
 
 
 
-
-
-                var url='rest/cas/profile/delete';
-
-
-                $.ajax({
-                    type: 'DELETE',
-                    url: url,
-                    success: function(){
-
-                        self.perfilesView.fetchPerfiles();
-                        self.listPerfiles.show(this.perfilesView);
-
-
-                    },
-                    error: function(){
-
-
-                        self.perfilesView.fetchPerfiles();
-                       self.listPerfiles.show(this.perfilesView);
-
-                    }
-                });
 
             } ,
             cancel_dperfil: function(){
@@ -395,14 +360,6 @@ define(["app","hbs!apps/roles/table/templates/rolesLayout","apps/roles/table/vie
 
             },
 
-            getElementTable :function(index, tr){
-                $('#table-data').each(function(index, tr) {
-                    var lines = $('td', tr).map(function(index, td) {
-                        return $(td).text();
-                    });
-
-                });
-            },
             lb_asign_roles: function(){
                 var self = this;
                 self.perfilesView.fetchPerfiles();

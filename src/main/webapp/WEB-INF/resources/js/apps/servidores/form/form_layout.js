@@ -291,9 +291,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                     var yMonth = fecha2.substring(3, 5);
                     var yDay = fecha2.substring(0, 2);
                     var yYear = fecha2.substring(6, 10);
-                    console.log(xMonth+"-"+yMonth);
-                    console.log(xDay+"-"+yDay);
-                    console.log(xYear+"-"+yYear)
+
                     if (parseInt(xYear) > parseInt(yYear)) {
                         return(true)
                     }
@@ -408,7 +406,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
 
                      self_s.done(function(){
 
-                     console.log("Funciono Bien");
+
                      });
                      self_s.fail(function(){
                          $('#help_save_ok').html('<strong>la Informacion General se guardo correctamente</strong>')
@@ -422,7 +420,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                     var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
                     var twoDigitDay=((fullDate.getDate().length) === 1) ? (fullDate.getDate()) : '0' + (fullDate.getDate());
                     var currentDate = twoDigitDay + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-                    console.log(currentDate);
+
 
                     if ($('#serv_ape_pat').val() != "" & $('#serv_ape_mat').val() != "" & $('#serv_nom').val() != "" &
                         $('#serv_est_civil').val() != "99" & $('#serv_tip_docu').val() != "99" & $('#num_document').val() != "" & $('#serv_sexo').val() != "99") {
@@ -647,7 +645,7 @@ define(["app", "hbs!apps/servidores/form/templates/servidoresLayout", 'lib/boots
                 },
                 fun_cambiar_categoria: function () {
                     var tem_tipo = $('#serv_tip').val();
-                    console.log($('#serv_tip').val());
+
                     this.CategoriaServidorView.fetchCategoria(tem_tipo);
                 },
                 serv_ingunmsm_show: function () {

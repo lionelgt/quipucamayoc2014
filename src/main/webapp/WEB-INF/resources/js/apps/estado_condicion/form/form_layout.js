@@ -656,7 +656,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                     var entaseg=$('#ent').val();
                     var estafp=$('#estafp').val();
                     var numsispen=$('#numsispen').val();
-                     //alert(email+ numres+ codigo+ numserest+ regpen+ entaseg+ estafp+ numsispen);
+
                     if(this.numresol!=null){
                         $("#advertencia").hide();
                         this.model.get("guardarcondaseg").set({
@@ -749,7 +749,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                     var cod  =this.codigo;
                     var numest=this.numserest;
                     if(this.numresol!=null && udcod!=""){
-                        //alert( udcod);
+
                         $("#advertencia").hide();
                         this.model.get("guardardependencia").set({
                             "codigo":codigo,

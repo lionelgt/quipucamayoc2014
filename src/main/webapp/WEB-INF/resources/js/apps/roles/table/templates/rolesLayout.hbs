@@ -10,110 +10,76 @@
 
             <div class="tab-pane active" id="lA">
                 <!--Crear Perfil-->
-                <div class="row control-group form-horizontal" style="padding-left: 30px;">
+                <br>
+                <div class="row form-group">
+                   <div class="col-md-10">
+
+                   </div>
+
+                    <div class="col-md-2" >
 
 
-                    <div class="span5" style="position:absolute">
 
-                        <div id="crear-perfil-modal" class="modal hide fade" tabindex="-1" role="dialog"
-                             aria-labelledby="myModalLabel" aria-hidden="true" style="top:180px;">
-                            <!--<button type="button" class="close" data-dismiss="modal" style="padding:10px;">
-                                &#88;</button>-->
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="header-x">x</button>
 
-                            <div class="modal-header" style="font-size: 12px;line-height: 20px;">
-                                <h3>Nuevo Perfil</h3>
+                        <button id="add-perfil" class="btn btn-primary pull-right" type="submit">Agregar Perfil
+                            <i class="icon-plus icon-white"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div id="perfiles">
+                    <!--tabla de perfiles: crear-perfil.hbs-->
+                </div>
+                <div id="crear-perfil-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">Nuevo Perfil</h4>
                             </div>
                             <div class="modal-body">
-                                <div class="input-append">
-                                    <input type="text" id="descripcion" style="width:315px;"
-                                           placeholder="Ingrese el nombre del perfil. Ejemplo: Trabajador">
-                                </div>
+                                <form class="form-horizontal">
+                                    <div class="row form-group">
+                                        <label class="col-md-4 control-label">Nombre de Perfil</label>
+                                        <div class="col-md-7">
+                                            <input type="text" id="descripcion" class="form-control">
+                                        </div>
+
+                                    </div>
+                                </form>
+
 
                             </div>
                             <div class="modal-footer">
-                                <table>
-
-                                    <tr>
-                                        <td style="width:64%">
-
-                                            <div id="msg" class="alert alert-success"
-                                                 style="display:none;position: absolute; top: 70%; left: 2.5%; right: auto; margin: 0 auto 20px; max-width: 100%; text-align: left; width: 50%;">
-                                                Perfil creado!
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button id="cancel-perfil" class="btn" type="submit"
-                                                    style="margin-left:-30%; margin-right:2%; margin-bottom:2%;">
-                                                Cancelar
-                                            </button>
-                                            <!--<button id="save-perfil" class="btn btn-primary" type="submit"-->
-                                                    <!--style="margin-right:2%; margin-bottom:2%;"-->
-                                                    <!--onclick="window.location.reload()">Crear Perfil-->
-                                            <!--</button>-->
-                                            <a id="save-perfil" class="btn btn-primary" type="submit"
-                                                    style="margin-right:2%; margin-bottom:2%;" onclick="window.location.reload()">Crear Perfil
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
-
+                                <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal">Cancelar</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="save-perfil">Crear Perfil</button>
                             </div>
-
-
-                        </div>
-                        <div>
-                            <button id="add-perfil" class="btn btn-primary" type="submit">Agregar Perfil
-                                <i class="icon-plus icon-white"></i>
-                            </button>
                         </div>
                     </div>
-
-
-                    <br/>
-                    <br/>
-
-                    <div id="perfiles" style="padding-left:30px;">
-                        <!--tabla de perfiles: crear-perfil.hbs-->
-                    </div>
-
-                    <br/>
-                    <br/>
                 </div>
 
+                <div id="modal-div" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
-                <div id="modal-div" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                     aria-hidden="true" style="top:180px;">
-                    <button type="button" class="close" data-dismiss="modal" style="padding:10px;">&#88;</button>
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">Eliminar Perfil</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    <strong>El Perfil se eliminará<br>
 
-                    <div class="modal-header" style="font-size: 12px;line-height: 20px;">
-                        <h3>Eliminar Perfil</h3>
-                    </div>
-                    <div class="modal-body">
-
-                        <div style="font-size:18px;" id="modal_escribir"></div>
-
-                    </div>
-                    <div class="" style="margin-bottom: 20px;margin-top: 20px;">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td style="width:64%">
-                                    <div id="msg1" class="alert alert-success" style="display: none; text-align: center; width: 269px; margin-left: 20px; margin-top: 20px; margin-right: 20px;">
-                                        Perfil eliminado!
-                                    </div>
-                                </td>
-                                <td>
-                                    <button id="delete-perfil" class="btn btn-primary" type="submit" style="margin-left: 30px;"> Eliminar
-                                    </button>
-                                </td>
-                                <td>
-                                    <button id="cancel-dperfil" class="btn " type="submit" data-dismiss="modal">Cancelar
-                                    </button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                        Si desea continuar haga click en aceptar. </strong>
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="delete-perfil">Aceptar</button>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -124,11 +90,11 @@
 
                 <br>
 
-                <form class="form-horizontal" id="form_tabla_soli" style="padding-left: 30px;">
-                    <div id="list-perfiles">
+                <form class="form-horizontal" id="form_tabla_soli" >
+                    <div id="list-perfiles" class="row form-group">
                         <!--Lista de Perfiles-->
                     </div>
-                    <br/>
+
 
                     <div id="list-roles">
                         <!--Tabla con roles a asignar-->
