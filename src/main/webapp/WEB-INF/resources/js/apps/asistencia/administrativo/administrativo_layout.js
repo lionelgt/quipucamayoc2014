@@ -73,8 +73,7 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                     var clickedElement = $(e.currentTarget);
                     if (clickedElement.is(':checked')) {
                         this.diasSelecionadoBusqueda.push(clickedElement.val());
-                        console.log(this.diasSelecionadoBusqueda.length);
-                        console.log(this.diasSelecionadoBusqueda[0]+"-"+this.diasSelecionadoBusqueda[1])
+
                     }else{
                         this.diasSelecionadoBusqueda.splice(this.diasSelecionadoBusqueda.indexOf(clickedElement.val()), 1);
                     }
@@ -97,11 +96,10 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                     var s_domingo="----",s_lunes="----",s_martes="----",s_miercoles="----",s_jueves="----",s_viernes="----",s_sabado="----";
 
                     self.selectHorarios.selectHorarios(cod,function(){
-                       //alert(self.selectHorarios.collection.at(0).get('ingreso'));
-                        //alert(self.selectHorarios.collection.at(1).get('ingreso'));
+
                             if(self.selectHorarios.collection.length!=0){
                                 for(var i=0;i<self.selectHorarios.collection.length;i++){
-                                    console.log("valor:"+i);
+
                                     if(self.selectHorarios.collection.at(i).get("dia")=="1"){
                                         i_domingo= self.convertir_min_hor(self.selectHorarios.collection.at(i).get("ingreso"));
                                         s_domingo=self.convertir_min_hor(self.selectHorarios.collection.at(i).get("salida"));
@@ -219,7 +217,7 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                                  self.tablaHorarios.buscarHorarios(codigo_clase,tolerancia,lactancia,
                                  function(){
 
-                                     console.log(self.tablaHorarios.collection.length);
+
                                    /*  if(self.tablaHorarios.collection.length!=0){
                                          var antiguo=0;
                                          var j=0;
@@ -735,18 +733,32 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                     $("#cont_serv").show();
                     $('#serv-table-modal').modal("hide");
                 },
-                modal_servidores: function () {
-                    var self = this;
-                    self.servidoresModal.show(self.tablaModalServidores);
-                    $("#table-servidores_asis").dataTable();
+                modal_servidores: function (e) {
+                    var self=this;
+                    var clickedElement=$(e.currentTarget);
+
+                    clickedElement.button('loading');
+
+                    setTimeout(function () {
+                        clickedElement.button('reset');
+                        self.servidoresModal.show(self.tablaModalServidores);
+
+                        if(self.tablaModalServidores.collection.length!=0){
+                            $("#table-servidores_asis").dataTable();
 
 
-                    $('#table-servidores_asis_wrapper').append("<div id='footer-table'></div>");
-                    $('#table-servidores_asis_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                    $('#table-servidores_asis_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                            $('#table-servidores_asis_wrapper').append("<div id='footer-table'></div>");
+                            $('#table-servidores_asis_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                            $('#table-servidores_asis_previous').html("<i class='glyphicon glyphicon-backward'></i>");
 
-                    $('.dataTables_filter input').attr('placeholder', 'Buscar..');
-                    $('#serv-table-modal').modal();
+                            $('.dataTables_filter input').attr('placeholder', 'Buscar..');
+                        }
+
+
+                        $('#serv-table-modal').modal();
+
+                    },2000);
+
                 },
                 clickServidorRow: function (e) {
                     var clickedElement = $(e.currentTarget);
@@ -756,10 +768,7 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                     var numero_dia2 = parseInt(numero_dia1) + 7;
                     if (clickedElement.is(':checked')) {
 
-                        console.log(numero_dia1);
-                        console.log(numero_dia2);
-                        console.log(dia);
-                        console.log(check);
+
 
                         $('#datetimepicker' + numero_dia1 + ' .input-group-addon').removeClass("addColorDisabled");
                         $('#datetimepicker' + numero_dia2 + ' .input-group-addon').removeClass("addColorDisabled");

@@ -1,8 +1,8 @@
-<link href="resources/css/vendor/datepicker.css" rel="stylesheet">
+
 
 <fieldset>
 <legend>Registro y Mantenimiento del Estado y Condicion del trabajador</legend>
-<div class="row form-group">
+<!--<div class="row form-group">
     <div class="col-md-3">
 
 
@@ -13,7 +13,7 @@
         <span id="id-numserest" class="help-inline" style="padding-left: 50px;display:none;"></span>
         <h4><span id="employed" style="margin-left:-95px"></span></h4>
     </div>
-</div>
+</div>-->
 
 <div id="advertencia" class="alert alert-warning" style="text-align: center; display:none;"><strong>Existen campos obligatorios vacíos</strong></div>
 <div id="correcto" class="alert alert-success" style="text-align: center; display: none;"><strong>Se registró correctamente los datos</strong></div>
@@ -24,11 +24,20 @@
         <li class=""><a href="#ca" data-toggle="tab">Condicion del Asegurado</a></li>
         <li class=""><a href="#b" data-toggle="tab">Tipo Pago</a></li>
         <li class=""><a href="#cp" data-toggle="tab">Condicion Laboral</a></li>
+        <button id="search" class="btn btn-primary pull-right" type="button"><span class="glyphicon glyphicon-search"></span> Buscar Servidor</button>
     </ul>
 
 
 <div class="tab-content">
      <br>
+     <div class="row form-group" id="sec_est_cond" style="display: none;">
+      <div class="col-md-8">
+       <strong style="font-size: 18px;">Servidor:<strong id="employed" style="font-size: 16px;color: #00585f;"></strong></strong>
+      </div>
+      <div class="col-md-4">
+        <strong style="font-size: 18px;">Código:<strong id="id-servidor" style="font-size: 16px;color: #00585f;"> </strong> </strong>
+      </div>
+     </div>
     <div class="tab-pane active" id="cl">
 
         <form class="form-horizontal well">

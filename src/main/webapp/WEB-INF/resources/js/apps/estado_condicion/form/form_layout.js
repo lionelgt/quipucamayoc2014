@@ -298,6 +298,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                     $('#form_insert2').show();
                     $('#form_insert3').show();
                     $('#form_insert4').show();
+                    $("#sec_est_cond").show();
                     var clickedElement=$(e.currentTarget);
                     this.codigo=clickedElement.children(':nth-child(1)').text();
                     this.numserest=clickedElement.children(':nth-child(3)').text();
@@ -310,15 +311,15 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                     var cat=clickedElement.children(':nth-child(6)').text();
                     $('#id-servidor').text(cod);
                     $('#id-numserest').text(numest);
-                    $('#employed').text(nombre+" - "+desctip);
+                    $('#employed').text(nombre);
                     $('#tipito').val(desctip);
                     $('#catito').val(cat);
                     $('#estito').val(est);
 
                     $('#estado_condicion-modal1').modal('hide');
 
-                    $('#cargando').fadeOut("slow");
-                    $('#new').fadeOut("slow");
+                    //$('#cargando').fadeOut("slow");
+                   // $('#new').fadeOut("slow");
                     if(this.ti=="DOCENTE"){
 
                         this.cod_ti=1;
