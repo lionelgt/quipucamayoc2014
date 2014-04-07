@@ -122,4 +122,16 @@ public interface AsistenciaAdministrativoMapper {
             @Result(property = "dia",column = "dia")
     })
     List<Asistencia> selectTipoHorario(@Param("codigoHor")String codigoHor);
+
+    @Select(value ="SELECT to_char(fecha_inicio,'dd/mm/yyyy') AS FECHAINI, " +
+            "  to_char(fecha_fin,'dd/mm/yyyy')        AS FECHAFIN " +
+            "FROM USERDBDIGI.historial_horarios " +
+            "WHERE cod_pers=#{codigo} " +
+            "AND estado_hor=1")
+    @Results(value = {
+            @Result(javaType = Asistencia.class),
+            @Result(property = "fecha_ini_actual",column = "FECHAINI"),
+            @Result(property = "fecha_fin_actual",column = "FECHAFIN")
+    })
+    Asistencia buscarHorarioActual(@Param("codigo")String codigo);
 }

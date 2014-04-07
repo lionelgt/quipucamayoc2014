@@ -84,4 +84,12 @@ public class AsistenciaAdministrativoController {
         return asistenciaAdministrativoService.selectTipoHorario(codigoHor);
     }
 
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/horarioactual/codigo/{codigo}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseBody
+    public Asistencia BuscarHorarioActual(@PathVariable(value = "codigo") String codigo) {
+        System.out.println(asistenciaAdministrativoService.buscarHorarioActual(codigo).getFecha_ini_actual());
+        return asistenciaAdministrativoService.buscarHorarioActual(codigo);
+    }
+
 }

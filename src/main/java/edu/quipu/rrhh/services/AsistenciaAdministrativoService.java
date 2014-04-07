@@ -19,4 +19,6 @@ public interface AsistenciaAdministrativoService {
     List<Asistencia> buscarTipoHorario(String codigo);
 
     List<Asistencia> selectTipoHorario(String codigoHor);
+
+    Asistencia buscarHorarioActual(String codigo);
 }

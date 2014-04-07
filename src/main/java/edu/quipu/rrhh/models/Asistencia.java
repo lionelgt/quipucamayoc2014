@@ -4,6 +4,7 @@ package edu.quipu.rrhh.models;
 public class Asistencia {
 
     //para ADMINISTRATIVO
+    private String codigo_serv;
     private String codigo_hor;
     private Integer numero_hor;
     private String[] numero_dia;
@@ -23,6 +24,32 @@ public class Asistencia {
     private String tipo_hor;
     private String codigo_doc;
     private String descripcion_doc;
+    private String fecha_ini_actual;
+    private String fecha_fin_actual;
+
+    public String getFecha_ini_actual() {
+        return fecha_ini_actual;
+    }
+
+    public void setFecha_ini_actual(String fecha_ini_actual) {
+        this.fecha_ini_actual = fecha_ini_actual;
+    }
+
+    public String getFecha_fin_actual() {
+        return fecha_fin_actual;
+    }
+
+    public void setFecha_fin_actual(String fecha_fin_actual) {
+        this.fecha_fin_actual = fecha_fin_actual;
+    }
+
+    public String getCodigo_serv() {
+        return codigo_serv;
+    }
+
+    public void setCodigo_serv(String codigo_serv) {
+        this.codigo_serv = codigo_serv;
+    }
 
     public String getCodigo_doc() {
         return codigo_doc;

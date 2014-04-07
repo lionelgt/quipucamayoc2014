@@ -77,4 +77,9 @@ public class AsistenciaAdministrativoServiceImpl implements AsistenciaAdministra
     public List<Asistencia> selectTipoHorario(String codigoHor) {
         return asistenciaAdministrativoMapper.selectTipoHorario(codigoHor);
     }
+
+    @Override
+    public Asistencia buscarHorarioActual(String codigo) {
+        return asistenciaAdministrativoMapper.buscarHorarioActual(codigo);
+    }
 }

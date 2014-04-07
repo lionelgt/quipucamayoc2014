@@ -1,7 +1,7 @@
 define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayout', "apps/asistencia/administrativo/view/tabla_modal_servidores","apps/planillas/list/view/unidades-dialog",
     "apps/asistencia/administrativo/model/addHorario","apps/asistencia/administrativo/view/tabla_horarios","apps/asistencia/administrativo/view/tipo_documentos","apps/asistencia/administrativo/view/horarios_nocturnos",
-    "apps/asistencia/administrativo/view/select_horarios",'lib/bootstrap-datetimepicker.min', "lib/moment", "jquery", "bootstrap", "lib/jquery.dataTables.min","lib/bootstrap-datepicker"],
-    function (ErzaManager, layoutTpl, TablaModalServidores,TablaModalDependencias, AddHorario,TablaHorarios,TipoDocumentos,HorariosNocturno,TablaHor) {
+    "apps/asistencia/administrativo/view/select_horarios","apps/asistencia/administrativo/model/Horarioactual",'lib/bootstrap-datetimepicker.min', "lib/moment", "jquery", "bootstrap", "lib/jquery.dataTables.min","lib/bootstrap-datepicker"],
+    function (ErzaManager, layoutTpl, TablaModalServidores,TablaModalDependencias, AddHorario,TablaHorarios,TipoDocumentos,HorariosNocturno,TablaHor,HorarioActual) {
         ErzaManager.module('AsistenciaApp.Form.View', function (View, ErzaManager, Backbone, Marionette, $, _) {
 
             View.Layout = Marionette.Layout.extend({
@@ -56,7 +56,8 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                     this.model = new Backbone.Model();
 
                     this.model.set({
-                        "addhorario": new AddHorario()
+                        "addhorario": new AddHorario(),
+                        "horarioactual":new HorarioActual()
                     });
                 },
                 initialFetch: function () {
@@ -728,6 +729,17 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                     this.codigo = clickedElement.children(':nth-child(1)').text();
                     this.num_ser_est = clickedElement.children(':nth-child(1)').attr('data');
                     this.nombre = clickedElement.children(':nth-child(2)').text();
+
+                    this.model.get("horarioactual").url="api/asistencia/administrativo/horarioactual/codigo/"+this.codigo;
+                    var fetch_h=this.model.get("horarioactual").fetch({data: $.param({"codigo_serv":this.codigo})});
+                    fetch_h.done(function(){
+                        $('#f_inicio_act').val(self.model.get("horarioactual").get("fecha_ini_actual"));
+                        $('#f_final_act').val(self.model.get("horarioactual").get("fecha_fin_actual"));
+                    });
+                    fetch_h.fail(function(){
+                        alert("fail")
+                    });
+
                     $('#desc-servidor_asis').text(this.nombre);
                     $("#serv_cod").text(this.codigo);
                     $("#cont_serv").show();
