@@ -83,6 +83,7 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
 
                     $("#opt_diurno").hide();
                     $("#tipo_noct").hide();
+                    $("#div_tabla_horarios").hide();
                 },
                 select_diurno:function(){
                     $("#opt_diurno").show();
@@ -91,7 +92,7 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                 },
                 clickTipoHor:function(){
                     var self=this;
-
+                    //alert("NID");
                     var cod= $("#tipo_nocturno").val();
                     var i_domingo="----",i_lunes="----",i_martes="----",i_miercoles="----",i_jueves="----",i_viernes="----",i_sabado="----";
                     var s_domingo="----",s_lunes="----",s_martes="----",s_miercoles="----",s_jueves="----",s_viernes="----",s_sabado="----";
@@ -215,9 +216,12 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                                      lactancia = 1;
                                  };
                                  $("#tipo_noct").show();
+                                 $("#div_tabla_horarios").show();
+
+
                                  self.tablaHorarios.buscarHorarios(codigo_clase,tolerancia,lactancia,
                                  function(){
-
+                                     $("#tipo_nocturno").trigger('change');
 
                                    /*  if(self.tablaHorarios.collection.length!=0){
                                          var antiguo=0;
