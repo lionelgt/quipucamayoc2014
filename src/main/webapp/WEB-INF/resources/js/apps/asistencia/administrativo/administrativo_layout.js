@@ -1,7 +1,8 @@
 define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayout', "apps/asistencia/administrativo/view/tabla_modal_servidores","apps/planillas/list/view/unidades-dialog",
     "apps/asistencia/administrativo/model/addHorario","apps/asistencia/administrativo/view/tabla_horarios","apps/asistencia/administrativo/view/tipo_documentos","apps/asistencia/administrativo/view/horarios_nocturnos",
-    "apps/asistencia/administrativo/view/select_horarios","apps/asistencia/administrativo/model/Horarioactual",'lib/bootstrap-datetimepicker.min', "lib/moment", "jquery", "bootstrap", "lib/jquery.dataTables.min","lib/bootstrap-datepicker"],
-    function (ErzaManager, layoutTpl, TablaModalServidores,TablaModalDependencias, AddHorario,TablaHorarios,TipoDocumentos,HorariosNocturno,TablaHor,HorarioActual) {
+    "apps/asistencia/administrativo/view/select_horarios","apps/asistencia/administrativo/model/Horarioactual","apps/asistencia/administrativo/model/AsociacionHorario",
+        'lib/bootstrap-datetimepicker.min', "lib/moment", "jquery", "bootstrap", "lib/jquery.dataTables.min","lib/bootstrap-datepicker"],
+    function (ErzaManager, layoutTpl, TablaModalServidores,TablaModalDependencias, AddHorario,TablaHorarios,TipoDocumentos,HorariosNocturno,TablaHor,HorarioActual,AsociacionHorario) {
         ErzaManager.module('AsistenciaApp.Form.View', function (View, ErzaManager, Backbone, Marionette, $, _) {
 
             View.Layout = Marionette.Layout.extend({
@@ -53,7 +54,8 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                     "click #boton-unidad":"unidades_dep",
                     "change  .dias": "clickServidorRow",
                     "change #tipo_nocturno":"clickTipoHor",
-                    "change  .dia_bus": "agregar_dia_seleccionado"
+                    "change  .dia_bus": "agregar_dia_seleccionado",
+                    "click #save_asociacion":"guardar_asociacion"
                 },
                 onRender: function () {
                     this.initialFetch();
@@ -65,7 +67,8 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
 
                     this.model.set({
                         "addhorario": new AddHorario(),
-                        "horarioactual":new HorarioActual()
+                        "horarioactual":new HorarioActual(),
+                        "asociacionhorario":new AsociacionHorario()
                     });
                 },
                 initialFetch: function () {
@@ -76,6 +79,38 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                         var currentDate = fullDate.getDate() + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
                         $('#fec_doc').val(currentDate);
                     });
+                },
+                guardar_asociacion:function(){
+                    var self=this;
+                    if($('#serv_cod').text()!=""){
+                        if ($("input[name='options']:checked").val() == "D" || $("input[name='options']:checked").val() == "N") {
+                            if($('#tipo_nocturno').val()!="999"){
+                                if($('#f_inicio_cambio').val()!="" & $('#f_final_cambio').val()!=""){
+                                   if($('#tipo_doc').val()!="000" & $('#num_doc').val()!="" & $('#tipo_doc').val()!="" & $('#num_exp').val()!="000" & $('#fec_doc').val()!=""){
+                                        if($('#origen').val()!="" & $('#destino').val()!="" & $('#origen').val()!=$('#destino').val()){
+                                            if($('#asunto')){
+
+                                            }else{
+                                                alert("Ingrese asunto")
+                                            }
+                                        }else{
+                                            alert("los campos origen y destino estan mal llenados")
+                                        }
+                                   }else{
+                                       alert("existen campos obligatorios que no han sido llenados")
+                                   }
+                                }else{
+                                    alert("es obligatorio ingresar las fechas")
+                                }
+                            }else{
+                                alert("seleccione un horario")
+                            }
+                        }else{
+                            alert("seleccione un tipo de horario")
+                        }
+                    }else{
+                        alert("seleccione un servidor")
+                    }
                 },
                 agregar_dia_seleccionado:function(e){
 

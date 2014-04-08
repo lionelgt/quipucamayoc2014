@@ -1,10 +1,10 @@
 
 
-<label class="col-md-4 control-label" >Tipo de Horario</label>
+<label class="col-md-4 control-label" >Horario</label>
 
 <div class="col-md-7">
     <select id="tipo_nocturno" class="form-control">
-
+        <option value="999" >Seleccione un horario</option>
         {{#each items}}
             <option value="{{codigo_hor}}" >{{descripcion_hor}}</option>
         {{/each}}
