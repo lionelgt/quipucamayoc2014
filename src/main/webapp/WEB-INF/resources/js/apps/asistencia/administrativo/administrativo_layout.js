@@ -21,6 +21,12 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                 horadeingresos: [],
                 horadesalidas: [],
                 descripcion_horario: "",
+                cambio:0,
+                unidadSelected: {
+                    unidadId:10225,
+                    unidadDesc:"C0319 - PROYECTO QUIPUCAMAYOC"
+                },
+
 
                 regions: {
                     "div_tipo_doc":"#div_tipo_doc",
@@ -42,7 +48,9 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                     "click #f_inicio_cambio_clos":"clear_fechaInicio",
                     "click #f_final_cambio_clos":"clear_fechaFin",
                     "click #buscar_serv_hor": "modal_servidores",
-                    "click #select_unidad":"modal_origen",
+                    "click #origen_unidad":"modal_origen",
+                    "click #destino_unidad":"modal_destino",
+                    "click #boton-unidad":"unidades_dep",
                     "change  .dias": "clickServidorRow",
                     "change #tipo_nocturno":"clickTipoHor",
                     "change  .dia_bus": "agregar_dia_seleccionado"
@@ -89,6 +97,26 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                     $("#opt_diurno").show();
                     $("#tipo_noct").hide();
                     $("#div_tabla_horarios").hide();
+                },
+                unidades_dep:function(){
+
+                    $('#modal-unidades').modal('hide');
+                    this.unidadSelected = this.tablaDependencias.unidadClicked;
+
+
+
+
+                    this.udcod= this.unidadSelected.unidadDesc.substr(0,5);
+
+                   // $('#nom_dep').text(this.unidadSelected.unidadDesc);
+                    //tablaDependencias
+                    if(this.cambio==1){
+                        $("#origen").val(this.unidadSelected.unidadDesc.substr(7));
+                    }
+                    if(this.cambio==2){
+                        $("#destino").val(this.unidadSelected.unidadDesc.substr(7));
+                    }
+
                 },
                 clickTipoHor:function(){
                     var self=this;
@@ -384,11 +412,17 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
                     $('#notificacion').hide();
                 },
                 modal_origen:function(){
-
+                         this.cambio=1;
                    this.origenModal.show(this.tablaDependencias);
 
                     $("#show_origen").modal("show");
 
+                },
+                modal_destino:function(){
+                   this.cambio=2;
+                    this.origenModal.show(this.tablaDependencias);
+
+                    $("#show_origen").modal("show");
                 },
                 update_horas: function () {
                     var self=this;

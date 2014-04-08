@@ -197,6 +197,7 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                 },
 
+
                 seleccionarunidad:function(){
                     $('#modal-unidades').modal('hide');
                     this.unidadSelected = this.unidadesDialog.unidadClicked;
