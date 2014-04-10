@@ -284,6 +284,7 @@ define(['app', 'hbs!apps/asistencia/administrativo/templates/administrativoLayou
 
                                  self.tablaHorarios.buscarHorarios(codigo_clase,tolerancia,lactancia,
                                  function(){
+
                                      $("#tipo_nocturno").trigger('change');
 
                                    /*  if(self.tablaHorarios.collection.length!=0){
