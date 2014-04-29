@@ -50,6 +50,7 @@ $(function(){
 
         $("#inic").removeClass("active");
         $("#planilla").removeClass("active");
+
         $("#contrat").removeClass("active");
         $("#capacitacion").removeClass("active");
         $("#gest_pers").removeClass("active");
