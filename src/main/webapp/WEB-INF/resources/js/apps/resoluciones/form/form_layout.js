@@ -1144,6 +1144,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                 },
                 Comparar_Fecha: function (fecha, fecha2) {
 
+
                     var xMonth = fecha.substring(3, 5);
                     var xDay = fecha.substring(0, 2);
                     var xYear = fecha.substring(6, 10);
@@ -1174,13 +1175,50 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     }
 
                 },
+                Comp_fech_Resol:function(fecha,fecha2){
+                    var xMonth = fecha.substring(3, 5);
+                    var xDay = fecha.substring(0, 2);
+                    var xYear = fecha.substring(6, 10);
+                    var yMonth = fecha2.substring(3, 5);
+                    var yDay = fecha2.substring(0, 2);
+                    var yYear = fecha2.substring(6, 10);
+                    if (xYear > yYear) {
+                        return(true)
+                    }
+                    else {
+                        if (xYear == yYear) {
+                            if (xMonth > yMonth) {
+                                return(true)
+                            }
+                            else {
+                                if (xMonth == yMonth) {
+                                    if (xDay >= yDay)
+                                        return(true);
+                                    else
+                                        return(false);
+                                }
+                                else
+                                    return(false);
+                            }
+                        }
+                        else
+                            return(false);
+                    }
+                },
                 fun_guardar:function(){
+
+
                     var fullDate = new Date();
-                    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
-                    var twoDigitDay=((fullDate.getDate().length) === 1) ? (fullDate.getDate()) : '0' + (fullDate.getDate());
+                    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : (fullDate.getMonth() + 1);
+                    var twoDigitDay=((fullDate.getDate().length) === 1) ? (fullDate.getDate()) :(fullDate.getDate());
+                   // console.log("dia:"+twoDigitDay+" mes:"+twoDigitMonth+" anio:"+fullDate.getFullYear());
+                    if(twoDigitMonth<10){
+                        twoDigitMonth="0"+twoDigitMonth;
+                    }
+                    if(twoDigitDay<10){
+                        twoDigitDay="0"+twoDigitDay;
+                    }
                     var currentDate = twoDigitDay + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
-
-
                     var temp_help = $("#advertencia");
                     var self=this;
                     this.anioR=$("#fechaR").val().substring(6,10);
@@ -1213,7 +1251,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                     temp_help.html("<strong>El número de resolución no debe tener caracteres</strong>");
                                 }else{
                                 if($("#motivi_est").val()=="MOTIVOS VARIOS"){
-                                    if( self.Comparar_Fecha(currentDate, $('#fechaR').val())){
+                                    if( self.Comp_fech_Resol(currentDate, $('#fechaR').val())){
                                         if($('#fechaIni').val()!="" & $('#fechaFin').val()!="") {
                                             if (self.Comparar_Fecha($('#fechaFin').val(), $('#fechaIni').val())) {
                                                 if($("#fechaR").val()=="" || $("#nro_resol").val()=="" ||  $("#resolucion_ver").val()=="4" ){
@@ -1359,6 +1397,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                         }
 
                                     }else{
+
                                         $("#advertencia").removeClass("alert-success");
                                         $("#advertencia").removeClass("alert-danger");
                                         $("#advertencia").addClass("alert-warning");
@@ -1372,7 +1411,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                 else{
                                     if($('#fechaIni').val()!="" & $('#fechaFin').val()!=""){
                                         if(self.Comparar_Fecha($('#fechaFin').val(), $('#fechaIni').val())){
-                                            if( self.Comparar_Fecha(currentDate, $('#fechaR').val())){
+                                            if( self.Comp_fech_Resol(currentDate, $('#fechaR').val())){
                                                 if($('#descriOb').val()=="" || $("#fechaR").val()=="" || $("#nro_resol").val()=="" || $('#motivi_est').val()=="" ||  $("#resolucion_ver").val()=="4"){
 
                                                     $("#advertencia").removeClass("alert-success");
@@ -1441,6 +1480,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                                                 }
                                             }else{
+
                                                 $("#advertencia").removeClass("alert-success");
                                                 $("#advertencia").removeClass("alert-danger");
                                                 $("#advertencia").addClass("alert-warning");
@@ -1455,7 +1495,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                                             temp_help.html('<strong>Fechas de los Resolutivos mal ingresadas</strong>');
                                         }
                                     }else{
-                                        if( self.Comparar_Fecha(currentDate, $('#fechaR').val())){
+                                        if( self.Comp_fech_Resol(currentDate, $('#fechaR').val())){
                                             if($('#descriOb').val()=="" || $("#fechaR").val()=="" || $("#nro_resol").val()=="" || $('#motivi_est').val()=="" ||  $("#resolucion_ver").val()=="4"){
 
                                                 $("#advertencia").removeClass("alert-success");
@@ -1524,6 +1564,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                                             }
                                         }else{
+
                                             $("#advertencia").removeClass("alert-success");
                                             $("#advertencia").removeClass("alert-danger");
                                             $("#advertencia").addClass("alert-warning");

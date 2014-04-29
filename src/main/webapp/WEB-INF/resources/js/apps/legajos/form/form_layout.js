@@ -2800,8 +2800,15 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
             agregarResolucion:function(){
                 var self=this;
                 var fullDate = new Date();
-                var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
-                var twoDigitDay=((fullDate.getDate().length) === 1) ? (fullDate.getDate()) : '0' + (fullDate.getDate());
+                var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) :(fullDate.getMonth() + 1);
+                var twoDigitDay=((fullDate.getDate().length) === 1) ? (fullDate.getDate()) :(fullDate.getDate());
+                if(twoDigitMonth<10){
+                    twoDigitMonth="0"+twoDigitMonth;
+                }
+                if(twoDigitDay<10){
+                    twoDigitDay="0"+twoDigitDay;
+                }
+
                 var currentDate = twoDigitDay + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
 
                 if($("#tipo_ts").val()!="0" || $("#tipo_rec").val()!="0"){
@@ -3093,6 +3100,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                 }
 
             },
+
             update_resolucion:function(){
 
                 var self=this;
