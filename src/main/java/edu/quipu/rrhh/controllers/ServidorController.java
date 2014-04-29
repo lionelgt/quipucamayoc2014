@@ -77,7 +77,7 @@ public class ServidorController {
                 +"-"+servidorLaboral.getEstAfp()+"-"+servidorLaboral.getRegLab()+"-"+servidorLaboral.getInsregpen()+"-"+servidorLaboral.getSindic()+"-"+servidorLaboral.getTipocupuni());
         servidorService.saveLaboral(servidorLaboral);
         servidorService.saveLaboral2(servidorLaboral);
-//        servidorLaboral = servidorService.findByCodLaboral(servidorLaboral).get(0);
+
         return servidorLaboral;
     }
 
@@ -276,7 +276,9 @@ public class ServidorController {
     @RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/servidores")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
+
     public List<Servidor> todosServidores() {
+        System.out.println("TODOS LOS SERVIDORES!!!");
         return servidorService.todosServidores();
     }
 //

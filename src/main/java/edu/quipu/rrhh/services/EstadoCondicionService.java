@@ -1,12 +1,12 @@
 package edu.quipu.rrhh.services;
 
-import edu.quipu.rrhh.models.EstadoCondicion;
+import edu.quipu.rrhh.models.*;
 
 import java.util.List;
 
 public interface EstadoCondicionService {
 
-    List<EstadoCondicion> listarServidores();
+    List<Servidor> listarServidores();
     List<EstadoCondicion> categoria();
     List<EstadoCondicion> categoriaprof(Integer valor1, Integer valor2);
     List<EstadoCondicion> estado();

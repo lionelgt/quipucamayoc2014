@@ -6,7 +6,7 @@ define(['backbone', 'apps/resoluciones/form/model/trabajador'], function (Backbo
         model: Trabajador,
 
         setUrlTraba: function(resol){
-            console.log("seturl trabajadores por resolucion")
+
             this.url= 'rest/resoluciones/trabajador/'+resol;
         }
     });

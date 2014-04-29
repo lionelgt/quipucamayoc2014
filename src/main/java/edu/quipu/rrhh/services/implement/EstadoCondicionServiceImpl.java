@@ -2,6 +2,7 @@ package edu.quipu.rrhh.services.implement;
 
 
 import edu.quipu.rrhh.models.EstadoCondicion;
+import edu.quipu.rrhh.models.Servidor;
 import edu.quipu.rrhh.persistence.EstadoCondicionMapper;
 import edu.quipu.rrhh.services.EstadoCondicionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class EstadoCondicionServiceImpl implements EstadoCondicionService{
     EstadoCondicionMapper estadoCondicionMapper;
 
     @Override
-    public List<EstadoCondicion> listarServidores(){
+    public List<Servidor> listarServidores(){
         return  estadoCondicionMapper.listarServidores();
     }
 

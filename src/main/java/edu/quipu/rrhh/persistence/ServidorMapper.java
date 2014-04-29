@@ -445,7 +445,9 @@ public interface ServidorMapper {
 
 
 
-    @Select(value = "SELECT ser_cod       AS cod, " +
+    @Select(value = "SELECT ser_cod      AS ser_cod, " +
+            "  dni                AS dni,    "+
+            "  ser_cod_ant        AS codAnt,"+
             "  ser_ape_pat        AS apePat, " +
             "  ser_ape_mat        AS apeMat, " +
             "  ser_nom            AS nom, "+
@@ -453,9 +455,11 @@ public interface ServidorMapper {
             "  des_dep_cesantes            AS cesantia, "+
             "  desc_est            AS estado, "+
             "num_serest             as  estadoActual "+
-            "FROM DATAPERSUEL.LISTA_SERVIDOR ")
+            "FROM DATAPERSUEL.LISTA_SERVIDOR ORDER BY SER_APE_PAT")
     @Results(value = {@Result(javaType = Servidor.class),
-            @Result(property = "codigo", column = "cod"),
+            @Result(property = "codigo", column = "ser_cod"),
+            @Result(property = "numDoc", column = "dni"),
+            @Result(property = "codAnt", column = "codAnt"),
             @Result(property = "paterno", column = "apePat"),
             @Result(property = "materno", column = "apeMat"),
             @Result(property = "nombre", column = "nom"),

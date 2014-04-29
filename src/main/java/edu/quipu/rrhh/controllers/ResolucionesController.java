@@ -62,7 +62,9 @@ public class ResolucionesController {
     //@ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public String AgregarServidor(@RequestBody TrabajadorResolucion traba){
+
         System.out.println("llegue aqui,agregando servidores");
+        System.out.println(traba.getDni()+" "+traba.getCodAntiguo()+" "+traba.getNroResol()+" "+traba.getSerEstado());
         resolucionesService.addServidor(traba);
         return "save";
     }
@@ -128,11 +130,9 @@ public class ResolucionesController {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST,produces = "application/json",consumes = "application/json",/* value = "/deleteServidor/{resol}/{dni}/{numser}/{cod_motivo}"*/ value="/deleteServidor")
-//    @ResponseStatus(HttpStatus.ACCEPTED)
+    @RequestMapping(method = RequestMethod.POST,produces = "application/json",consumes = "application/json", value="/deleteServidor")
     @ResponseBody
-    public void eliminarTrabajador( @RequestBody TrabajadorResolucion reso
-    /*@PathVariable(value= "resol")String resol, @PathVariable (value= "dni") String dni, @PathVariable(value= "numser")String numser, @PathVariable(value= "cod_motivo")String cod_motivo*/) {
+    public void eliminarTrabajador( @RequestBody TrabajadorResolucion reso) {
         int numser=reso.getSerEstado();
         String dni=reso.getDni();
         String resol=reso.getNroResol();

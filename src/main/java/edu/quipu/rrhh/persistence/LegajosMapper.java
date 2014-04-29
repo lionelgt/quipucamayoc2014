@@ -64,24 +64,30 @@ public interface LegajosMapper {
     List<Legajos> buscarLegajos(@Param("dni") String dni);
 
 
-    @Select(value = "SELECT SER_COD AS CODIGO, " +
-            "  NUM_SEREST  AS NUMSEREST, " +
-            "  SER_APE_PAT  AS PATERNO, " +
-            "  SER_APE_MAT  AS MATERNO, " +
-            "  SER_NOM      AS NOMBRE, " +
-            "  DES_TIP_SER  AS TIPO, " +
-            "  DESC_EST     AS ESTADO " +
-            "FROM DATAPERSUEL.lista_servidor " +
-            "ORDER BY CODIGO ASC")
+    @Select(value = "SELECT ser_cod      AS ser_cod, " +
+                    "  dni                AS dni,    "+
+                    "  ser_cod_ant        AS codAnt,"+
+                    "  ser_ape_pat        AS apePat, " +
+                    "  ser_ape_mat        AS apeMat, " +
+                    "  ser_nom            AS nom, "+
+                    "  DES_TIP_SER            AS cargo, "+
+                    "  des_dep_cesantes            AS cesantia, "+
+                    "  desc_est            AS estado, "+
+                    "num_serest             as  estadoActual "+
+                    "FROM DATAPERSUEL.LISTA_SERVIDOR ORDER BY SER_APE_PAT")
     @Results(value = {
             @Result(javaType = Servidor.class),
-            @Result(property = "codigo",column = "CODIGO"),
-            @Result(property = "num_serest",column = "NUMSEREST"),
-            @Result(property = "paterno",column = "PATERNO"),
-            @Result(property = "materno",column = "MATERNO"),
-            @Result(property = "nombre",column = "NOMBRE"),
-            @Result(property = "tiposervidor",column = "TIPO"),
-            @Result(property = "descestado",column = "ESTADO")
+            @Result(property = "codigo", column = "ser_cod"),
+            @Result(property = "numDoc", column = "dni"),
+            @Result(property = "codAnt", column = "codAnt"),
+            @Result(property = "paterno", column = "apePat"),
+            @Result(property = "materno", column = "apeMat"),
+            @Result(property = "nombre", column = "nom"),
+
+            @Result(property = "tipoServicio", column = "cargo"),
+            @Result(property = "cesantia", column = "cesantia"),
+            @Result(property = "estado", column = "estado") ,
+            @Result(property = "estadoTrabaActual", column = "estadoActual")
     })
     List<Servidor> buscarServidores();
 

@@ -109,20 +109,7 @@ formCtrl = function ($scope, $http,$location) {
                     else{
                         $scope.stateUser = 1;
                         console.log("es usuario y no tiene perfil, en histusuperf cod_perf = null(ha pedido) o no existe eb la tabla(nunca ha pedido)");
-                        /*$http.get('rest/cas/worker/findHistUser/'+dni).success(function(worker){
-                                console.log('findHistUser');
-                                $scope.idhist = worker.id;
-                                console.log("idHist: "+$scope.idhist);
-                                console.log("worker.id: "+worker.id);
-                                if($scope.idhist==""||typeof $scope.idhist === undefined){//nunca ha pedido perfil
-                                    $scope.idhist = "undefined";
-                                    console.log("first");
-                                    console.log($scope.idhist+"ñññ");
 
-                                }
-
-                            }
-                        ); */
                         console.log("dni before findHistUser: "+dni);
 
 
@@ -165,11 +152,6 @@ formCtrl = function ($scope, $http,$location) {
                        console.log("adderp");
                        $scope.addHist(datos.id, datos.dependencyId);
                     })  ;
-
-                    /*$http.get('rest/cas/worker/add/hist/'+datos.id+'/'+datos.dependencyId).success(function(){
-                        console.log("add hist");
-                        console.log("addhist");
-                    })  ; */
 
                     $('#enviar-button').removeAttr('data-toggle');
                     $('#msg2').show();
@@ -245,34 +227,10 @@ formCtrl = function ($scope, $http,$location) {
                     $scope.displayValue = 'display:block;';
                     $('#form-display').hide();
                     $('#msg1').show();
-                    //idhist = 0;
+
                 }
 
 
-                //if(idhist == 1){
-
-                    /*$http.get('rest/cas/worker/add/hist/'+datos.id+'/'+datos.dependencyId).success(function(){
-                        console.log("add/hist");
-                        $('#modal-div').hide();
-                        console.log('Su solicitud ha sido procesada con éxito.  Gracias!');
-                        $scope.displayValue1 = 'display:none;';
-                        $scope.displayValue = 'display:block;';
-                        $('#msg2').show();
-
-                    })*/
-                    //$scope.addHist(datos.id, datos.dependencyId);
-                    //$('#form-display').hide();
-                //} else{
-                    //console.log("UD ya ha solicitado perfil!");
-
-                    //$scope.displayValue1 = 'display:none;';
-                    //$scope.displayValue = 'display:block;';
-                    //$('#msg1').show();
-                    //$('#form-display').hide();
-                    //}
-
-
-                //}
             }
 
         );

@@ -2,6 +2,7 @@
 
 $(function(){
 
+
     $(document).ready(function(){
 
         $(location).attr('href','http://localhost:9000/admin#inicio');
@@ -44,7 +45,8 @@ $(function(){
         $("#gest_timp_pers").removeClass("active");
         $(this).addClass("active");
     });
-    $("#tit_beneficio").click(function(){
+    $("#tit_beneficio li").click(function(){
+
         $("#inic").removeClass("active");
         $("#planilla").removeClass("active");
         $("#contrat").removeClass("active");
@@ -52,7 +54,7 @@ $(function(){
         $("#gest_pers").removeClass("active");
         $("#gest_timp_pers").removeClass("active");
 
-        $(this).addClass("active");
+       $('#tit_beneficio ').addClass("active");
     });
     $("#gest_pers li").click(function(){
        $("#inic").removeClass("active");

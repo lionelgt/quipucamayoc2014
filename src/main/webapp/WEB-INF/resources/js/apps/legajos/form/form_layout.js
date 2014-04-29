@@ -4,7 +4,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
     "apps/legajos/form/model/addEstudio","apps/legajos/form/model/updateEstudio","apps/legajos/form/view/tipo-tiempo-servicio","apps/legajos/form/view/tipo-tiempo-reconoc","apps/legajos/form/view/resoluciones-table","apps/legajos/form/view/resoluciones-fam",
     "apps/legajos/form/model/addResolucion","apps/legajos/form/view/table-resolucion","apps/legajos/form/model/updateResolucion","apps/legajos/form/view/table-familiar",
     "apps/legajos/form/view/tipo-pago","apps/legajos/form/model/addDatosFamiliares","apps/legajos/form/model/editDatosFamiliares","apps/legajos/form/model/beneficiario",
-    "apps/legajos/form/model/updateBenef","apps/legajos/form/view/validarDocumento","apps/legajos/form/view/validarEditDocument","lib/jquery.dataTables.min","lib/bootstrap-datepicker","bootstrap"],
+    "apps/legajos/form/model/updateBenef","apps/legajos/form/view/validarDocumento","apps/legajos/form/view/validarEditDocument","lib/jquery.dataTables.min","lib/core/validXtrem","lib/bootstrap-datepicker","bootstrap"],
     function (ErzaManager, layoutTpl,ServidoresTableView,TipoEstudioView,NivelEstudioView,PaisEstudioView,TableEstudioView,
               EstadoCivilView,TipoBeneficioView,TipDocumentView,TipoParentescoView,CarreraEstudioView,IdiomaEstudioView,AddEstudio,UpdateEstudio,
               TipoTiempoServicioView,TipoTiempoReconciView,ResolucionesTableView,ResolucionesFamiliar,AddResolucion,TableResolucionView,UpdateResolucion,TableFamiliarView,TipoPagoView,
@@ -137,6 +137,7 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
             },
 
             onRender: function(){
+
                 this.initialFetch();
                 this.legajosTipEstudio.show(this.tipoEstudioView)
                 this.nivelEstudio.show(this.nivelEstudioView)
@@ -194,6 +195,8 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
                 this.tipoTiempoReconociView.fetchReconcimiento(this.tipo_tmpo_recon);
                 this.tipoPagoView.getTipPago();
                 this.servidoresTableView.fetchServidores(function(){
+
+
 
                 });
             },
@@ -313,14 +316,21 @@ define(["app", "hbs!apps/legajos/form/templates/inicio_legajos","apps/legajos/fo
 
                 var self=this;
                 var clickedElement=$(e.currentTarget);
-                this.codigo=clickedElement.children(':nth-child(1)').text();
-                this.num_ser_est= clickedElement.children(':nth-child(1)').attr('data');
+                this.codigo=clickedElement.attr("id");
+                this.num_ser_est= clickedElement.children(':nth-child(7)').text();
 
                 $("#fam-resolucion").attr('disabled','disabled');
                 $('#resolucion').attr('disabled','disabled');
-                var nombre=clickedElement.children(':nth-child(2)').text();
+                var nombre=clickedElement.children(':nth-child(1)').text();
+                var cod_ant=clickedElement.children(':nth-child(3)').text();
+                var estado=clickedElement.children(':nth-child(6)').text();
+
+                var dni_emp=clickedElement.children(':nth-child(2)').text();
+
                 $('#desc-servidor').text(nombre);
-                $("#text-cod").text(this.codigo);
+                $("#text-cod").text(dni_emp);
+                $("#cod-ant").text(cod_ant);
+                $('#estado').text(estado);
                 $("#block-descr").show();
                 $("#form_insert").show();
                 $('#form_save_rts').show();

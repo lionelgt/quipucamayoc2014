@@ -1,7 +1,7 @@
 package edu.quipu.rrhh.controllers;
 
 import edu.quipu.rrhh.services.EstadoCondicionService;
-import edu.quipu.rrhh.models.EstadoCondicion;
+import edu.quipu.rrhh.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,9 @@ public class EstadoCondicionController {
     @RequestMapping(method = RequestMethod.GET, produces = "application/json", value = "/listar")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @ResponseBody
-    public List<EstadoCondicion> listarServidores(){
+    public List<Servidor> listarServidores(){
+
+        System.out.println("Listar !!!!");
         return estadoCondicionService.listarServidores();
     }
 

@@ -45,7 +45,28 @@ public class Servidor implements Serializable {
     private String cesantia;
     private String tipoServicio;
     private String estadoTrabaActual;
+    private String codAnt;
+    private String categoria;
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getCodAnt() {
+        return codAnt;
+    }
+
+    public void setCodAnt(String codAnt) {
+        this.codAnt = codAnt;
+    }
 
     public String getNacimiento() {
         return nacimiento;

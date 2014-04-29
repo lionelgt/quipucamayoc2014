@@ -2,6 +2,7 @@ package edu.quipu.rrhh.persistence;
 
 
 import edu.quipu.rrhh.models.EstadoCondicion;
+import edu.quipu.rrhh.models.Servidor;
 import org.apache.ibatis.annotations.*;
 import org.springframework.dao.DataAccessException;
 
@@ -9,28 +10,33 @@ import java.util.List;
 
 public interface EstadoCondicionMapper {
 
-    @Select(value = "SELECT SER_COD AS codigo, " +
-            "  NUM_SEREST  AS numserest, " +
-            "  SER_APE_PAT  AS paterno, " +
-            "  SER_APE_MAT  AS materno, " +
-            "  SER_NOM      AS nombre, " +
-            "  DES_TIP_SER  AS tipo, " +
-            "  DESC_EST     AS estado, " +
-            "  DESC_CATEG   AS cat "+
-            "  FROM DATAPERSUEL.lista_servidor " +
-            "  ORDER BY codigo ASC")
+    @Select(value = "SELECT ser_cod      AS ser_cod, " +
+            "  dni                AS dni,    "+
+            "  ser_cod_ant        AS codAnt,"+
+            "  ser_ape_pat        AS apePat, " +
+            "  ser_ape_mat        AS apeMat, " +
+            "  ser_nom            AS nom, "+
+            "  DESC_CATEG         AS categoria,"+
+            "  DES_TIP_SER            AS cargo, "+
+            "  des_dep_cesantes            AS cesantia, "+
+            "  desc_est            AS estado, "+
+            "num_serest             as  estadoActual "+
+            "FROM DATAPERSUEL.LISTA_SERVIDOR ORDER BY SER_APE_PAT")
     @Results(value = {
-            @Result(javaType = EstadoCondicion.class),
-            @Result(property = "codigo",column = "codigo"),
-            @Result(property = "numserest",column = "numserest"),
-            @Result(property = "paterno",column = "paterno"),
-            @Result(property = "materno",column = "materno"),
-            @Result(property = "nombre",column = "nombre"),
-            @Result(property = "tipo",column = "tipo"),
-            @Result(property = "cat",column = "cat"),
-            @Result(property = "estado",column = "estado")
+            @Result(javaType = Servidor.class),
+            @Result(property = "codigo", column = "ser_cod"),
+            @Result(property = "numDoc", column = "dni"),
+            @Result(property = "codAnt", column = "codAnt"),
+            @Result(property = "paterno", column = "apePat"),
+            @Result(property = "materno", column = "apeMat"),
+            @Result(property = "nombre", column = "nom"),
+            @Result(property = "categoria", column = "categoria"),
+            @Result(property = "tipoServicio", column = "cargo"),
+            @Result(property = "cesantia", column = "cesantia"),
+            @Result(property = "estado", column = "estado") ,
+            @Result(property = "estadoTrabaActual", column = "estadoActual")
     })
-    List<EstadoCondicion> listarServidores();
+    List<Servidor> listarServidores();
 
 
      // Traemos datos para el combo box categoria

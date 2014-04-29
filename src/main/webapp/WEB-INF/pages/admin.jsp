@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="resources/css/vendor/datepicker.css" />
     <link rel="stylesheet" href="resources/css/vendor/typeahead.css" />
 
+
 </head>
 <body>
 
@@ -114,7 +115,12 @@
                 <li id="contrat"><a href="#contratos"><strong>CONTRATOS</strong></a></li>
                 </sec:authorize>
                 <li id="capacitacion"> <a class="" href="#"><strong>CAPACITACIÓN</strong></a></li>
-                <li id="tit_beneficio"><a class="" href="#"><strong>BENEFICIO</strong></a></li>
+                <li id="tit_beneficio" class="dropdown">
+                    <a  class="dropdown-toggle" data-toggle="dropdown" href="#"><strong>BENEFICIO</strong><b class="caret"></b></a>
+                 <ul class="dropdown-menu">
+                     <li><a  href="#desc_med">Descansos Médicos</a></li>
+                 </ul>
+                </li>
 
             </ul>
         </div>
@@ -152,6 +158,7 @@
 <footer class="footer" style="text-align: center;padding-top: 40px;padding-bottom: 20px;">© Quipucamayoc 2014</footer>
 <script type="text/javascript" src="resources/js/lib/jquery.js"></script>
 <script type="text/javascript" src="resources/js/lib/core/quipucamayoc.js"></script>
+
 <script data-main="resources/js/require_main.js" src="resources/js/lib/require.js"></script>
 
 <script language="JavaScript" src="resources/js/lib/shortcut.js"></script>

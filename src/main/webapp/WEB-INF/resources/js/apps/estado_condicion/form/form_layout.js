@@ -301,18 +301,36 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                     $('#form_insert4').show();
                     $("#sec_est_cond").show();
                     var clickedElement=$(e.currentTarget);
-                    this.codigo=clickedElement.children(':nth-child(1)').text();
-                    this.numserest=clickedElement.children(':nth-child(3)').text();
+/*
+                    alert("codigo:"+clickedElement.attr("id")+" numserest:"+clickedElement.children(':nth-child(7)').text()+" ti:"+clickedElement.children(":nth-child(4)").text());
+                    alert("nombre:"+clickedElement.children(':nth-child(1)').text()+" estado:"+clickedElement.children(':nth-child(5)').text()+" categoria:"+clickedElement.attr("data"));
+*/
+                    this.codigo=clickedElement.attr("id");
+                    this.numserest=clickedElement.children(':nth-child(7)').text();
                     this.ti=clickedElement.children(':nth-child(4)').text();
-                    var cod=clickedElement.children(':nth-child(1)').text();
-                    var nombre=clickedElement.children(':nth-child(2)').text();     //captura los valores del modal servidor ejem: child(1) es el campo 1=codigo
-                    var numest=clickedElement.children(':nth-child(3)').text();
+
+                    var cod=clickedElement.attr("id");
+                    var nombre=clickedElement.children(':nth-child(1)').text();     //captura los valores del modal servidor ejem: child(1) es el campo 1=codigo
+
+                    var numest=clickedElement.children(':nth-child(7)').text();
+
                     var desctip=clickedElement.children(':nth-child(4)').text();
-                    var est=clickedElement.children(':nth-child(5)').text();
-                    var cat=clickedElement.children(':nth-child(6)').text();
-                    $('#id-servidor').text(cod);
-                    $('#id-numserest').text(numest);
+
+                    var est=clickedElement.children(':nth-child(6)').text();
+                    var cat=clickedElement.attr("data");
+
+                    var cod_ant=clickedElement.children(':nth-child(3)').text();
+
+                    var dni=clickedElement.children(':nth-child(2)').text();
+
+                   // alert(dni+" "+nombre+" "+cod_ant+" "+est);
+
+                    $("#dni_emp").text(dni);
                     $('#employed').text(nombre);
+                    $('#cod_ant').text(cod_ant);
+                    $("#est_emp").text(est);
+                    $('#id-numserest').text(numest);
+
                     $('#tipito').val(desctip);
                     $('#catito').val(cat);
                     $('#estito').val(est);
@@ -348,7 +366,8 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                         $('#div_categ_prof').show();
                         //this.cambioAdm(e);
 
-                    }  else  if(this.ti=="DOCENTE DEL MAGISTERIO"){
+                    }
+                    else  if(this.ti=="DOCENTE DEL MAGISTERIO"){
                         this.cod_ti=3;
                         $('#cod_doc_mag').val("0");
                         $('#categ_prof').val("9")  ;
@@ -359,7 +378,8 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                         $('#div_doc_mag').show();
                         $('#div_categ_prof').show();
                         // this.cambioDocMag(e);
-                    }  else if(this.ti=="ADM. PROF. DE LA SALUD"){
+                    }
+                    else if(this.ti=="ADM. PROF. DE LA SALUD"){
                         this.cod_ti=4;
                         $('#cod_adm_salud').val("0") ;
                         $('#categ_prof').val("9")     ;
@@ -370,7 +390,8 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                         $('#div_adm_salud').show();
                         $('#div_categ_prof').show();
                         //this.cambioAdmSalud(e);
-                    } else if(this.ti=="OBRERO"){
+                    }
+                    else if(this.ti=="OBRERO"){
                         this.cod_ti=5;
                         $('#div_docente').hide();             //porque dependiendo de cual sea se va a llenar el combo de categoria
                         $('#div_administrativo').hide();
@@ -385,7 +406,8 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                             $("#div_categ_prof").show();
                         });
                         this.CategoriaProfReg.show(this.CategoriaProfView);
-                    } else if(this.ti=="SIN TIPO"){
+                    }
+                    else if(this.ti=="SIN TIPO"){
                         this.cod_ti=0;
                         $('#div_docente').hide();
                         $('#div_administrativo').hide();
@@ -395,7 +417,8 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
 
 
-                    } else if(this.ti=="DESIGNADO"){
+                    }
+                    else if(this.ti=="DESIGNADO"){
                         this.cod_ti=6;
                         $('#div_docente').hide();
                         $('#div_administrativo').hide();
@@ -411,7 +434,8 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
                             $("#div_categ_prof").show();
                         });
                         this.CategoriaProfReg.show(this.CategoriaProfView);
-                    } else if(this.ti=="DESIGNADO DOC. DEL MAGISTERIO"){
+                    }
+                    else if(this.ti=="DESIGNADO DOC. DEL MAGISTERIO"){
                         this.cod_ti=7;
                         $('#div_docente').hide();      //si $('#tipo')==7
                         $('#div_administrativo').hide();
@@ -521,14 +545,18 @@ define(["app", "hbs!apps/estado_condicion/form/templates/inicio_estado_condicion
 
                 guardarCondLab: function(e){
 
+                   // alert("guardar");
+
                     var email =$('#email').text();
                    var self=this;
                     //----------------
-                   var clickedElement=$(e.currentTarget);
+
                    var numres = this.numresol;
+                   // alert($('#est').val());
                    var tipo = $('#tipo').val();
                    var estado = $('#est').val();
                     //para capturar el valor seleccionado en un combo box
+
                     var d =document.getElementById('est').options.selectedIndex;
                     var desc_estado=document.getElementById('est').options[d].text;
 

@@ -16,12 +16,21 @@
 <div class="tab-content">
       <br>
      <div class="row form-group" id="block-descr" style="display: none;">
-        <div class="col-md-8">
+         <div class="col-md-2">
+             <strong style="font-size: 18px;">DNI:<strong id="text-cod" style="font-size: 16px;color: #00585f;"></strong></strong>
+         </div>
+        <div class="col-md-4">
             <strong style="font-size: 18px;">Servidor:<strong id="desc-servidor" style="font-size: 16px; color: #00585f;"></strong></strong>
         </div>
-         <div class="col-md-4">
-            <strong style="font-size: 18px;">Código:<strong id="text-cod" style="font-size: 16px;color: #00585f;"></strong></strong>
+         <div class="col-md-3">
+             <strong style="font-size: 18px;">Cod Antiguo:<strong id="cod-ant" style="font-size: 16px; color: #00585f;"></strong></strong>
+
          </div>
+         <div class="col-md-3">
+             <strong style="font-size: 18px;">Estado:<strong id="estado" style="font-size: 16px; color: #00585f;"></strong></strong>
+
+         </div>
+
          <br>
      </div>
     <div class="tab-pane active" id="lA">
@@ -647,4 +656,9 @@
     </div>
 
 </div>
+<script type="text/javascript">
+    $(function(){
+        $("#certificado").validXtrem(' abcdefghijklmnñopqrstuvwxyzáéiou');
+    });
+</script>
 

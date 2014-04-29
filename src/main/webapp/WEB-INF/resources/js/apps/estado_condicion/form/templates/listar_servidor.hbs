@@ -8,23 +8,26 @@
             <table id="tabla" class="table  table-bordered table-hover" style="font-size: 12px;">
                 <thead class="header" style="color: #040404;background-color:#f5f5f5">
                 <tr>
-                    <th>codigo</th>
-                    <th>Apellidos y nombres</th>
-                    <th>Nº Estado</th>
-                    <th>Tipo Servidor</th>
-                    <th>Estado </th>
-                    <th>Categoria</th>
+                    <th>Nombres</th>
+                    <th>DNI</th>
+                    <th>Cod Antiguo</th>
+                    <th>Tipo</th>
+                    <th>Dependencia Cesante</th>
+                    <th>Estado</th>
+                    <th>Código de Trabajo Actual</th>
                 </tr>
                 </thead>
                 <tbody class="body-table" id="fam_content">
                 {{#each items}}
-                    <tr id="{{codigo}}" class="">
-                        <td>{{codigo}}</td>
+                    <tr id="{{codigo}}" data="{{categoria}}" class="">
+
                         <td>{{paterno}} {{materno}} {{nombre}}</td>
-                        <td>{{numserest}}</td>
-                        <td>{{tipo}}</td>
+                        <td>{{numDoc}}</td>
+                        <td >{{codAnt}}</td>
+                        <td>{{tipoServicio}}</td>
+                        <td>{{cesantia}}</td>
                         <td>{{estado}}</td>
-                        <td>{{cat}}</td>
+                        <td>{{estadoTrabaActual}}</td>
                     </tr>
                 {{else}}
                     <td colspan="6">No existen datos que mostrar.</td>

@@ -10,9 +10,9 @@
 
                 <thead class="header" style="color: #040404;background-color:#f5f5f5">
                 <tr>
-                    <th>Código</th>
                     <th>Nombres</th>
-
+                    <th>DNI</th>
+                    <th>Cod Antiguo</th>
                     <th>Tipo</th>
                     <th>Dependencia Cesante</th>
                     <th>Estado</th>
@@ -22,9 +22,10 @@
                 </thead>
                 <tbody class="body-table " id="servi-body">
                 {{#each items}}
-                    <tr id="{{codigo}}" class="">
-                        <td >{{codigo}}</td>
+                    <tr id="{{codigo}}" class="" data2="{{codAnt}}">
                         <td>{{paterno}} {{materno}} {{nombre}}</td>
+                        <td>{{numDoc}}</td>
+                        <td >{{codAnt}}</td>
                         <td>{{tipoServicio}}</td>
                         <td>{{cesantia}}</td>
                         <td>{{estado}}</td>

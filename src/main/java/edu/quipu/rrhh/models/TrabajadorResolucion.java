@@ -6,6 +6,7 @@ public class TrabajadorResolucion {
     private String nombre;
     private String paterno;
     private String materno;
+    private String codigo;
     private String dni;
     private String nroResol;
     private int serEstado;
@@ -14,10 +15,29 @@ public class TrabajadorResolucion {
     private String fec_fin_mot;
     private String nombre_motivo;
     private String desc_mot;
+    private String desc_est;
     private String cod_motivo;
     private int contador;
 
+    public String getDesc_est() {
+        return desc_est;
+    }
 
+    public void setDesc_est(String desc_est) {
+        this.desc_est = desc_est;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
     public int getContador() {
         return contador;
     }

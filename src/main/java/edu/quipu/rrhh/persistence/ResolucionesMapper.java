@@ -97,7 +97,9 @@ public interface ResolucionesMapper {
 
     @Select(value="SELECT Idtrabajador_Resolucion, " +
             "  Cod_Resol, " +
-            "  Dni, " +
+            "  Se.SER_COD,"+
+            "  Se.Dni AS dni, " +
+            "  Se.DESC_EST,"+
             "  Num_Ser_Estado, " +
             "  Cod_Antiguo , " +
             "  Ser_Ape_Pat, " +
@@ -109,19 +111,21 @@ public interface ResolucionesMapper {
             "  TO_CHAR(Restrafecfin,'DD/MM/YYYY') AS Restrafecfin, " +
             "  RESTRADES " +
             "FROM ( (Dataperliqu.Tb_Trabajador_Resolucion_Id Tb " +
-            "INNER JOIN Datapersuel.Servidor Se " +
-            "ON Tb.Dni = Se.Ser_Cod) " +
+            "INNER JOIN Datapersuel.LISTA_SERVIDOR Se " +
+            "ON Tb.Dni = Se.Ser_Cod AND Tb.NUM_SER_ESTADO = Se.NUM_SEREST) " +
             "LEFT JOIN Dataperliqu.Resol_Trabajador_Detalle_Id Di " +
             "ON Di.Restranum  =Cod_Resol " +
-            "AND di.ser_cod   =dni " +
-            "AND Di.Num_Serest=Num_Ser_Estado) " +
+            "AND di.ser_cod   =Se.Ser_Cod" +
+            " AND Di.Num_Serest=Num_Ser_Estado) " +
             "LEFT JOIN Dataperliqu.Tipores_Motivo Tm " +
             "ON Di.Tipresmotcod=Tm.Tipresmotcod " +
             "WHERE Cod_Resol LIKE (#{resol})")
     @Results(value={ @Result(javaType = TrabajadorResolucion.class),
             @Result(property = "idTrabajadorResolucion", column = "IDTRABAJADOR_RESOLUCION"),
             @Result(property = "nroResol", column = "cod_resol"),
-            @Result(property = "dni", column = "DNI"),
+            @Result(property = "codigo", column = "SER_COD"),
+            @Result(property = "dni", column = "dni"),
+            @Result(property = "desc_est", column = "DESC_EST"),
             @Result(property = "serEstado", column = "NUM_SER_ESTADO"),
             @Result(property = "codAntiguo", column = "cod_antiguo"),
             @Result(property = "paterno", column = "SER_APE_PAT"),

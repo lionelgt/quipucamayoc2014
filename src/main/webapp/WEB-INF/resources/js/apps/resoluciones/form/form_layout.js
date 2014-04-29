@@ -181,8 +181,6 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                      });
 
-//
-//
                 },
 
                 initialFetch: function(){
@@ -372,7 +370,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                 },
 
                 ingre_anio_resol2:function(ev){
-//
+
                     this.anioR2=$('#busca-resol').val();
 
                 },
@@ -404,7 +402,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
 
                     this.trabaView.fetchTrabajadores(this.auxbuscador)
-//
+
                 },
 
                 fun_cambio_moti:function(ev){
@@ -514,7 +512,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                 },
 
                 fun_buscarxfechas_anio_resol:function(){
-//
+
                     var self=this;
 
                     if($('#r_ini').val()==""){
@@ -545,26 +543,33 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                 },
 
-                fun_selec_servi:function(ev){
-
-                    var clickedElement=$(ev.currentTarget);
+                fun_selec_servi:function(e){
+                    var self=this;
+                    var clickedElement=$(e.currentTarget);
                     this.resolCompleta=clickedElement.parent().parent().attr('id');
                     this.dniTable=clickedElement.attr('data1');
+                    clickedElement.button('loading');
 
-                    this.tableServi.show(this.serviView);
-
-
-
-                    $("#table-servidor").dataTable();
-                    $('#table-servidor_wrapper').addClass('table-position');
-                    $('#table-servidor_wrapper').append("<div id='footer-table'></div>");
-                    $('#table-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                    $('#table-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-                    $('.dataTables_filter input').addClass('buscador');
-                    $('.dataTables_filter input').attr('placeholder','Buscar..');
+                    setTimeout(function () {
+                        clickedElement.button('reset');
 
 
-                    $('#serv-table-modal').modal()
+
+                        self.tableServi.show(self.serviView);
+
+                        if(self.serviView.collection.length!=0){
+
+                            $("#table-servidor").dataTable();
+                            $('#table-servidor_wrapper').addClass('table-position');
+                            $('#table-servidor_wrapper').append("<div id='footer-table'></div>");
+                            $('#table-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                            $('#table-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                            $('.dataTables_filter input').attr('placeholder','Buscar..');
+                        }
+
+                        $('#serv-table-modal').modal()
+                    }, 2000);
+
                 },
 
                 fun_selec_resoluciones:function(ev){
@@ -582,7 +587,6 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                 },
                 action_eliminarTrabaja:function(){
-
 
                     var self=this;
 
@@ -689,11 +693,10 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     var self=this;
 
                     var clickedElement=$(e.currentTarget);
-                    var dni=clickedElement.children(':nth-child(1)').text();
-                    var estado=clickedElement.children(':nth-child(6)').text();
+                    var dni=clickedElement.attr('id');
+                    var estado=clickedElement.children(':nth-child(7)').text();
                     var codAnti=clickedElement.attr('data2');
 
-                    if(codAnti==null){ codAnti="null"}
 
 
                     if(this.btnasignar==1){
@@ -753,7 +756,6 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     }
                     if(this.btnasignar==2){
 
-
                         self.model.get("trabajadorResolucion").set({
                             "idTrabajadorResolucion": '0',
                             "nroResol": self.nroResol,
@@ -788,6 +790,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                         });
                         self_s.fail(function () {
+
 
 
                             self.trabaView.fetchTrabajadores(self.nroResol, function(){
@@ -889,7 +892,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
                 seleccionarResolucionModal:function(e){
 
-//
+
                     $("#advertencia").hide();
                     var self=this;
                     var aux;
@@ -1140,7 +1143,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     var fullDate = new Date();
                     var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : (fullDate.getMonth() + 1);
                     var twoDigitDay=((fullDate.getDate().length) === 1) ? (fullDate.getDate()) :(fullDate.getDate());
-                   // console.log("dia:"+twoDigitDay+" mes:"+twoDigitMonth+" anio:"+fullDate.getFullYear());
+
                     if(twoDigitMonth<10){
                         twoDigitMonth="0"+twoDigitMonth;
                     }
