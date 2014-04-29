@@ -14,6 +14,7 @@
     <li class="active"><a href="#1A" class="tab-a" data-toggle="tab">Ingresar y Actualizar </a></li>
 
     <li class=""><a href="#1B" class="tab-b" data-toggle="tab">Asignación de servidores </a></li>
+    <li class=""><a href="#1C" class="tab-c" data-toggle="tab">Reportes</a></li>
     <a class="btn btn-primary pull-right" id="buscar_res" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-search"></span> Buscar Resolución</a>
 
 </ul>
@@ -269,6 +270,47 @@
     </form>
 
 </div>
+<div class="tab-pane" id="1C">
+    <form class="form-horizontal well" id="tercerform">
+        <div class="row form-group" id="buscador">
+            <button id="mostrar_servi3" class="btn btn-info pull-right" type="button"><span class="glyphicon glyphicon-search"></span> Buscar Servidor
+            </button>
+        </div>
+        <div class="row form-group" id="block-descr" style="display: none">
+            <div class="col-md-2">
+               <strong style="font-size: 18px;">DNI:<strong id="dni_report"  style="font-size: 16px; color:#00585f;"></strong></strong>
+            </div>
+
+            <div class="col-md-4">
+                <strong style="font-size: 18px;">Servidor:<strong id="desc-servidor" style="font-size: 16px; color: #00585f;"></strong></strong>
+            </div>
+            <div class="col-md-3">
+                <strong style="font-size: 18px;">Cod Antiguo:<strong id="cod_ant" style="font-size: 16px;color: #00585f;"></strong></strong>
+            </div>
+            <div class="col-md-3">
+                <strong style="font-size: 18px;">Estado:<strong id="est_report" style="font-size: 16px;color: #00585f;"></strong></strong>
+            </div>
+            <br>
+        </div>
+    </form>
+    <br>
+    <form class="form-horizontal" id="form_tabla_resolasociados">
+        <div id="tabla_resolasociados">
+
+        </div>
+    </form>
+    <br/>
+
+    <div class="btn-group col-md-2 pull-right">
+        <form action="/rest/reportes/resoluciones/reporteresoluciones/pdf" method="POST" id="form_reporte" style="display: none">
+            <input type="hidden" style="display: none" id="codigo" name="codigo">
+            <input type="hidden" style="display: none" id="numserest" name="numserest">
+            <input type="hidden" style="display: none" id="cod_serv" name="cod_serv">
+            <input type="hidden" style="display: none" id="nom_serv" name="nom_serv">
+            <input type="hidden" style="display: none" id="usuario" name="usuario">
+            <button id="boton_reporte_resolasoc" class="btn btn-warning" type="submit">Descargar Reporte</button>
+        </form>
+    </div>
 
 
 </div>
