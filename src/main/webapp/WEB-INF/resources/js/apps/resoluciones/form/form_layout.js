@@ -4,9 +4,9 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
     "apps/resoluciones/form/view/mostrarMotivosTraba-view","apps/resoluciones/form/view/actualizarResoServi-view","apps/resoluciones/form/view/actualizarResoMoti-view","apps/resoluciones/form/model/guardaresolucion",
     "apps/resoluciones/form/model/guardarServidor","apps/resoluciones/form/model/updateServidor",
     "apps/resoluciones/form/model/deleteServidor", "apps/resoluciones/form/model/guardarMotivoTrabajador","apps/resoluciones/form/model/deleteMotivo","apps/resoluciones/form/view/validarResolucion",
-    "lib/jquery.dataTables.min","bootstrap"],
+        "apps/resoluciones/form/view/resolAsocServidor","apps/resoluciones/form/model/reporte_resolasoc","lib/jquery.dataTables.min","bootstrap"],
     function (ErzaManager, layoutTpl,datePicker,ResolucionView,MotivoView,DepenView,ServiView,TrabaView,UpdateServiView,TodasResolucionesView,TablaActuaResolView,TablaMotivosTrabaView,TablaMotivoAddView,MostrarMotivoTrabaView, ActualizarResoServiView, ActualizarResoMotiView, addResolucion,
-              addServidor,updateServidor,deleteServidor,addMotivoTrabajador,BorrarMotivoTraba,ValidarExisteResolucion) {
+              addServidor,updateServidor,deleteServidor,addMotivoTrabajador,BorrarMotivoTraba,ValidarExisteResolucion,ResolAsocServidor,ReporteResolAsoc) {
         ErzaManager.module('ResolucionApp.List.View', function (View, ErzaManager, Backbone, Marionette, $, _) {
 
             View.Layout = Marionette.Layout.extend({
@@ -28,6 +28,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                 actualizarResoServiView : new ActualizarResoServiView() ,
                 actualizarResoMotiView: new ActualizarResoMotiView(),
                 validarExisteResolucion:new ValidarExisteResolucion(),
+                resolAsocServidor:new ResolAsocServidor(),
 
 
 
@@ -68,6 +69,11 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                 del_cod_mot:"",
                 modal_motivo:0,
 
+                //para capturar datos para generar reporte
+                rep_cod_serv:null,
+                rep_numserest_serv:null,
+                rep_nomb_serv:null,
+
                 regions: {
                     comboResolucion: "#div_resoluc_est",
                     comboDepen: "#div_depen_est",
@@ -80,7 +86,8 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     tablaTodasResolucionesAnio: "#tabla-totalResoluciones",
                     tableMotivos:"#serv-table-modal3",
                     addMotivos:"#serv-table-modal5",
-                    mostrarMotivoTraba:"#serv-table-modal4"
+                    mostrarMotivoTraba:"#serv-table-modal4",
+                    ResolAsocReg: "#tabla_resolasociados"
 
                 },
 
@@ -110,6 +117,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     "click #guardar": "fun_guardar",
                     "click #mostrar_servi": "fun_selec_servi",
                     "click #mostrar_servi2": "fun_selec_servi2",
+                    "click #mostrar_servi3": "fun_selec_servi3",
                     "click #nuevo": "fun_limpiar_formulario",
                     "click #mostrar_traba": "fun_mostrar_trabajores",
 
@@ -144,10 +152,12 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     "click #close_modal":"cancelarmodal",
                     "click .tab-b":"fun_camb_b",
                     "click .tab-a":"fun_camb_a",
+                    "click .tab-c":"fun_camb_c",
                     "dblclick #table-servidor > tbody > tr ": "seleccionarServidor",
                     "dblclick #table-todas > tbody > tr ": "seleccionarResolucion",
                     "dblclick #tablaMotivos > tbody > tr ": "selec_save_MotivoTraba",
-                    "dblclick #tablaAddMotivo > tbody >tr":"selec_save_MotivoTraba"
+                    "dblclick #tablaAddMotivo > tbody >tr":"selec_save_MotivoTraba",
+                    "click #reporte_resolasoc":"reporte_resol_asoc"
 
 
 //
@@ -177,7 +187,8 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                          "borraServidor":new deleteServidor(),
                          "saveMotivoTrabajador":new addMotivoTrabajador(),
                          "addMotivoTraba":new addMotivoTrabajador(),
-                         "borrarMotivoTraba":new BorrarMotivoTraba()
+                         "borrarMotivoTraba":new BorrarMotivoTraba(),
+                         "reporteResolAsoc":new ReporteResolAsoc()
 
                      });
 
@@ -198,7 +209,15 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
 
 
                 },
-
+                reporte_resol_asoc:function(){
+                    var usuario=$('#email').text();
+                    $.ajax({
+                        type: 'GET',
+                        url: "/rest/reportes/resoluciones/reporteresoluciones/pdf/"+this.rep_cod_serv+"/"+this.rep_numserest_serv+"/"+this.rep_nomb_serv+"/"+this.rep_cod_serv+"/"+usuario
+                    });
+//                    this.model.get("reporteResolAsoc").url = "rest/reportes/resoluciones/reporteresoluciones/pdf/"+this.rep_cod_serv+"/"+this.rep_numserest_serv+"/"+this.rep_nomb_serv+"/"+this.rep_cod_serv+"/"+usuario;
+//                    var fetch_s = this.model.get("reporteResolAsoc").fetch({ data: $.param({"codigo": this.rep_cod_serv,"numserest":this.rep_numserest_serv,"nom_serv":this.rep_nomb_serv,"cod_serv":this.rep_cod_serv,"usuario":usuario}) });
+                },
                 buscarporanio:function(){
 
                     $('#div_busc_fecha').hide();
@@ -243,6 +262,14 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     this.tablaasociaciondirecta.reset();
                     this.fun_limpiar_formulario();
                 },
+                fun_camb_c:function(){
+                    $("#busca-resol").val("");
+                    $("#buscar_res").hide();
+
+                    this.tablaTodasResolucionesAnio.reset();
+                    this.tablaasociaciondirecta.reset();
+                    this.fun_limpiar_formulario();
+                },
                 fun_camb_a:function(){
                   this.btnasignar=2;
 
@@ -256,6 +283,30 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                 },
                 fun_selec_servi2:function(ev){
                     this.btnasignar=2;
+                    var clickedElement=$(ev.currentTarget);
+                    this.resolCompleta=clickedElement.parent().parent().attr('id');
+                    this.dniTable=clickedElement.attr('data1');
+
+                    this.tableServi.show(this.serviView);
+
+                    $("#table-servidor").dataTable({
+                        "bJQueryUI": false,
+                        "bPaginate":true,
+                        "bLengthChange": false
+                    });
+
+
+                    $("#table-servidor").dataTable();
+                    $('#table-servidor_wrapper').addClass('table-position');
+                    $('#table-servidor_wrapper').append("<div id='footer-table'></div>");
+                    $('#table-servidor_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                    $('#table-servidor_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                    $('.dataTables_filter input').addClass('buscador');
+                    $('.dataTables_filter input').attr('placeholder','Buscar..');
+                    $('#serv-table-modal').modal()
+                },
+                fun_selec_servi3:function(ev){
+                    this.btnasignar=3;
                     var clickedElement=$(ev.currentTarget);
                     this.resolCompleta=clickedElement.parent().parent().attr('id');
                     this.dniTable=clickedElement.attr('data1');
@@ -494,18 +545,13 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     var self=this;
                     this.todasResolucionesView.fetchTodasResolucionesAnio( this.anioR2.substring(2,4),function () {
                         if(self.todasResolucionesView.collection.length!=0){
-
                             $("#table-todas").dataTable();
                             $('#table-todas_wrapper').append("<div id='footer-table'></div>");
-                           $('#table-todas_next').html("<i  class='glyphicon glyphicon-forward'></i>");
-                           $('#table-todas_previous').html("<i class='glyphicon glyphicon-backward'></i>");
-                          $('.dataTables_filter input').addClass('buscador');
+                            $('#table-todas_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                            $('#table-todas_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                            $('.dataTables_filter input').addClass('buscador');
 
                            $('.dataTables_filter input').attr('placeholder','Buscar..');
-
-
-
-
                         }
                     });
 
@@ -691,6 +737,7 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                     var clickedElement=$(e.currentTarget);
                     var dni=clickedElement.children(':nth-child(1)').text();
                     var estado=clickedElement.children(':nth-child(6)').text();
+                    var nombre=clickedElement.children(':nth-child(2)').text();
                     var codAnti=clickedElement.attr('data2');
 
                     if(codAnti==null){ codAnti="null"}
@@ -810,9 +857,33 @@ define(["app","hbs!apps/resoluciones/form/templates/ResolucionGeneralLayout",'li
                             self.tablaasociaciondirecta.show(self.trabaView);
                         });
                     }
+                    if(this.btnasignar==3){
+                        $('#desc-servidor').text(nombre);
+                        self.rep_nomb_serv=nombre;
+                        self.rep_cod_serv=dni;
+                        self.rep_numserest_serv=estado;
 
+                        $("#text-cod").text(dni);
+                        $("#block-descr").show();
+                        self.resolAsocServidor.fetchResolucionesasociadas(dni, estado, function(){
+                            $('#codigo').val(dni);
+                            $('#usuario').val($('#email').text());
+                            $('#cod_serv').val(dni);
+                            $('#nom_serv').val(nombre);
+                            $('#numserest').val(estado);
+                            $('#form_reporte').show();
+                            if(self.resolAsocServidor.collection.length!=0){
+//
+                                $("#tabla_resol_asociados").dataTable();
+                                $('#tabla_resol_asociados_wrapper').append("<div id='footer-table'></div>");
+                                $('#tabla_resol_asociados_next').html("<i  class='glyphicon glyphicon-forward'></i>");
+                                $('#tabla_resol_asociados_previous').html("<i class='glyphicon glyphicon-backward'></i>");
+                                $('.dataTables_filter input').attr('placeholder', 'Buscar..');
+                            }
+                        });
+                        self.ResolAsocReg.show(self.resolAsocServidor);
 
-
+                    }
                     $('#serv-table-modal').modal("hide")
 
                 } ,

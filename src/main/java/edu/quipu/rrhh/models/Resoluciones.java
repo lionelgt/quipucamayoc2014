@@ -28,6 +28,107 @@ public class Resoluciones {
     private String res_codser;
     private String res_num_serest;
 
+    //para servidores asociados
+
+    private String resid;
+    private String fecha;
+    private String tipcod;
+    private String motdesc;
+    private String descr;
+    //para reportes
+    private String codigo;
+    private String numserest;
+    private String nom_serv;
+    private String cod_serv;
+    private String usuario;
+
+    public String getTipcod() {
+        return tipcod;
+    }
+
+    public void setTipcod(String tipcod) {
+        this.tipcod = tipcod;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNumserest() {
+        return numserest;
+    }
+
+    public void setNumserest(String numserest) {
+        this.numserest = numserest;
+    }
+
+    public String getNom_serv() {
+        return nom_serv;
+    }
+
+    public void setNom_serv(String nom_serv) {
+        this.nom_serv = nom_serv;
+    }
+
+    public String getCod_serv() {
+        return cod_serv;
+    }
+
+    public void setCod_serv(String cod_serv) {
+        this.cod_serv = cod_serv;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getResid() {
+        return resid;
+    }
+
+    public void setResid(String resid) {
+        this.resid = resid;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getTipocod() {
+        return tipcod;
+    }
+
+    public void setTipocod(String tipocod) {
+        this.tipcod = tipocod;
+    }
+
+    public String getMotdesc() {
+        return motdesc;
+    }
+
+    public void setMotdesc(String motdesc) {
+        this.motdesc = motdesc;
+    }
+
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
 
     public String getRes_fecha_resol_dfl() {
         return res_fecha_resol_dfl;

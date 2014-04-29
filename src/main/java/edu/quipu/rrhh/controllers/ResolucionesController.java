@@ -240,4 +240,12 @@ public class ResolucionesController {
         return "delete " + numero;
     }
 
+    @RequestMapping(method = RequestMethod.GET,produces = "application/json",value = "/resolAsociados/{codigo}/{numserest}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public List<Resoluciones> ResolucionesAsociados(@PathVariable(value= "codigo")String codigo, @PathVariable (value= "numserest") int numserest){
+        System.out.println(codigo+"----"+numserest);
+       return resolucionesService.buscar_resoluciones_asociados(codigo.trim(),numserest);
+    }
+
 }

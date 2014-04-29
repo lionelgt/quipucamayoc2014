@@ -1,4 +1,3 @@
-
 <fieldset>
 
 
@@ -14,11 +13,14 @@
     <li class="active"><a href="#1A" class="tab-a" data-toggle="tab">Ingresar y Actualizar </a></li>
 
     <li class=""><a href="#1B" class="tab-b" data-toggle="tab">Asignación de servidores </a></li>
-    <a class="btn btn-primary pull-right" id="buscar_res" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-search"></span> Buscar Resolución</a>
+    <li class=""><a href="#1C" class="tab-c" data-toggle="tab">Reportes</a></li>
+    <a class="btn btn-primary pull-right" id="buscar_res" data-target=".bs-example-modal-lg"><span
+            class="glyphicon glyphicon-search"></span> Buscar Resolución</a>
 
 </ul>
 <div class="tab-content">
 <br>
+
 <div class="tab-pane active" id="1A">
 
     <form class="form-horizontal well" id="primerForm">
@@ -63,12 +65,14 @@
                 <div class="col-md-7">
 
                     <div class="input-group">
-                        <input  type="text" value="" id="fechaR" class="form-control" placeholder="Ejm. 11/05/2004"
+                        <input type="text" value="" id="fechaR" class="form-control" placeholder="Ejm. 11/05/2004"
 
                                readonly>
                         <span class="input-group-btn">
-                           <button class="btn btn-default" type="button" id="fechaR_show"><span class=" glyphicon glyphicon-calendar"></span></button>
-                            <button class="btn btn-default" type="button" id="fechaR_clos" ><span class="glyphicon glyphicon-refresh"></span></button>
+                           <button class="btn btn-default" type="button" id="fechaR_show"><span
+                                   class=" glyphicon glyphicon-calendar"></span></button>
+                            <button class="btn btn-default" type="button" id="fechaR_clos"><span
+                                    class="glyphicon glyphicon-refresh"></span></button>
              </span>
 
                     </div>
@@ -80,13 +84,16 @@
         </div>
         <div class="row form-group">
             <div class="col-md-12" id="div">
-                <label class="col-md-2 control-label" for="motivi_est" style="margin-left:3.6%;">Motivo <span style="color:red;">*</span></label>
+                <label class="col-md-2 control-label" for="motivi_est" style="margin-left:3.6%;">Motivo <span
+                        style="color:red;">*</span></label>
+
                 <div class="col-md-6">
 
                     <div class="input-group">
                         <input class="form-control" type="text" id="motivi_est" disabled="disabled">
                         <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" id="select_resol"><span class="glyphicon glyphicon-search"></span></button>
+                                <button class="btn btn-default" type="button" id="select_resol"><span
+                                        class="glyphicon glyphicon-search"></span></button>
                         </span>
                     </div>
                 </div>
@@ -94,7 +101,7 @@
             </div>
         </div>
 
-         <br>
+        <br>
 
         <legend>Vigencia y Descripción de los Resolutivos</legend>
         <div class="row form-group">
@@ -106,10 +113,13 @@
                 <div class="col-md-7">
 
                     <div class="input-group">
-                        <input class="form-control" type="text" value="" id="fechaIni" placeholder="Ejm. 11/05/2004"  readonly="">
+                        <input class="form-control" type="text" value="" id="fechaIni" placeholder="Ejm. 11/05/2004"
+                               readonly="">
                         <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" id="fechaIni_show" ><span class="glyphicon glyphicon-calendar"></span></button>
-                        <button class="btn btn-default" type="button" id="fechaIni_clos"><span class="glyphicon glyphicon-refresh"></span></button>
+                                <button class="btn btn-default" type="button" id="fechaIni_show"><span
+                                        class="glyphicon glyphicon-calendar"></span></button>
+                        <button class="btn btn-default" type="button" id="fechaIni_clos"><span
+                                class="glyphicon glyphicon-refresh"></span></button>
                         </span>
 
                     </div>
@@ -123,10 +133,13 @@
 
                 <div class="col-md-7">
                     <div class="input-group">
-                        <input type="text" value="" id="fechaFin" class="form-control" placeholder="Ejm. 13/05/2004" readonly="">
+                        <input type="text" value="" id="fechaFin" class="form-control" placeholder="Ejm. 13/05/2004"
+                               readonly="">
                         <span class="input-group-btn">
-                                 <button class="btn btn-default" type="button" id="fechaFin_show"><span class="glyphicon glyphicon-calendar"></span></button>
-                        <button class="btn btn-default" type="button" id="fechaFin_clos" ><span class="glyphicon glyphicon-refresh"></span></button>
+                                 <button class="btn btn-default" type="button" id="fechaFin_show"><span
+                                         class="glyphicon glyphicon-calendar"></span></button>
+                        <button class="btn btn-default" type="button" id="fechaFin_clos"><span
+                                class="glyphicon glyphicon-refresh"></span></button>
                         </span>
 
                     </div>
@@ -138,10 +151,12 @@
 
         <div class="row form-group" id="Quinta_fila">
             <div class="col-md-12">
-                <label class="control-label col-md-3" style="margin-left: -4.8%;">Descripci&oacuten Obligatoria <span id="descr_obli" style="color:red;">*</span></label>
+                <label class="control-label col-md-3" style="margin-left: -4.8%;">Descripci&oacuten Obligatoria <span
+                        id="descr_obli" style="color:red;">*</span></label>
 
                 <div class="col-md-8">
-                    <input  type="text" class="form-control" placeholder="Escriba la descripción que es obligatoria" id="descriOb">
+                    <input type="text" class="form-control" placeholder="Escriba la descripción que es obligatoria"
+                           id="descriOb">
                 </div>
             </div>
         </div>
@@ -151,11 +166,12 @@
                 <label class="col-md-3 control-label" style="margin-left: -4.8%;">Descripci&oacuten Adicional</label>
 
                 <div class="col-md-8">
-                    <input  type="text"class="form-control" placeholder="Escriba la descripción adicional, pero no es obligatoria" id="descriOp">
+                    <input type="text" class="form-control"
+                           placeholder="Escriba la descripción adicional, pero no es obligatoria" id="descriOp">
                 </div>
             </div>
         </div>
-          <hr>
+        <hr>
         <div class="form-actions" id="form_save_rts" style="text-align:center;">
             <a class="btn btn-primary left" id="guardar">Guardar</a>
 
@@ -169,7 +185,6 @@
 
     </div>
 </div>
-
 
 <div class="tab-pane" id="1B">
 
@@ -201,7 +216,8 @@
         <div class="row form-group" id="div_busc_anio">
             <div class="col-md-8">
 
-                <label class="col-md-4 control-label" for="busca-resol">Ingrese año de Resolución <span style="color:red;">*</span> </label>
+                <label class="col-md-4 control-label" for="busca-resol">Ingrese año de Resolución <span
+                        style="color:red;">*</span> </label>
 
 
                 <div class="col-md-6">
@@ -209,10 +225,10 @@
                         <input type="text" class="form-control" id="busca-resol" autocomplete="off">
                         <span class="input-group-btn">
 
-                            <a id="buscaAnio" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></a>
+                            <a id="buscaAnio" class="btn btn-default" type="button"><span
+                                    class="glyphicon glyphicon-search"></span></a>
                         </span>
                     </div>
-
 
 
                 </div>
@@ -225,10 +241,13 @@
 
                     <div class="col-md-8">
                         <div class="input-group">
-                            <input  type="text" value="" class="form-control" id="r_ini" placeholder="Ejm. 11/05/2004" readonly="">
+                            <input type="text" value="" class="form-control" id="r_ini" placeholder="Ejm. 11/05/2004"
+                                   readonly="">
                             <span class="input-group-btn">
-                                   <button class="btn btn-default" type="button" id="r_ini_show"><span class="glyphicon glyphicon-calendar"></span></button>
-                            <button class="btn btn-default" type="button" id="r_ini_clos"><span class="glyphicon glyphicon-refresh"></span></button>
+                                   <button class="btn btn-default" type="button" id="r_ini_show"><span
+                                           class="glyphicon glyphicon-calendar"></span></button>
+                            <button class="btn btn-default" type="button" id="r_ini_clos"><span
+                                    class="glyphicon glyphicon-refresh"></span></button>
                             </span>
 
                         </div>
@@ -240,10 +259,13 @@
 
                     <div class="col-md-8">
                         <div class="input-group">
-                            <input  type="text" value="" class="form-control" id="r_fin" placeholder="Ejm. 11/05/2004" readonly="">
+                            <input type="text" value="" class="form-control" id="r_fin" placeholder="Ejm. 11/05/2004"
+                                   readonly="">
                             <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" id="r_fin_show" ><span class="glyphicon glyphicon-calendar"></span></button>
-                            <button class="btn btn-default" type="button" id="r_fin_clos"><span class="glyphicon glyphicon-refresh"></span></button>
+                            <button class="btn btn-default" type="button" id="r_fin_show"><span
+                                    class="glyphicon glyphicon-calendar"></span></button>
+                            <button class="btn btn-default" type="button" id="r_fin_clos"><span
+                                    class="glyphicon glyphicon-refresh"></span></button>
                             </span>
 
                         </div>
@@ -261,7 +283,7 @@
 
         </div>
     </form>
-    <br>
+
     <form class="form-horizontal" id="form_tabla_serv">
         <div id="tabla-resoluciones">
 
@@ -270,29 +292,71 @@
 
 </div>
 
+<div class="tab-pane" id="1C">
+    <form class="form-horizontal well" id="tercerform">
+        <div class="row form-group" id="buscador">
+            <button id="mostrar_servi3" class="btn btn-info pull-right" type="button"><span class="glyphicon glyphicon-search"></span> Buscar Servidor
+            </button>
+        </div>
+        <div class="row form-group" id="block-descr" style="display: none">
+            <div class="col-md-8">
+                <strong style="font-size: 18px;">Servidor:<strong id="desc-servidor" style="font-size: 16px; color: #00585f;"></strong></strong>
+            </div>
+            <div class="col-md-4">
+                <strong style="font-size: 18px;">Código:<strong id="text-cod" style="font-size: 16px;color: #00585f;"></strong></strong>
+            </div>
+            <br>
+        </div>
+    </form>
+    <br>
+    <form class="form-horizontal" id="form_tabla_resolasociados">
+        <div id="tabla_resolasociados">
 
+        </div>
+    </form>
+    <br/>
+
+    <div class="btn-group col-md-2 pull-right">
+        <form action="/rest/reportes/resoluciones/reporteresoluciones/pdf" method="POST" id="form_reporte" style="display: none">
+            <input type="hidden" style="display: none" id="codigo" name="codigo">
+            <input type="hidden" style="display: none" id="numserest" name="numserest">
+            <input type="hidden" style="display: none" id="cod_serv" name="cod_serv">
+            <input type="hidden" style="display: none" id="nom_serv" name="nom_serv">
+            <input type="hidden" style="display: none" id="usuario" name="usuario">
+            <button id="boton_reporte_resolasoc" class="btn btn-warning" type="submit">Descargar Reporte</button>
+        </form>
+    </div>
+    <br>
 </div>
 
 
 </div>
 
-<div id="serv-table-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
 </div>
 
-<div id="serv-table-modal2" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="serv-table-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
 </div>
 
-<div id="serv-table-modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="serv-table-modal2" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+</div>
+
+<div id="serv-table-modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
 
 </div>
 
 <div id="serv-table-modal4" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
 </div>
-<div id="serv-table-modal5" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="serv-table-modal5" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
 </div>
-<div id="serv-table-modal6" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="serv-table-modal6" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
 
     <div class="modal-dialog">
         <div class="modal-content">
@@ -308,14 +372,19 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#serv-table-modal2" >Cancelar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="eliminar_resoluciones"  data-toggle="modal" data-target="#serv-table-modal2">Aceptar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal"
+                        data-target="#serv-table-modal2">Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="eliminar_resoluciones"
+                        data-toggle="modal" data-target="#serv-table-modal2">Aceptar
+                </button>
             </div>
         </div>
     </div>
 
 </div>
-<div id="serv-table-modal7" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="serv-table-modal7" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
 
     <div class="modal-dialog">
         <div class="modal-content">
@@ -332,7 +401,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="eliminar_trabajadores">Aceptar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="eliminar_trabajadores">Aceptar
+                </button>
             </div>
         </div>
     </div>

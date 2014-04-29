@@ -229,4 +229,29 @@ public interface ResolucionesMapper {
             @Result(property = "nroResol",column = "restranum")
     })
     List<TrabajadorResolucion> contarServidores(@Param("resol")String resol, @Param("dni")String dni, @Param("numser")int numser);
+
+    @Select(value ="SELECT RESTRANUM                  AS RESID, " +
+            "  TO_CHAR(RESTRAFEC,'DD-MM-YYYY') AS FECHA , " +
+            "  re.tiprescod                    AS TIPCOD, " +
+            "  mo.TIPRESMOTDES                 AS MOTDESC, " +
+            "  RESTRADES1                      AS DESCR " +
+            "FROM DATAPERLIQU.tb_trabajador_resolucion_id tr , " +
+            "  DATAPERLIQU.resolucion_id re, " +
+            "  DATAPERLIQU.tipores_motivo mo , " +
+            "  DATAPERLIQU.tipo_resolucion tipo " +
+            "WHERE trim(tr.dni)         =#{codigo} " +
+            "AND tr.num_ser_estado=#{numserest} " +
+            "AND re.restranum     =tr.cod_resol " +
+            "AND re.tipresmotcod  =mo.tipresmotcod " +
+            "AND re.tiprescod     =tipo.tiprescod")
+    @Results(value = {
+            @Result(javaType = Resoluciones.class),
+            @Result(property = "resid",column = "RESID"),
+            @Result(property = "fecha",column = "FECHA"),
+            @Result(property = "tipcod",column = "TIPCOD"),
+            @Result(property = "motdesc",column = "MOTDESC"),
+            @Result(property = "descr",column = "DESCR")
+
+    })
+    List<Resoluciones> buscar_resoluciones_asociados(@Param("codigo")String codigo, @Param("numserest") int numserest);
 }
