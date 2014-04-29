@@ -59,6 +59,7 @@ public class ReportsController {
     public void mostrarReporteResolucionesServidor(HttpServletResponse response,/*@PathVariable(value = "codigo")*/ String codigo,/*@PathVariable(value = "numserest")*/ String numserest,
                                                    /*@PathVariable(value = "nom_serv")*/ String nom_serv,/*@PathVariable(value = "cod_serv")*/ String cod_serv,/*@PathVariable(value = "usuario")*/ String usuario) {
         System.out.println("entro a reporte: "+codigo+" "+numserest+" "+usuario+" "+cod_serv);
+        System.out.println("porsiacaso");
         reportsService.cargarReporteDeResoluciones(response, codigo.trim(), Integer.parseInt(numserest), nom_serv, cod_serv, usuario);
 
     }
