@@ -48,7 +48,7 @@ public class ReportServiceImpl implements ReportService {
         }
     }
 
-    public void cargarReporteDePagosTardanzas(HttpServletResponse response, int anio, int mes, int udid, String usuario, String uddesc, String origen, String planilla, String[] rucs){
+    public void cargarReporteDePagosTardanzas(HttpServletResponse response, Integer anio, Integer mes, Integer udid, String usuario, String uddesc, String origen, String planilla, String[] rucs){
         String rutaReporte="/reportes/reporteConformidadPagos.jrxml";
         HashMap params = new HashMap();
         params.put("anio", anio);
@@ -65,6 +65,26 @@ public class ReportServiceImpl implements ReportService {
         try {
             reportDownloader.downloadPDF(response, rutaReporte, "reporteConformidadPagos.pdf", params);
         } catch (Exception e) {
+            logger.error("No se pudo descargar el reporte: "+rutaReporte);
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void cargarReporteDeResoluciones(HttpServletResponse response ,String codigo, Integer numserest, String nom_serv, String cod_serv,String usuario) {
+        String rutaReporte="/reportes/reporteresolucion1.jrxml";
+        HashMap params = new HashMap();
+        params.put("codigo", codigo);
+        params.put("numserest", numserest);
+        params.put("nom_serv", nom_serv);
+        params.put("cod_serv", cod_serv);
+        params.put("usuario", usuario);
+        System.out.println(params);
+        try {
+            System.out.println("download");
+            reportDownloader.downloadPDF(response, rutaReporte, "reporte.pdf", params);
+        } catch (Exception e) {
+            System.out.println("catch");
             logger.error("No se pudo descargar el reporte: "+rutaReporte);
             e.printStackTrace();
         }

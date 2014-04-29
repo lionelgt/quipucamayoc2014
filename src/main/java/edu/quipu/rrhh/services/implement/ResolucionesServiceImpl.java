@@ -132,5 +132,10 @@ public class ResolucionesServiceImpl implements ResolucionesService{
         return resolucionesMapper.contarServidores(resol,dni,numser);
     }
 
+    @Override
+    public List<Resoluciones> buscar_resoluciones_asociados(String codigo, int numserest) {
+       return resolucionesMapper.buscar_resoluciones_asociados(codigo,numserest);
+    }
+
 
 }

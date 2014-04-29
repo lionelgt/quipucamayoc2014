@@ -41,7 +41,7 @@ public class ReportsController {
     }
 
     @RequestMapping(value = "/planillasCAS/reporteConformidadPagos/pdf", method = RequestMethod.POST)
-    public void mostrarReporteConformidadPagos(HttpServletResponse response, int anio, int mes,  int unidadId, String uddesc, String origen, String planilla, String rucs) {
+    public void mostrarReporteConformidadPagos(HttpServletResponse response, Integer anio, Integer mes,  Integer unidadId, String uddesc, String origen, String planilla, String rucs) {
         String cortar_cadena=rucs;
         int tamaño=cortar_cadena.length()/11;
         int j=0;
@@ -54,6 +54,16 @@ public class ReportsController {
         }
         reportsService.cargarReporteDePagosTardanzas(response, anio, mes, unidadId, "wmanriques", uddesc, origen, planilla, array_rucs);
     }
+
+    @RequestMapping(method = RequestMethod.POST,/* produces = "application/json",*/ value ="/resoluciones/reporteresoluciones/pdf"/*/{codigo}/{numserest}/{nom_serv}/{cod_serv}/{usuario}*/)
+    public void mostrarReporteResolucionesServidor(HttpServletResponse response,/*@PathVariable(value = "codigo")*/ String codigo,/*@PathVariable(value = "numserest")*/ String numserest,
+                                                   /*@PathVariable(value = "nom_serv")*/ String nom_serv,/*@PathVariable(value = "cod_serv")*/ String cod_serv,/*@PathVariable(value = "usuario")*/ String usuario) {
+        System.out.println("entro a reporte: "+codigo+" "+numserest+" "+usuario+" "+cod_serv);
+        System.out.println("porsiacaso");
+        reportsService.cargarReporteDeResoluciones(response, codigo.trim(), Integer.parseInt(numserest), nom_serv, cod_serv, usuario);
+
+    }
+
 
 
 }

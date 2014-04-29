@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte de Conformidad" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"  >
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="140"/>
+	<parameter name="usuario" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["usuario_plani"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigo" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["07364955"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numserest" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nom_serv" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["GEINER TUCTO HUARIPATA"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cod_serv" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["10200138"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT RESTRANUM                  AS RESID,
+              TO_CHAR(RESTRAFEC,'DD-MM-YYYY') AS FECHA ,
+              re.tiprescod                    AS TIPCOD,
+              mo.TIPRESMOTDES                 AS MOTDESC,
+              RESTRADES1                      AS dESCR
+            FROM DATAPERLIQU.tb_trabajador_resolucion_id tr ,
+              DATAPERLIQU.resolucion_id re,
+              DATAPERLIQU.tipores_motivo mo ,
+              DATAPERLIQU.tipo_resolucion tipo
+            WHERE trim(tr.dni)         =$P{codigo}
+            AND tr.num_ser_estado=$P{numserest}
+            AND re.restranum     =tr.cod_resol
+            AND re.tipresmotcod  =mo.tipresmotcod
+            AND re.tiprescod     =tipo.tiprescod]]>
+	</queryString>
+	<field name="RESID" class="java.lang.String"/>
+	<field name="FECHA" class="java.lang.String"/>
+	<field name="TIPCOD" class="java.lang.String"/>
+	<field name="MOTDESC" class="java.lang.String"/>
+	<field name="DESCR" class="java.lang.String"/>
+	<variable name="fecha" class="java.util.Date" resetType="Page">
+		<initialValueExpression><![CDATA[new Date()]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="99" splitType="Stretch">
+			<staticText>
+				<reportElement  key="staticText-4" x="122" y="41" width="285" height="12"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Relacion de Resoluciones Emitidas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement  key="staticText-5" x="122" y="3" width="285" height="13"/>
+				<textElement textAlignment="Center">
+					<font isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement  key="staticText-6" x="122" y="16" width="285" height="13"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[OFICINA GENERAL DE PERSONAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement  key="staticText-7" x="412" y="16" width="34" height="13"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy   h:mm a" isBlankWhenNull="false">
+				<reportElement key="textField-18" x="448" y="3" width="83" height="13"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{fecha}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-19" x="448" y="16" width="83" height="13"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement  key="staticText-8" x="412" y="3" width="34" height="13"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Fecha: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement  key="staticText-9" x="4" y="59" width="59" height="14"/>
+				<textElement textAlignment="Left">
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[INTERESADO :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="false">
+				<reportElement  key="textField-21" x="122" y="59" width="203" height="13"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nom_serv}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement  key="staticText-10" x="122" y="29" width="285" height="13"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Oficina de gestion y escalafon]]></text>
+			</staticText>
+			<textField isBlankWhenNull="false">
+				<reportElement  key="textField-22" x="69" y="59" width="53" height="13"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cod_serv}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement  key="staticText-11" x="4" y="80" width="59" height="12"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Nº RESOL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement  key="staticText-12" x="69" y="80" width="59" height="12"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement  key="staticText-13" x="135" y="80" width="27" height="12"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[TIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement  key="staticText-14" x="168" y="80" width="59" height="12"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[MOTIVO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement  key="staticText-15" x="236" y="80" width="59" height="12"/>
+				<textElement>
+					<font size="7" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[DESCRIPCION]]></text>
+			</staticText>
+			<line>
+				<reportElement  key="line-1" x="3" y="96" width="527" height="1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="34" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement   x="4" y="6" width="59" height="11"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RESID}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="69" y="6" width="59" height="9"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FECHA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="135" y="6" width="27" height="9"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TIPCOD}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="168" y="6" width="59" height="9"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MOTDESC}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement   x="236" y="6" width="249" height="27"/>
+				<textElement>
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+    		<band height="19" splitType="Stretch">
+    			<staticText>
+    				<reportElement  key="staticText-16" x="4" y="5" width="288" height="11"/>
+    				<textElement>
+    					<font size="7"/>
+    				</textElement>
+    				<text><![CDATA[Sistema Integral de Recursos Humanos - Quipucamayoc]]></text>
+    			</staticText>
+    			<textField isBlankWhenNull="false">
+    				<reportElement  key="textField-23" x="431" y="5" width="44" height="11"/>
+    				<textElement verticalAlignment="Middle">
+    					<font size="7"/>
+    				</textElement>
+    				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}.toString()]]></textFieldExpression>
+    			</textField>
+    			<textField evaluationTime="Report" isBlankWhenNull="false">
+    				<reportElement  key="textField-24" x="475" y="5" width="34" height="11"/>
+    				<textElement verticalAlignment="Middle">
+    					<font size="7"/>
+    				</textElement>
+    				<textFieldExpression><![CDATA[" de  "+$V{PAGE_NUMBER}.toString()]]></textFieldExpression>
+    			</textField>
+    			<line>
+    				<reportElement key="line-2" x="3" y="3" width="527" height="1"/>
+    			</line>
+    		</band>
+    	</pageFooter>
+    	<lastPageFooter>
+    		<band height="28" splitType="Stretch">
+    			<staticText>
+    				<reportElement  key="staticText-17" x="4" y="10" width="288" height="11"/>
+    				<textElement>
+    					<font size="7"/>
+    				</textElement>
+    				<text><![CDATA[Sistema Integral de Recursos Humanos - Quipucamayoc]]></text>
+    			</staticText>
+    			<textField isBlankWhenNull="false">
+    				<reportElement  key="textField-25" x="431" y="14" width="44" height="11"/>
+    				<textElement verticalAlignment="Middle">
+    					<font size="7"/>
+    				</textElement>
+    				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}.toString()]]></textFieldExpression>
+    			</textField>
+    			<textField evaluationTime="Report" isBlankWhenNull="false">
+    				<reportElement  key="textField-26" x="475" y="14" width="34" height="11"/>
+    				<textElement verticalAlignment="Middle">
+    					<font size="7"/>
+    				</textElement>
+    				<textFieldExpression><![CDATA[" de  "+$V{PAGE_NUMBER}.toString()]]></textFieldExpression>
+    			</textField>
+    			<line>
+    				<reportElement  x="4" y="7" width="526" height="1"/>
+    			</line>
+    		</band>
+    	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

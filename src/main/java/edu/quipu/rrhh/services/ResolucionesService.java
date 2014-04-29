@@ -33,4 +33,6 @@ public interface ResolucionesService {
     void removeAsociados(String numero);
 
     List<TrabajadorResolucion> contartraconmot(String resol, String dni, int numser);
+
+    List<Resoluciones> buscar_resoluciones_asociados(String codigo, int numserest);
 }
