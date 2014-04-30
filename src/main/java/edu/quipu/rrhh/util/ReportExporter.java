@@ -24,6 +24,7 @@ public class ReportExporter {
      * @param jp El objeto JasperPrint
      * @param baos El ByteArrayOutputStream donde el reporte sera escrito.
      */
+
     public static void exportToXLS(JasperPrint jp, ByteArrayOutputStream baos) throws JRException {
         //Existe una clase especializada para distintos tipos de formatos en este caso el JRXlsExporter
         //se encarga de los formatos xls.
