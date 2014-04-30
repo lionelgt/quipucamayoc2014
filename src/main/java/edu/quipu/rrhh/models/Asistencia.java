@@ -3,7 +3,7 @@ package edu.quipu.rrhh.models;
 
 public class Asistencia {
 
-    //para ADMINISTRATIVO
+    //para ADMINISTRATIVO ---
     private String codigo_serv;
     private String codigo_hor;
     private Integer numero_hor;
